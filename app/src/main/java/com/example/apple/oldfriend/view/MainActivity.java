@@ -198,16 +198,16 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         public Fragment getItem(int position) {
             switch (position) {
                 case 0: {
-                    return MessageFragment.newInstance("", "");
+                    return MessageFragment.newInstance("MessageFragment", "MessageFragment");
                 }
                 case 1: {
-                    return MessageFragment.newInstance("", "");
+                    return MessageFragment.newInstance("MessageFragment", "MessageFragment");
                 }
                 case 2: {
-                    return NewsFragment.newInstance("", "");
+                    return NewsFragment.newInstance("NewsFragment", "NewsFragment");
                 }
                 default: {
-                    return MessageFragment.newInstance("", "");
+                    return MessageFragment.newInstance("MessageFragment", "MessageFragment");
                 }
             }
         }

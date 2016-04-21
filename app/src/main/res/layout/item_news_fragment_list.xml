@@ -31,7 +31,7 @@
                     tool:text="恋爱中论啪啪啪的正确姿势"/>
 
             <TextView
-                    android:id="@+id/Article"
+                    android:id="@+id/tv_item_news_context"
                     android:layout_width="240dp"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="5dp"
@@ -44,7 +44,7 @@
                 "/>
 
             <TextView
-                    android:id="@+id/Amessage"
+                    android:id="@+id/tv_item_news_keywords"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="4dp"
@@ -54,7 +54,7 @@
         </LinearLayout>
 
         <ImageView
-                android:id="@+id/im_item_news"
+                android:id="@+id/im_item_news_image"
                 android:layout_width="100dp"
                 android:layout_height="80dp"
                 android:layout_alignParentRight="true"

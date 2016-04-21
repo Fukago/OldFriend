@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.apple.oldfriend.R;
+import com.example.apple.oldfriend.model.IGetHealthNews;
 import com.example.apple.oldfriend.model.bean.NewsInfo;
 
 import java.util.ArrayList;
@@ -23,7 +24,7 @@ import java.util.List;
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.listener.FindListener;
 
-public class NewsFragment extends Fragment {
+public class NewsFragment extends Fragment implements IGetHealthNews{
 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
@@ -149,6 +150,18 @@ public class NewsFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    public void onHealthNewsSuccess(List<NewsInfo> tngou) {
+        mList.clear();
+        mList.addAll(tngou);
+        mAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onHealthNewsError(Throwable e) {
+
     }
 
     public interface OnFragmentInteractionListener {
