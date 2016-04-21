@@ -10,4 +10,10 @@
     <color name="colorBlake_101010">#101010</color>
     <color name="colorGray_aaaaa">#aaaaaa</color>
     <color name="colorGray_a9b7b7">#a9b7b7</color>
+    <color name="colorGreen_32CD32">#32CD32</color>
+    <color name="colorGray_888888">#888888</color>
+    <color name="colorOrange_EF6C00">#EF6C00</color>
+    <color name="colorOrange_E65100">#E65100</color>
+    <color name="colorRed_FF0000">#FF0000</color>
+    <color name="colorBlack_000000">#000000</color>
 </resources>

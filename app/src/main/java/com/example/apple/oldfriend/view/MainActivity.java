@@ -10,20 +10,8 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
 import android.view.Gravity;
 import android.view.LayoutInflater;
-=======
->>>>>>> origin/master
-=======
->>>>>>> origin/master
-=======
->>>>>>> origin/master
-=======
->>>>>>> origin/master
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -31,10 +19,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.apple.oldfriend.R;
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
 import com.example.apple.oldfriend.app.BaseActivity;
 
 public class MainActivity extends BaseActivity implements View.OnClickListener {
@@ -42,32 +26,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     private DrawerLayout mDrawerLayout;
     private ViewPager viewPager;
     private TabLayout tabLayout;
-=======
-=======
->>>>>>> origin/master
-=======
->>>>>>> origin/master
-=======
->>>>>>> origin/master
-import com.example.apple.oldfriend.model.HealthNewsModel;
-import com.example.apple.oldfriend.model.IGetHealthNews;
-import com.example.apple.oldfriend.model.bean.NewsInfo;
-import com.example.apple.oldfriend.presenter.HealthNewsPresenter;
 
-import java.util.List;
-
-public class MainActivity extends AppCompatActivity {
-//    private HealthNewsPresenter presenter;
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
->>>>>>> origin/master
-=======
->>>>>>> origin/master
-=======
->>>>>>> origin/master
-=======
->>>>>>> origin/master
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -126,12 +85,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void iniView() {
-       /* LinearLayout tab_message = (LinearLayout) findViewById(R.id.tab_message);
-        tab_message.setOnClickListener(this);
-        LinearLayout tab_friend = (LinearLayout) findViewById(R.id.tab_friend);
-        tab_friend.setOnClickListener(this);
-        LinearLayout tab_news = (LinearLayout) findViewById(R.id.tab_news);
-        tab_news.setOnClickListener(this);*/
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         tabLayout = (TabLayout) findViewById(R.id.tabLayout);
         final SampleFragmentPagerAdapter pagerAdapter =
@@ -193,18 +146,6 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(MainActivity.this, "exit", Toast.LENGTH_SHORT).show();
                 break;
             }
-          /*  case R.id.tab_message: {
-
-                break;
-            }
-            case R.id.tab_friend: {
-
-                break;
-            }
-            case R.id.tab_news: {
-
-                break;
-            }*/
             default: {
                 Toast.makeText(MainActivity.this, "点击事件有误", Toast.LENGTH_SHORT).show();
             }
@@ -263,7 +204,7 @@ public class MainActivity extends AppCompatActivity {
                     return MessageFragment.newInstance("", "");
                 }
                 case 2: {
-                    return MessageFragment.newInstance("", "");
+                    return NewsFragment.newInstance("", "");
                 }
                 default: {
                     return MessageFragment.newInstance("", "");
@@ -282,21 +223,5 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-
->>>>>>> origin/master
-=======
-
->>>>>>> origin/master
-=======
-
->>>>>>> origin/master
-=======
-
->>>>>>> origin/master
 }
 
