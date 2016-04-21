@@ -9,11 +9,16 @@
     <string name="tittle_body_situation">身心状况</string>
     <string name="send_message">发送验证码</string>
     <string name="tab_message">信息库</string>
-    <string name="tab_frieng">朋友圈</string>
+    <string name="tab_friend">朋友圈</string>
     <string name="tab_news">咨询栏</string>
     <string name="drawer_message">我的信息</string>
     <string name="drawer_about">关于我们</string>
     <string name="drawer_situation">我的状况</string>
     <string name="drawer_exit">退出当前帐号</string>
     <string name="button_quickcall">紧急联系</string>
+    <string name="drawer_open">open</string>
+    <string name="drawer_close">close</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

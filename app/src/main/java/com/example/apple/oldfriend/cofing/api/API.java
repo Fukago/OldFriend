@@ -1,4 +1,4 @@
-package com.example.apple.oldfriend.api;
+package com.example.apple.oldfriend.cofing.api;
 
 /**
  * Created by apple on 16/4/20.

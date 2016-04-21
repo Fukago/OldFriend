@@ -1,35 +1,110 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout
+<android.support.v4.widget.DrawerLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/drawer_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fitsSystemWindows="true"
-        tools:context=".view.MainActivity">
+        android:layout_height="match_parent">
 
-    <android.support.design.widget.AppBarLayout
+
+    <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:theme="@style/AppTheme.AppBarOverlay">
+            android:layout_height="match_parent">
 
-        <android.support.v7.widget.Toolbar
-                android:id="@+id/toolbar"
+        <include
+                android:id="@+id/toolbarLayout"
+                layout="@layout/view_toolbar"/>
+
+        <android.support.v4.view.ViewPager
+                android:id="@+id/viewpager"
                 android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:background="?attr/colorPrimary"
-                app:popupTheme="@style/AppTheme.PopupOverlay"/>
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/toolbarLayout">
+        </android.support.v4.view.ViewPager>
 
-    </android.support.design.widget.AppBarLayout>
+        <android.support.design.widget.TabLayout
+                android:id="@+id/tabLayout"
+                style="@style/MyCustomTabLayout"
+                android:background="@color/colorWhite_ffffff"
+                android:layout_alignParentBottom="true"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"/>
 
-    <include layout="@layout/content_main"/>
 
-    <android.support.design.widget.FloatingActionButton
-            android:id="@+id/fab"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|end"
-            android:layout_margin="@dimen/fab_margin"
-            android:src="@android:drawable/ic_dialog_email"/>
+       <!-- <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_alignParentBottom="true"
+                android:baselineAligned="false"
+                android:background="@color/colorWhite_ffffff"
+                android:orientation="horizontal">
 
-</android.support.design.widget.CoordinatorLayout>
+            <LinearLayout
+                    android:id="@+id/tab_message"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/tab_ic_message_click"/>
+
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/tab_message"
+                        android:textColor="@color/colorPink_ff4081"
+                        android:textSize="15sp"/>
+            </LinearLayout>
+
+            <LinearLayout
+                    android:id="@+id/tab_friend"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/tab_ic_friend_unclick"/>
+
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/tab_friend"
+                        android:textColor="@color/colorGray_a9b7b7"
+                        android:textSize="15sp"/>
+            </LinearLayout>
+
+            <LinearLayout
+                    android:id="@+id/tab_news"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/tab_ic_news_unclick"/>
+
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/tab_news"
+                        android:textColor="@color/colorGray_a9b7b7"
+                        android:textSize="15sp"/>
+            </LinearLayout>
+
+        </LinearLayout>-->
+    </RelativeLayout>
+
+    <include layout="@layout/view_drawerlayout"/>
+</android.support.v4.widget.DrawerLayout>
+

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+                                    xmlns:tool="http://schemas.android.com/tools"
+                                    android:id="@+id/item_layout"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="136dp"
+                                    android:layout_margin="8dp">
+
+    <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="136dp">
+
+        <LinearLayout                android:layout_width="match_parent"
+                android:layout_height="136dp"
+                android:layout_marginBottom="3dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="3dp"
+                android:gravity="center_vertical"
+                android:orientation="vertical">
+
+            <TextView
+                    android:id="@+id/Ausername"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginTop="5dp"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="10sp"
+                    tool:text="来自 杨小幂"/>
+
+            <TextView
+                    android:id="@+id/Atittle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:textColor="#000000"
+                    android:textSize="15sp"
+                    tool:text="恋爱中论啪啪啪的正确姿势"/>
+
+            <TextView
+                    android:id="@+id/Article"
+                    android:layout_width="240dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:lines="4"
+                    android:textSize="12sp"
+                    tool:text="恋爱中论啪啪啪的正确姿势恋爱中论啪啪啪的正确姿势恋爱中论啪啪啪的正确姿势恋爱中论啪啪啪的正确姿势恋爱中论啪啪啪的正确姿势恋爱中论啪啪啪的正确姿势恋爱中论啪啪啪的正确姿势恋爱中论啪啪啪的正确姿势
+                恋爱中论啪啪啪的正确姿势
+                恋爱中论啪啪啪的正确姿势
+                恋爱中论啪啪啪的正确姿势
+                "/>
+
+            <TextView
+                    android:id="@+id/Amessage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="4dp"
+                    android:textSize="10sp"
+                    tool:text="10次阅读.3人喜爱
+                "/>
+        </LinearLayout>
+
+        <ImageView
+                android:id="@+id/im_item_news"
+                android:layout_width="100dp"
+                android:layout_height="80dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"/>
+    </RelativeLayout>
+</android.support.v7.widget.CardView>
+

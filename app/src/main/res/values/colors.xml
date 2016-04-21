@@ -5,7 +5,9 @@
     <color name="colorAccent_FF4081">#FF4081</color>
     <color name="colorPink_e83f9c">#e83f9c</color>
     <color name="colorPink_e61588">#e61588</color>
+    <color name="colorPink_ff4081">#ff4081</color>
     <color name="colorWhite_ffffff">#ffffff</color>
     <color name="colorBlake_101010">#101010</color>
     <color name="colorGray_aaaaa">#aaaaaa</color>
+    <color name="colorGray_a9b7b7">#a9b7b7</color>
 </resources>
