@@ -5,13 +5,21 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.example.apple.oldfriend.R;
+import com.example.apple.oldfriend.model.HealthNewsModel;
+import com.example.apple.oldfriend.model.IGetHealthNews;
+import com.example.apple.oldfriend.model.bean.NewsInfo;
+import com.example.apple.oldfriend.presenter.HealthNewsPresenter;
+
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
+//    private HealthNewsPresenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,4 +59,6 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+
 }
