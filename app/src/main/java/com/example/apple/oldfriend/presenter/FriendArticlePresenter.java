@@ -32,7 +32,6 @@ public class FriendArticlePresenter {
      * content:文章内容
      * picSrc:图片的本地地址
      * article.getArticlePic().loadImage();加载图片
-     *
      */
     public void setArticleAndAuthor(String content, String picSrc) {
         model.setArticleAndAuthor(content, picSrc);
@@ -57,5 +56,12 @@ public class FriendArticlePresenter {
      */
     public void setComment(Article article, String content) {
         model.setComment(article, content);
+    }
+
+    /**
+     * 转发文章
+     */
+    public void transmitArticle(Article article) {
+        model.transmitArticle(article);
     }
 }

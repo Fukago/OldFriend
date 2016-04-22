@@ -22,7 +22,7 @@ public class NewsInfo {
     }
 
     public String getImg() {
-        return img;
+        return "http://tnfs.tngou.net/image" + img + "_180x120";
     }
 
     public String getKeywords() {
