@@ -3,6 +3,7 @@ package com.example.apple.oldfriend.model;
 import android.content.Context;
 import android.util.Log;
 
+import com.example.apple.oldfriend.cofing.IJudgeLike;
 import com.example.apple.oldfriend.model.bean.Article;
 import com.example.apple.oldfriend.model.bean.Comment;
 import com.example.apple.oldfriend.model.bean.User;
@@ -14,6 +15,7 @@ import java.util.List;
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.datatype.BmobFile;
+import cn.bmob.v3.datatype.BmobPointer;
 import cn.bmob.v3.datatype.BmobRelation;
 import cn.bmob.v3.listener.FindListener;
 import cn.bmob.v3.listener.SaveListener;
@@ -66,6 +68,8 @@ public class FriendArticleModel {
             }
         });
         article.setReadTimes(1);
+        article.setLikeTimes(0);
+        article.setTransmitTimes(0);
         article.setTime(TimeUtil.getTime("yyyy-MM-dd"));
         article.setContent(content);
         article.setAuthor(me);
@@ -88,6 +92,8 @@ public class FriendArticleModel {
         User me = BmobUser.getCurrentUser(context, User.class);
         final Article article = new Article();
         article.setReadTimes(1);
+        article.setLikeTimes(0);
+        article.setTransmitTimes(0);
         article.setTime(TimeUtil.getTime("yyyy-MM-dd"));
         article.setContent(content);
         article.setAuthor(me);
@@ -108,13 +114,22 @@ public class FriendArticleModel {
 
     //转发文章
     public void transmitArticle(Article article) {
+        article.increment("transmitTimes");
+        article.update(context);
         User me = BmobUser.getCurrentUser(context, User.class);
-        article.setTransmitAuthor(me);
-        article.save(context, new SaveListener() {
+        Article article1 = new Article();
+        article1.setAuthor(article.getAuthor());
+        article1.setTransmitAuthor(me);
+        article1.setLikeTimes(article.getLikeTimes());
+        article1.setReadTimes(1);
+        article1.setTransmitTimes(article.getTransmitTimes());
+        article1.setTime(TimeUtil.getTime("yyyy-MM-dd"));
+        article1.setArticlePic(article.getArticlePic());
+        article1.setContent(article.getContent());
+        article1.save(context, new SaveListener() {
             @Override
             public void onSuccess() {
-                Log.d("TAG", "transmitArticle ------- Success");
-
+                Log.d("TAG", "transmitArticle -------  Success");
             }
 
             @Override
@@ -127,7 +142,7 @@ public class FriendArticleModel {
     }
 
     //点赞
-    public void setLike(Article article) {
+    public void setLike(final Article article) {
         User me = BmobUser.getCurrentUser(context, User.class);
         if (me != null) {
             BmobRelation relation = new BmobRelation();
@@ -137,6 +152,8 @@ public class FriendArticleModel {
             me.update(context, new UpdateListener() {
                 @Override
                 public void onSuccess() {
+                    article.increment("likeTimes");
+                    article.update(context);
                     Log.d("TAG", "点赞成功");
                 }
 
@@ -150,7 +167,7 @@ public class FriendArticleModel {
     }
 
     //取消赞
-    public void cancelLike(Article article) {
+    public void cancelLike(final Article article) {
         User me = BmobUser.getCurrentUser(context, User.class);
         BmobRelation relation = new BmobRelation();
         relation.remove(article);
@@ -158,6 +175,8 @@ public class FriendArticleModel {
         me.update(context, new UpdateListener() {
             @Override
             public void onSuccess() {
+                article.increment("likeTimes", -1);
+                article.update(context);
                 Log.d("TAG", "取消赞成功");
             }
 
@@ -184,6 +203,28 @@ public class FriendArticleModel {
             @Override
             public void onFailure(int i, String s) {
                 Log.d("TAG", "评论失败");
+            }
+        });
+    }
+
+    //判断赞过没有
+    public void isLike(final Article article, final IJudgeLike callback) {
+        User me = BmobUser.getCurrentUser(context, User.class);
+        BmobQuery<Article> query = new BmobQuery<Article>();
+        query.addWhereRelatedTo("likeArticle", new BmobPointer(me));
+        query.findObjects(context, new FindListener<Article>() {
+            @Override
+            public void onSuccess(List<Article> list) {
+                if (list.contains(article)) {
+                    callback.isLike();
+                } else {
+                    callback.isNotLike();
+                }
+            }
+
+            @Override
+            public void onError(int i, String s) {
+                Log.d("TAG", "judge isLike error -------->" + s);
             }
         });
     }

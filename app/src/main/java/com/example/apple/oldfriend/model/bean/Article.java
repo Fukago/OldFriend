@@ -13,6 +13,8 @@ public class Article extends BmobObject {
     private BmobFile articlePic;
     private User author;
     private User transmitAuthor;
+    private Integer likeTimes;
+    private Integer transmitTimes;
 
     public String getTime() {
         return time;
@@ -60,5 +62,21 @@ public class Article extends BmobObject {
 
     public void setTransmitAuthor(User transmitAuthor) {
         this.transmitAuthor = transmitAuthor;
+    }
+
+    public Integer getLikeTimes() {
+        return likeTimes;
+    }
+
+    public void setLikeTimes(Integer likeTimes) {
+        this.likeTimes = likeTimes;
+    }
+
+    public Integer getTransmitTimes() {
+        return transmitTimes;
+    }
+
+    public void setTransmitTimes(Integer transmitTimes) {
+        this.transmitTimes = transmitTimes;
     }
 }

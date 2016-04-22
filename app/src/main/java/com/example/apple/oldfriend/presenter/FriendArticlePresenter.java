@@ -2,12 +2,10 @@ package com.example.apple.oldfriend.presenter;
 
 import android.content.Context;
 
+import com.example.apple.oldfriend.cofing.IJudgeLike;
 import com.example.apple.oldfriend.model.FriendArticleModel;
 import com.example.apple.oldfriend.model.IGetArticleAndAuthor;
 import com.example.apple.oldfriend.model.bean.Article;
-import com.example.apple.oldfriend.model.bean.User;
-
-import cn.bmob.v3.BmobUser;
 
 /**
  * Created by gan on 2016/4/21.
@@ -74,5 +72,12 @@ public class FriendArticlePresenter {
      */
     public void transmitArticle(Article article) {
         model.transmitArticle(article);
+    }
+
+    /**
+     * 是否已经赞过
+     */
+    public void isLike(Article article, IJudgeLike callback) {
+        model.isLike(article, callback);
     }
 }
