@@ -26,6 +26,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="5dp"
+                    android:lines="1"
                     android:textColor="#000000"
                     android:textSize="15sp"
                     tool:text="恋爱中论啪啪啪的正确姿势"/>
@@ -55,8 +56,8 @@
 
         <ImageView
                 android:id="@+id/im_item_news_image"
-                android:layout_width="100dp"
-                android:layout_height="80dp"
+                android:layout_width="85dp"
+                android:layout_height="60dp"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"/>
     </RelativeLayout>

@@ -19,7 +19,8 @@
                 android:id="@+id/viewpager"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/toolbarLayout">
+                android:layout_below="@+id/toolbarLayout"
+                android:layout_marginBottom="56dp">
         </android.support.v4.view.ViewPager>
 
         <android.support.design.widget.TabLayout
@@ -31,78 +32,6 @@
                 android:layout_height="56dp"/>
 
 
-       <!-- <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:layout_alignParentBottom="true"
-                android:baselineAligned="false"
-                android:background="@color/colorWhite_ffffff"
-                android:orientation="horizontal">
-
-            <LinearLayout
-                    android:id="@+id/tab_message"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:orientation="vertical">
-
-                <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/tab_ic_message_click"/>
-
-                <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/tab_message"
-                        android:textColor="@color/colorPink_ff4081"
-                        android:textSize="15sp"/>
-            </LinearLayout>
-
-            <LinearLayout
-                    android:id="@+id/tab_friend"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:orientation="vertical">
-
-                <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/tab_ic_friend_unclick"/>
-
-                <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/tab_friend"
-                        android:textColor="@color/colorGray_a9b7b7"
-                        android:textSize="15sp"/>
-            </LinearLayout>
-
-            <LinearLayout
-                    android:id="@+id/tab_news"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:orientation="vertical">
-
-                <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/tab_ic_news_unclick"/>
-
-                <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/tab_news"
-                        android:textColor="@color/colorGray_a9b7b7"
-                        android:textSize="15sp"/>
-            </LinearLayout>
-
-        </LinearLayout>-->
     </RelativeLayout>
 
     <include layout="@layout/view_drawerlayout"/>

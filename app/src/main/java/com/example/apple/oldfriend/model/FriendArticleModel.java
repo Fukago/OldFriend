@@ -1,7 +1,6 @@
 package com.example.apple.oldfriend.model;
 
 import android.content.Context;
-import android.text.Html;
 import android.util.Log;
 
 import com.example.apple.oldfriend.model.bean.Article;
@@ -31,7 +30,7 @@ public class FriendArticleModel {
         this.context = context;
     }
 
-    //得到文章和坐着
+    //得到文章和作者
     public void getArticleAndAuthor(final IGetArticleAndAuthor callback) {
         BmobQuery<Article> query = new BmobQuery<>();
         query.include("author");

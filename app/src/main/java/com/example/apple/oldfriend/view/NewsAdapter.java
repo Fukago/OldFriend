@@ -40,12 +40,18 @@ public class NewsAdapter extends RecyclerView.Adapter {
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         NewsViewHolder viewHolder = (NewsViewHolder) holder;
         viewHolder.tv_item_news_tittle.setText("" + mList.get(position).getTitle());
-        viewHolder.tv_item_news_context.setText("" + Html.fromHtml(mList.get(position).getMessage()));
-        viewHolder.tv_item_news_keywords.setText("" + mList.get(position).getKeywords());
-        String url = "" +"http://tnfs.tngou.net/image" + mList.get(position).getImg() +"_180x120";
+        viewHolder.tv_item_news_context.setText("   " + Html.fromHtml(mList.get(position).getMessage()));
+        viewHolder.tv_item_news_keywords.setText("关键字:" + mList.get(position).getKeywords());
+
+        String url = "" + mList.get(position).getImg();
         if (!TextUtils.isEmpty(url)) {
             Log.d("URL",""+url);
-            Picasso.with(context).load(url).into(viewHolder.im_item_news_image);
+            Picasso.with(context)
+                    .load(url)
+                    .resize(85, 60)
+                    .placeholder(R.drawable.picasso_ic_loading)
+                    .error(R.drawable.picasso_ic_loadingerror)
+                    .into(viewHolder.im_item_news_image);
         }
     }
 

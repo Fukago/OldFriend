@@ -48,7 +48,7 @@ public class NewsFragment extends Fragment implements IGetHealthNews {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         presenter=new HealthNewsPresenter(this);
-        presenter.getNewsList(0,0,20,this);
+        presenter.getNewsList(0,0,6,this);
     }
 
     @Override
@@ -59,7 +59,7 @@ public class NewsFragment extends Fragment implements IGetHealthNews {
         recyclerView = (RecyclerView) view.findViewById(R.id.recycle_news);
         final RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
-        mAdapter = new NewsAdapter(mList,this.getContext());
+        mAdapter = new NewsAdapter(mList,getContext());
         recyclerView.setAdapter(mAdapter);
         //initData();
         mSwipeRefreshWidget.setColorSchemeResources(R.color.colorGreen_32CD32, R.color.colorAccent_FF4081,
