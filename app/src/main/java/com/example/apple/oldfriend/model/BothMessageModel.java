@@ -29,6 +29,7 @@ public class BothMessageModel {
         if (me.isOld()) {
             BmobQuery<User> query = new BmobQuery<User>();
             query.addWhereEqualTo("myOld", me);    // 查询当前用户的护理人
+            query.include("myNurseState");
             query.findObjects(context, new FindListener<User>() {
                 @Override
                 public void onSuccess(List<User> list) {
@@ -52,6 +53,7 @@ public class BothMessageModel {
         if (!me.isOld()) {
             BmobQuery<User> query = new BmobQuery<>();
             query.addWhereEqualTo("myNurse", me);
+            query.include("myOldState");
             query.findObjects(context, new FindListener<User>() {
                 @Override
                 public void onSuccess(List<User> list) {

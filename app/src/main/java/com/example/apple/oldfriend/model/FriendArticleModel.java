@@ -48,7 +48,7 @@ public class FriendArticleModel {
 
     }
 
-    //发表文章
+    //发表文章（有图）
     public void setArticleAndAuthor(String content, String picSrc) {
         User me = BmobUser.getCurrentUser(context, User.class);
         final Article article = new Article();
@@ -65,6 +65,28 @@ public class FriendArticleModel {
                 Log.d("TAG", "上传图片失败");
             }
         });
+        article.setReadTimes(1);
+        article.setTime(TimeUtil.getTime("yyyy-MM-dd"));
+        article.setContent(content);
+        article.setAuthor(me);
+        article.save(context, new SaveListener() {
+            @Override
+            public void onSuccess() {
+                Log.d("TAG", "setArticleAndAuthor -------  Success");
+            }
+
+            @Override
+            public void onFailure(int i, String s) {
+                Log.d("TAG", "setArticleAndAuthor -------  Failure:" + s);
+
+            }
+        });
+    }
+
+    //发表文章（无图）
+    public void setArticleAndAuthor(String content) {
+        User me = BmobUser.getCurrentUser(context, User.class);
+        final Article article = new Article();
         article.setReadTimes(1);
         article.setTime(TimeUtil.getTime("yyyy-MM-dd"));
         article.setContent(content);

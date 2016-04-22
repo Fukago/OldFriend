@@ -12,10 +12,11 @@ public class User extends BmobUser {
     private BmobRelation likeArticle;//点赞的文章
     private String username;//手机号码
     private String password;//密码
-    private Integer age;
     private boolean isOld;//是否是老人
     private BmobPointer myOld;//我照顾的老人
     private BmobPointer myNurse;//我的护理人员
+    private BmobPointer myOldState;//老人的个人状态
+    private BmobPointer myNurseState;//看护人员的个人状态
 
     public BmobRelation getLikeArticle() {
         return likeArticle;
@@ -44,14 +45,6 @@ public class User extends BmobUser {
         this.password = password;
     }
 
-    public Integer getAge() {
-        return age;
-    }
-
-    public void setAge(Integer age) {
-        this.age = age;
-    }
-
     public boolean isOld() {
         return isOld;
     }
@@ -74,5 +67,21 @@ public class User extends BmobUser {
 
     public void setMyNurse(BmobPointer myNurse) {
         this.myNurse = myNurse;
+    }
+
+    public BmobPointer getMyOldState() {
+        return myOldState;
+    }
+
+    public void setMyOldState(BmobPointer myOldState) {
+        this.myOldState = myOldState;
+    }
+
+    public BmobPointer getMyNurseState() {
+        return myNurseState;
+    }
+
+    public void setMyNurseState(BmobPointer myNurseState) {
+        this.myNurseState = myNurseState;
     }
 }

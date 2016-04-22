@@ -28,13 +28,24 @@ public class FriendArticlePresenter {
     }
 
     /**
-     * 传入当前文章来发布文章
+     * 发布文章（有图）
      * content:文章内容
      * picSrc:图片的本地地址
      * article.getArticlePic().loadImage();加载图片
      */
+
+
     public void setArticleAndAuthor(String content, String picSrc) {
         model.setArticleAndAuthor(content, picSrc);
+    }
+
+    /**
+     * 发布文章（无图）
+     * content:文章内容
+     */
+
+    public void setArticleAndAuthor(String content) {
+        model.setArticleAndAuthor(content);
     }
 
     /**
