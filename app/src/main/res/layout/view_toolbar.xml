@@ -19,7 +19,7 @@
 
 
             <ImageView
-                    android:id="@+id/im_userFace"
+                    android:id="@+id/im_userFace_toolbar"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:maxWidth="?attr/actionBarSize"
@@ -28,7 +28,7 @@
                     android:src="@drawable/user_ic_face"/>
 
             <TextView
-                    android:id="@+id/tv_tittle"
+                    android:id="@+id/tv_tittle_toolbar"
                     style="@style/TextAppearance.AppCompat.Subhead"
                     android:layout_width="wrap_content"
                     android:layout_height="?attr/actionBarSize"
@@ -37,6 +37,15 @@
                     android:text="@string/tittle_oldfreind"
                     android:textColor="@color/colorWhite_ffffff"
                     android:textSize="20sp"/>
+            <ImageView
+                    android:id="@+id/im_more_toolbar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/toolbar_ic_more"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="10dp"
+                    android:visibility="gone"/>
         </RelativeLayout>
     </android.support.v7.widget.Toolbar>
 

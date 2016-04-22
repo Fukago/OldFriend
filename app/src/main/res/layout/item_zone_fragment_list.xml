@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+                                    xmlns:tool="http://schemas.android.com/tools"
+                                    android:id="@+id/item_layout"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_margin="8dp">
+
+    <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="30dp"
+                android:layout_marginLeft="4dp"
+                android:layout_marginTop="3dp"
+                android:orientation="vertical">
+
+            <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    >
+
+                <ImageView
+                        android:id="@+id/im_item_zone_face"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:src="@drawable/user_ic_face"/>
+
+                <TextView
+                        android:id="@+id/tv_item_zone_userName"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginLeft="4dp"
+                        android:layout_marginTop="5dp"
+                        android:gravity="center"
+                        android:lines="1"
+                        android:textColor="@color/colorBlake_101010"
+                        android:textSize="10sp"
+                        tool:text="杨小幂"/>
+            </LinearLayout>
+
+            <TextView
+                    android:id="@+id/tv_item_zone_description"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:textColor="@color/colorBlake_101010"
+                    android:textSize="12sp"
+                    tool:text="     恋爱中论啪啪啪的正确姿势"/>
+
+            <ImageView
+                    android:id="@+id/im_item_zone_picture"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:src="@drawable/user_ic_face"/>
+
+
+        </LinearLayout>
+
+        <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_alignParentBottom="true">
+
+            <TextView
+                    android:id="@+id/tv_item_zone_message"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="4dp"
+                    android:layout_marginLeft="4dp"
+                    android:textSize="10sp"
+                    android:layout_alignParentBottom="true"
+                    tool:text="10次浏览.3人赞.4人转发 "/>
+            <ImageView
+                    android:id="@+id/im_item_zone_good"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginLeft="3dp"
+                    android:layout_marginBottom="3dp"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginRight="30dp"
+                    android:src="@drawable/item_zone_ic_good_unclick"
+                    android:layout_toLeftOf="@+id/im_item_zone_send"/>
+            <ImageView
+                    android:id="@+id/im_item_zone_send"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginLeft="3dp"
+                    android:layout_marginBottom="3dp"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginRight="10dp"
+                    android:src="@drawable/item_zone_ic_send_unclick"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentRight="true"/>
+        </RelativeLayout>
+    </RelativeLayout>
+</android.support.v7.widget.CardView>

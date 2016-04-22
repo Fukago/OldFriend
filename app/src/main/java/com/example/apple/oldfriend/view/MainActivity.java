@@ -23,6 +23,7 @@ import com.example.apple.oldfriend.app.BaseActivity;
 
 public class MainActivity extends BaseActivity implements View.OnClickListener {
     private Toolbar toolbar;
+    private ImageView im_more_toolbar;
     private DrawerLayout mDrawerLayout;
     private ViewPager viewPager;
     private TabLayout tabLayout;
@@ -43,9 +44,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         if (toolbar != null) {
             setSupportActionBar(toolbar);
         }
-        ImageView im_Userface = (ImageView) findViewById(R.id.im_userFace);
-        im_Userface.setOnClickListener(this);
-        TextView im_Tittle = (TextView) findViewById(R.id.tv_tittle);
+        ImageView im_userface_toolbar = (ImageView) findViewById(R.id.im_userFace_toolbar);
+        im_userface_toolbar.setOnClickListener(this);
+        TextView im_tittle_toolbar = (TextView) findViewById(R.id.tv_tittle_toolbar);
+        im_more_toolbar = (ImageView) findViewById(R.id.im_more_toolbar);
+        im_more_toolbar.setOnClickListener(this);
     }
 
     private void initDrawer() {
@@ -100,10 +103,27 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                Log.d("Tabposition",""+tab.getPosition());
                 tab.setCustomView(null);
                 tab.setCustomView(pagerAdapter.getClickedTabView(tab.getPosition()));
                 viewPager.setCurrentItem(tab.getPosition());
+                switch (tab.getPosition()) {
+                    case 0: {
+                        im_more_toolbar.setVisibility(View.GONE);
+                        break;
+                    }
+                    case 1: {
+                        im_more_toolbar.setVisibility(View.VISIBLE);
+                        break;
+                    }
+                    case 2: {
+                        im_more_toolbar.setVisibility(View.GONE);
+                        break;
+                    }
+                    default: {
+                        im_more_toolbar.setVisibility(View.GONE);
+                        break;
+                    }
+                }
             }
 
             @Override
@@ -123,8 +143,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.im_userFace: {
+            case R.id.im_userFace_toolbar: {
                 mDrawerLayout.openDrawer(Gravity.START);
+                break;
+            }
+            case R.id.im_more_toolbar:{
+                Toast.makeText(MainActivity.this, "more", Toast.LENGTH_SHORT).show();
                 break;
             }
             case R.id.drawer_im_userFace: {
@@ -154,7 +178,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     }
 
 
-    private class SampleFragmentPagerAdapter extends FragmentPagerAdapter implements ViewPager.OnPageChangeListener{
+    private class SampleFragmentPagerAdapter extends FragmentPagerAdapter implements ViewPager.OnPageChangeListener {
         final int PAGE_COUNT = 3;
         private String tabTitles[] = new String[]{"信息库", "老友圈", "资讯栏"};
         private int imageResId[] = new int[]{
@@ -202,7 +226,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                     return MessageFragment.newInstance("MessageFragment", "MessageFragment");
                 }
                 case 1: {
-                    return MessageFragment.newInstance("MessageFragment", "MessageFragment");
+                    return ZoneFragment.newInstance("MessageFragment", "MessageFragment");
                 }
                 case 2: {
                     return NewsFragment.newInstance("NewsFragment", "NewsFragment");
@@ -230,7 +254,25 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
         @Override
         public void onPageSelected(int position) {
-
+            Log.d("position","onPageSelected------"+position);
+            switch (position) {
+                case 0: {
+                    im_more_toolbar.setVisibility(View.GONE);
+                    break;
+                }
+                case 1: {
+                    im_more_toolbar.setVisibility(View.VISIBLE);
+                    break;
+                }
+                case 2: {
+                    im_more_toolbar.setVisibility(View.GONE);
+                    break;
+                }
+                default: {
+                    im_more_toolbar.setVisibility(View.GONE);
+                    break;
+                }
+            }
         }
 
         @Override

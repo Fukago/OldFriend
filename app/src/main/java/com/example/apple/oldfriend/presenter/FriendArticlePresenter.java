@@ -29,7 +29,7 @@ public class FriendArticlePresenter {
      * 发布文章（有图）
      * content:文章内容
      * picSrc:图片的本地地址
-     * article.getArticlePic().loadImage();加载图片
+     * article.getArticlePic().loadImage( );加载图片
      */
 
 

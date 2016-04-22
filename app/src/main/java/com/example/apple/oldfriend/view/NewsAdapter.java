@@ -45,7 +45,7 @@ public class NewsAdapter extends RecyclerView.Adapter {
         String url = "" + mList.get(position).getImg();
         Picasso.with(context)
                 .load(url)
-                .resize(85, 60)
+                .resize(100, 60)
                 .placeholder(R.drawable.picasso_ic_loading)
                 .error(R.drawable.picasso_ic_loadingerror)
                 .into(viewHolder.im_item_news_image);
