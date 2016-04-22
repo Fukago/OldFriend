@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.Toolbar;
@@ -103,6 +103,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 Log.d("Tabposition",""+tab.getPosition());
                 tab.setCustomView(null);
                 tab.setCustomView(pagerAdapter.getClickedTabView(tab.getPosition()));
+                viewPager.setCurrentItem(tab.getPosition());
             }
 
             @Override
@@ -153,7 +154,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     }
 
 
-    private class SampleFragmentPagerAdapter extends FragmentPagerAdapter {
+    private class SampleFragmentPagerAdapter extends FragmentStatePagerAdapter implements ViewPager.OnPageChangeListener{
         final int PAGE_COUNT = 3;
         private String tabTitles[] = new String[]{"信息库", "老友圈", "资讯栏"};
         private int imageResId[] = new int[]{
@@ -220,6 +221,21 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         @Override
         public CharSequence getPageTitle(int position) {
             return tabTitles[position];
+        }
+
+        @Override
+        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+        }
+
+        @Override
+        public void onPageSelected(int position) {
+
+        }
+
+        @Override
+        public void onPageScrollStateChanged(int state) {
+
         }
     }
 

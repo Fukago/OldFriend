@@ -1,7 +1,5 @@
 package com.example.apple.oldfriend.view;
 
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -16,6 +14,7 @@ import android.view.ViewGroup;
 import com.example.apple.oldfriend.R;
 import com.example.apple.oldfriend.model.IGetHealthNews;
 import com.example.apple.oldfriend.model.bean.NewsInfo;
+import com.example.apple.oldfriend.presenter.HealthNewsPresenter;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -24,19 +23,16 @@ import java.util.List;
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.listener.FindListener;
 
-public class NewsFragment extends Fragment implements IGetHealthNews{
 
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+public class NewsFragment extends Fragment implements IGetHealthNews {
+
     private List<NewsInfo> mList = new ArrayList<>();
     private NewsAdapter mAdapter;
     private RecyclerView recyclerView;
     private SwipeRefreshLayout mSwipeRefreshWidget;
-    private String mParam1;
-    private String mParam2;
     private int lastVisibleItem;
     private int totalItemCount;
-    private OnFragmentInteractionListener mListener;
+    private HealthNewsPresenter presenter;
 
     public NewsFragment() {
 
@@ -45,20 +41,14 @@ public class NewsFragment extends Fragment implements IGetHealthNews{
 
     public static NewsFragment newInstance(String param1, String param2) {
         NewsFragment fragment = new NewsFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
         return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+        presenter=new HealthNewsPresenter(this);
+        presenter.getNewsList(0,0,20,this);
     }
 
     @Override
@@ -69,9 +59,9 @@ public class NewsFragment extends Fragment implements IGetHealthNews{
         recyclerView = (RecyclerView) view.findViewById(R.id.recycle_news);
         final RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
-        mAdapter = new NewsAdapter(mList, this);
+        mAdapter = new NewsAdapter(mList,this.getContext());
         recyclerView.setAdapter(mAdapter);
-        initData();
+        //initData();
         mSwipeRefreshWidget.setColorSchemeResources(R.color.colorGreen_32CD32, R.color.colorAccent_FF4081,
                 R.color.colorOrange_E65100, R.color.colorPrimary_3F51B5);
         mSwipeRefreshWidget.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -129,28 +119,6 @@ public class NewsFragment extends Fragment implements IGetHealthNews{
         });
     }
 
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
 
     @Override
     public void onHealthNewsSuccess(List<NewsInfo> tngou) {
@@ -162,9 +130,5 @@ public class NewsFragment extends Fragment implements IGetHealthNews{
     @Override
     public void onHealthNewsError(Throwable e) {
 
-    }
-
-    public interface OnFragmentInteractionListener {
-        void onFragmentInteraction(Uri uri);
     }
 }
