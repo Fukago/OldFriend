@@ -1,6 +1,7 @@
 package com.example.apple.oldfriend.model.bean;
 
 /**
+ * 新闻数据
  * Created by gan on 2016/4/21.
  */
 public class NewsInfo {

@@ -7,6 +7,8 @@ import com.example.apple.oldfriend.model.IGetArticleAndAuthor;
 import com.example.apple.oldfriend.model.bean.Article;
 import com.example.apple.oldfriend.model.bean.User;
 
+import cn.bmob.v3.BmobUser;
+
 /**
  * Created by gan on 2016/4/21.
  */
@@ -26,17 +28,34 @@ public class FriendArticlePresenter {
     }
 
     /**
-     * 传入当前文章和文章的作者来发布文章
+     * 传入当前文章来发布文章
+     * content:文章内容
+     * picSrc:图片的本地地址
+     * article.getArticlePic().loadImage();加载图片
+     *
      */
-    public void setArticleAndAuthor(Article article, User author) {
-        model.setArticleAndAuthor(article, author);
+    public void setArticleAndAuthor(String content, String picSrc) {
+        model.setArticleAndAuthor(content, picSrc);
     }
 
     /**
      * 点赞
      */
-    public void setGood(Article article){
-
+    public void setGood(Article article) {
+        model.setLike(article);
     }
 
+    /**
+     * 取消赞
+     */
+    public void cancelLike(Article article) {
+        model.cancelLike(article);
+    }
+
+    /**
+     * 设置评论
+     */
+    public void setComment(Article article, String content) {
+        model.setComment(article, content);
+    }
 }

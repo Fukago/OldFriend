@@ -12,6 +12,7 @@ public class Article extends BmobObject {
     private Integer readTimes;
     private BmobFile articlePic;
     private User author;
+    private User transmitAuthor;
 
     public String getTime() {
         return time;
@@ -51,5 +52,13 @@ public class Article extends BmobObject {
 
     public void setAuthor(User author) {
         this.author = author;
+    }
+
+    public User getTransmitAuthor() {
+        return transmitAuthor;
+    }
+
+    public void setTransmitAuthor(User transmitAuthor) {
+        this.transmitAuthor = transmitAuthor;
     }
 }
