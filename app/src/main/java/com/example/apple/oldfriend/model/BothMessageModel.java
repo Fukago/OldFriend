@@ -2,6 +2,7 @@ package com.example.apple.oldfriend.model;
 
 import android.content.Context;
 
+import com.example.apple.oldfriend.cofing.IGetBothMessage;
 import com.example.apple.oldfriend.model.bean.User;
 
 import java.util.List;

@@ -1,7 +1,7 @@
 package com.example.apple.oldfriend.presenter;
 
 import com.example.apple.oldfriend.model.BothMessageModel;
-import com.example.apple.oldfriend.model.IGetBothMessage;
+import com.example.apple.oldfriend.cofing.IGetBothMessage;
 
 /**
  * Created by gan on 2016/4/22.

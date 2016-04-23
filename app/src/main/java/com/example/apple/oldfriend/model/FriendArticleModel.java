@@ -3,6 +3,7 @@ package com.example.apple.oldfriend.model;
 import android.content.Context;
 import android.util.Log;
 
+import com.example.apple.oldfriend.cofing.IGetArticleAndAuthor;
 import com.example.apple.oldfriend.cofing.IjudgeLike;
 import com.example.apple.oldfriend.model.bean.Article;
 import com.example.apple.oldfriend.model.bean.Comment;

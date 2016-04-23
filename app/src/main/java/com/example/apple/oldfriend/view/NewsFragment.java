@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.apple.oldfriend.R;
-import com.example.apple.oldfriend.model.IGetHealthNews;
+import com.example.apple.oldfriend.cofing.IGetHealthNews;
 import com.example.apple.oldfriend.model.bean.NewsInfo;
 import com.example.apple.oldfriend.presenter.HealthNewsPresenter;
 

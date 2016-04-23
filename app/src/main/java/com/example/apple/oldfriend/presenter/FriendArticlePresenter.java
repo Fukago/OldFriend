@@ -4,7 +4,7 @@ import android.content.Context;
 
 import com.example.apple.oldfriend.cofing.IjudgeLike;
 import com.example.apple.oldfriend.model.FriendArticleModel;
-import com.example.apple.oldfriend.model.IGetArticleAndAuthor;
+import com.example.apple.oldfriend.cofing.IGetArticleAndAuthor;
 import com.example.apple.oldfriend.model.bean.Article;
 
 /**

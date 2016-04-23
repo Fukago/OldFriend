@@ -1,7 +1,7 @@
 package com.example.apple.oldfriend.presenter;
 
 import com.example.apple.oldfriend.model.HealthNewsModel;
-import com.example.apple.oldfriend.model.IGetHealthNews;
+import com.example.apple.oldfriend.cofing.IGetHealthNews;
 
 /**
  * Created by gan on 2016/4/21.

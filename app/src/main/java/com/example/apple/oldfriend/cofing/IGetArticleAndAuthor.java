@@ -1,4 +1,4 @@
-package com.example.apple.oldfriend.model;
+package com.example.apple.oldfriend.cofing;
 
 import com.example.apple.oldfriend.model.bean.Article;
 import com.example.apple.oldfriend.model.bean.User;

@@ -9,8 +9,11 @@ import cn.bmob.v3.BmobObject;
  */
 public class OldPhysioState extends BmobObject {
     private OldState oldState;
-    private String key;
-    private String value;
+    private String xueya;
+    private String xuetang;
+    private String xuezhi;
+    private String tiwen;
+
 
     public OldState getOldState() {
         return oldState;
@@ -20,20 +23,35 @@ public class OldPhysioState extends BmobObject {
         this.oldState = oldState;
     }
 
-    public String getKey() {
-        return key;
+    public String getXueya() {
+        return xueya;
     }
 
-    public void setKey(String key) {
-        this.key = key;
+    public void setXueya(String xueya) {
+        this.xueya = xueya;
     }
 
-    public String getValue() {
-        return value;
+    public String getXuetang() {
+        return xuetang;
     }
 
-    public void setValue(String value) {
-        this.value = value;
+    public void setXuetang(String xuetang) {
+        this.xuetang = xuetang;
     }
 
+    public String getXuezhi() {
+        return xuezhi;
+    }
+
+    public void setXuezhi(String xuezhi) {
+        this.xuezhi = xuezhi;
+    }
+
+    public String getTiwen() {
+        return tiwen;
+    }
+
+    public void setTiwen(String tiwen) {
+        this.tiwen = tiwen;
+    }
 }

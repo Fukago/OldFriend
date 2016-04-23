@@ -3,6 +3,8 @@ package com.example.apple.oldfriend.model;
 import android.util.Log;
 
 import com.example.apple.oldfriend.api.API;
+import com.example.apple.oldfriend.cofing.IApiService;
+import com.example.apple.oldfriend.cofing.IGetHealthNews;
 import com.example.apple.oldfriend.model.bean.GetNewsInfoResponse;
 
 import retrofit2.Retrofit;
