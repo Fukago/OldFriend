@@ -2,7 +2,7 @@ package com.example.apple.oldfriend.presenter;
 
 import android.content.Context;
 
-import com.example.apple.oldfriend.cofing.IJudgeLike;
+import com.example.apple.oldfriend.cofing.IjudgeLike;
 import com.example.apple.oldfriend.model.FriendArticleModel;
 import com.example.apple.oldfriend.model.IGetArticleAndAuthor;
 import com.example.apple.oldfriend.model.bean.Article;
@@ -77,7 +77,7 @@ public class FriendArticlePresenter {
     /**
      * 是否已经赞过
      */
-    public void isLike(Article article, IJudgeLike callback) {
+    public void isLike(Article article, IjudgeLike callback) {
         model.isLike(article, callback);
     }
 }

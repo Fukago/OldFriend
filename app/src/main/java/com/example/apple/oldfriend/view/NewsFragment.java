@@ -10,6 +10,7 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.apple.oldfriend.R;
 import com.example.apple.oldfriend.model.IGetHealthNews;
@@ -30,8 +31,8 @@ public class NewsFragment extends Fragment implements IGetHealthNews {
     private NewsAdapter mAdapter;
     private RecyclerView recyclerView;
     private SwipeRefreshLayout mSwipeRefreshWidget;
-    private int lastVisibleItem;
-    private int totalItemCount;
+    private int lastVisibleItem=4;
+    private int totalItemCount=6;
     private HealthNewsPresenter presenter;
 
     public NewsFragment() {
@@ -48,7 +49,7 @@ public class NewsFragment extends Fragment implements IGetHealthNews {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         presenter=new HealthNewsPresenter(this);
-        presenter.getNewsList(0,0,6,this);
+        presenter.getNewsList(0,0,totalItemCount);
     }
 
     @Override
@@ -67,8 +68,8 @@ public class NewsFragment extends Fragment implements IGetHealthNews {
         mSwipeRefreshWidget.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                initData();
-
+               /* initData();*/
+                presenter.getNewsList(0,0,totalItemCount);
             }
         });
         mSwipeRefreshWidget.setProgressViewOffset(false, 0, (int) TypedValue
@@ -88,11 +89,11 @@ public class NewsFragment extends Fragment implements IGetHealthNews {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-          /*      lastVisibleItem = ((LinearLayoutManager) layoutManager).findLastVisibleItemPosition();
+                lastVisibleItem = ((LinearLayoutManager) layoutManager).findLastVisibleItemPosition();
                 totalItemCount = layoutManager.getItemCount();
                 if (lastVisibleItem >= totalItemCount - 4 && dy > 0) {
+                    presenter.getNewsList(0,0,totalItemCount+8);
                 }
-         */
             }
         });
         return view;
@@ -125,10 +126,11 @@ public class NewsFragment extends Fragment implements IGetHealthNews {
         mList.clear();
         mList.addAll(tngou);
         mAdapter.notifyDataSetChanged();
+        mSwipeRefreshWidget.setRefreshing(false);
     }
 
     @Override
     public void onHealthNewsError(Throwable e) {
-
+        Toast.makeText(getContext(), "数据加载失败,请检查您的网络环境~", Toast.LENGTH_SHORT).show();
     }
 }

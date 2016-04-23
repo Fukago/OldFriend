@@ -3,7 +3,7 @@ package com.example.apple.oldfriend.model;
 import android.content.Context;
 import android.util.Log;
 
-import com.example.apple.oldfriend.cofing.IJudgeLike;
+import com.example.apple.oldfriend.cofing.IjudgeLike;
 import com.example.apple.oldfriend.model.bean.Article;
 import com.example.apple.oldfriend.model.bean.Comment;
 import com.example.apple.oldfriend.model.bean.User;
@@ -208,7 +208,7 @@ public class FriendArticleModel {
     }
 
     //判断赞过没有
-    public void isLike(final Article article, final IJudgeLike callback) {
+    public void isLike(final Article article, final IjudgeLike callback) {
         User me = BmobUser.getCurrentUser(context, User.class);
         BmobQuery<Article> query = new BmobQuery<Article>();
         query.addWhereRelatedTo("likeArticle", new BmobPointer(me));

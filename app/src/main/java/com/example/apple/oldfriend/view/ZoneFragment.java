@@ -54,7 +54,7 @@ public class ZoneFragment extends Fragment {
         recyclerView = (RecyclerView) view.findViewById(R.id.recycle_news);
         final RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
-        mAdapter = new ZoneAdapter(mList,getContext());
+        mAdapter = new ZoneAdapter(mList,getContext(),this);
         recyclerView.setAdapter(mAdapter);
         //initData();
         mSwipeRefreshWidget.setColorSchemeResources(R.color.colorGreen_32CD32, R.color.colorAccent_FF4081,
@@ -62,7 +62,7 @@ public class ZoneFragment extends Fragment {
         mSwipeRefreshWidget.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                initData();
+               /* initData();*/
 
             }
         });
@@ -83,11 +83,10 @@ public class ZoneFragment extends Fragment {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-          /*      lastVisibleItem = ((LinearLayoutManager) layoutManager).findLastVisibleItemPosition();
+                lastVisibleItem = ((LinearLayoutManager) layoutManager).findLastVisibleItemPosition();
                 totalItemCount = layoutManager.getItemCount();
                 if (lastVisibleItem >= totalItemCount - 4 && dy > 0) {
                 }
-         */
             }
         });
         return view;

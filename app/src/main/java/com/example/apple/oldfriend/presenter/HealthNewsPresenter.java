@@ -2,15 +2,16 @@ package com.example.apple.oldfriend.presenter;
 
 import com.example.apple.oldfriend.model.HealthNewsModel;
 import com.example.apple.oldfriend.model.IGetHealthNews;
-import com.example.apple.oldfriend.view.NewsFragment;
 
 /**
  * Created by gan on 2016/4/21.
  */
 public class HealthNewsPresenter {
     private HealthNewsModel model;
-    public HealthNewsPresenter(NewsFragment fragment) {
+    private IGetHealthNews callback;
+    public HealthNewsPresenter(IGetHealthNews callback) {
         model = new HealthNewsModel();
+        this.callback=callback;
     }
 
     /**
@@ -19,8 +20,8 @@ public class HealthNewsPresenter {
      * classify：分类ID，默认0
      * rows：条数
      */
-    public void getNewsList(int id, int classify, int rows, final IGetHealthNews callback) {
-        model.getData(id, classify, rows, callback);
+    public void getNewsList(int id, int classify, int rows) {
+        model.getData(id, classify, rows,this.callback);
 
     }
 
