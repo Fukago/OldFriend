@@ -1,6 +1,11 @@
 package com.example.apple.oldfriend.view;
 
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -18,21 +23,30 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.example.apple.oldfriend.R;
 import com.example.apple.oldfriend.app.BaseActivity;
+import com.jude.library.imageprovider.ImageProvider;
+import com.jude.library.imageprovider.OnImageSelectListener;
 
-public class MainActivity extends BaseActivity implements View.OnClickListener {
+import java.io.FileNotFoundException;
+
+public class MainActivity extends BaseActivity implements View.OnClickListener, OnImageSelectListener {
     private Toolbar toolbar;
     private ImageView im_more_toolbar;
     private DrawerLayout mDrawerLayout;
     private ViewPager viewPager;
     private TabLayout tabLayout;
-
+    private ImageProvider provider;
+    private MaterialDialog dialog;
+    private Bitmap bitmap;
+    private ImageView drawer_im_userface;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        provider = new ImageProvider(this);
         initToolbar();
         initDrawer();
         iniView();
@@ -74,7 +88,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
             }
         });
-        ImageView drawer_im_userface = (ImageView) findViewById(R.id.drawer_im_userFace);
+        drawer_im_userface = (ImageView) findViewById(R.id.drawer_im_userFace);
         drawer_im_userface.setOnClickListener(this);
         TextView drawer_tv_userName = (TextView) findViewById(R.id.drawer_tv_userName);
         LinearLayout ll_message = (LinearLayout) findViewById(R.id.drawer_ll_message);
@@ -147,12 +161,36 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 mDrawerLayout.openDrawer(Gravity.START);
                 break;
             }
-            case R.id.im_more_toolbar:{
-                Toast.makeText(MainActivity.this, "more", Toast.LENGTH_SHORT).show();
+            case R.id.im_more_toolbar: {
+                Intent it = new Intent(MainActivity.this, SendZoneActivity.class);
+                startActivity(it);
                 break;
             }
             case R.id.drawer_im_userFace: {
                 Toast.makeText(MainActivity.this, "userFace", Toast.LENGTH_SHORT).show();
+                new MaterialDialog.Builder(MainActivity.this)
+                        .title("选择图片来源")
+                        .items(new String[]{"相机", "相册", "网络"})
+                        .itemsCallback(new MaterialDialog.ListCallback() {
+                            @Override
+                            public void onSelection(MaterialDialog dialog, View itemView, int which, CharSequence text) {
+                                switch (which) {
+                                    case 0: {
+                                        provider.getImageFromCamera(MainActivity.this);
+                                        break;
+                                    }
+                                    case 1: {
+                                        provider.getImageFromAlbum(MainActivity.this);
+                                        break;
+                                    }
+                                    case 2: {
+                                        provider.getImageFromNet(MainActivity.this);
+                                        break;
+                                    }
+                                }
+
+                            }
+                        }).show();
                 break;
             }
             case R.id.drawer_ll_message: {
@@ -177,7 +215,62 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         }
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
 
+    }
+
+    @Override
+    public void onImageSelect() {
+        Log.d("changeImage",""+"onImageSelect---");
+
+    }
+
+    @Override
+    public void onImageLoaded(Uri uri) {
+        Log.d("changeImage",""+"onImageLoaded---");
+        provider.corpImage(uri, 500, 500, new OnImageSelectListener() {
+            @Override
+            public void onImageSelect() {
+                dialog = new MaterialDialog.Builder(MainActivity.this)
+                        .progress(true, 100)
+                        .title("加载中")
+                        .content("请稍候")
+                        .cancelable(false)
+                        .show();
+            }
+
+            @Override
+            public void onImageLoaded(Uri uric) {
+                Log.d("changeImage",""+uric);
+                addImage(uric);
+            }
+
+            @Override
+            public void onError() {
+                Toast.makeText(MainActivity.this, "更改头像失败", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    @Override
+    public void onError() {
+        Toast.makeText(MainActivity.this, "更改头像失败", Toast.LENGTH_SHORT).show();
+    }
+
+
+    public void addImage(Uri uri) {
+        Log.d("changeImage",""+uri);
+        try {
+            bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(uri));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        if (bitmap != null) {
+            drawer_im_userface.setImageDrawable(new BitmapDrawable(bitmap));
+        }
+    }
     private class SampleFragmentPagerAdapter extends FragmentPagerAdapter implements ViewPager.OnPageChangeListener {
         final int PAGE_COUNT = 3;
         private String tabTitles[] = new String[]{"信息库", "老友圈", "资讯栏"};
@@ -254,7 +347,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
         @Override
         public void onPageSelected(int position) {
-            Log.d("position","onPageSelected------"+position);
+            Log.d("position", "onPageSelected------" + position);
             switch (position) {
                 case 0: {
                     im_more_toolbar.setVisibility(View.GONE);
@@ -274,6 +367,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 }
             }
         }
+
 
         @Override
         public void onPageScrollStateChanged(int state) {

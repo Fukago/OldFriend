@@ -7,6 +7,7 @@
         <item name="colorPrimaryDark">@color/colorPink_e61588</item>
         <item name="colorAccent">@color/colorAccent_FF4081</item>
     </style>
+
     <style name="MyCustomTabLayout" parent="Widget.Design.TabLayout">
         <item name="tabIndicatorHeight">0dp</item>
     </style>
@@ -15,6 +16,7 @@
     文／阳春面（简书作者）
     原文链接：http://www.jianshu.com/p/c3f6d316ec5b
     著作权归作者所有，转载请联系作者获得授权，并标注“简书作者”。
+
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
