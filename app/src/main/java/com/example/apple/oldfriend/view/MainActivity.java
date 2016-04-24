@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -26,8 +25,10 @@ import android.widget.Toast;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.example.apple.oldfriend.R;
 import com.example.apple.oldfriend.app.BaseActivity;
+import com.example.apple.oldfriend.util.CircleTransform;
 import com.jude.library.imageprovider.ImageProvider;
 import com.jude.library.imageprovider.OnImageSelectListener;
+import com.squareup.picasso.Picasso;
 
 import java.io.FileNotFoundException;
 
@@ -41,7 +42,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     private MaterialDialog dialog;
     private Bitmap bitmap;
     private ImageView drawer_im_userface;
-
+    private ImageView im_userface_toolbar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,7 +59,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         if (toolbar != null) {
             setSupportActionBar(toolbar);
         }
-        ImageView im_userface_toolbar = (ImageView) findViewById(R.id.im_userFace_toolbar);
+        im_userface_toolbar = (ImageView) findViewById(R.id.im_userFace_toolbar);
         im_userface_toolbar.setOnClickListener(this);
         TextView im_tittle_toolbar = (TextView) findViewById(R.id.tv_tittle_toolbar);
         im_more_toolbar = (ImageView) findViewById(R.id.im_more_toolbar);
@@ -218,32 +219,34 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
+        provider.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override
     public void onImageSelect() {
         Log.d("changeImage",""+"onImageSelect---");
-
+        dialog = new MaterialDialog.Builder(MainActivity.this)
+                .progress(true,100)
+                .title("加载中")
+                .content("请稍候")
+                .cancelable(false)
+                .show();
     }
 
     @Override
     public void onImageLoaded(Uri uri) {
-        Log.d("changeImage",""+"onImageLoaded---");
-        provider.corpImage(uri, 500, 500, new OnImageSelectListener() {
+        dialog.dismiss();
+        addImage(uri);
+        Log.d("changeImage", "" + "onImageLoaded---");
+        provider.corpImage(uri,200, 200, new OnImageSelectListener() {
             @Override
             public void onImageSelect() {
-                dialog = new MaterialDialog.Builder(MainActivity.this)
-                        .progress(true, 100)
-                        .title("加载中")
-                        .content("请稍候")
-                        .cancelable(false)
-                        .show();
+
             }
 
             @Override
             public void onImageLoaded(Uri uric) {
-                Log.d("changeImage",""+uric);
+                Log.d("changeImage", "" + uric);
                 addImage(uric);
             }
 
@@ -256,6 +259,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 
     @Override
     public void onError() {
+        dialog.dismiss();
         Toast.makeText(MainActivity.this, "更改头像失败", Toast.LENGTH_SHORT).show();
     }
 
@@ -268,7 +272,22 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
             e.printStackTrace();
         }
         if (bitmap != null) {
-            drawer_im_userface.setImageDrawable(new BitmapDrawable(bitmap));
+            Picasso.with(MainActivity.this)
+                    .load(uri)
+                    .resize(136,136)
+                    .centerCrop()
+                    .transform(new CircleTransform())
+                    .placeholder(R.drawable.user_ic_face)
+                    .error(R.drawable.user_ic_face)
+                    .into(drawer_im_userface);
+            Picasso.with(MainActivity.this)
+                    .load(uri)
+                    .resize(136,136)
+                    .centerCrop()
+                    .transform(new CircleTransform())
+                    .into(im_userface_toolbar);
+
+            //drawer_im_userface.setImageDrawable(new BitmapDrawable(bitmap));
         }
     }
     private class SampleFragmentPagerAdapter extends FragmentPagerAdapter implements ViewPager.OnPageChangeListener {
@@ -319,7 +338,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                     return MessageFragment.newInstance("MessageFragment", "MessageFragment");
                 }
                 case 1: {
-                    return ZoneFragment.newInstance("MessageFragment", "MessageFragment");
+                    return ZoneFragment.newInstance("ZoneFragment", "ZoneFragment");
                 }
                 case 2: {
                     return NewsFragment.newInstance("NewsFragment", "NewsFragment");

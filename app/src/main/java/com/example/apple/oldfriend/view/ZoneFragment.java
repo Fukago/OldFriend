@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.apple.oldfriend.R;
-import com.example.apple.oldfriend.model.IGetArticleAndAuthor;
+import com.example.apple.oldfriend.cofing.IGetArticleAndAuthor;
 import com.example.apple.oldfriend.model.bean.Article;
 import com.example.apple.oldfriend.presenter.FriendArticlePresenter;
 
