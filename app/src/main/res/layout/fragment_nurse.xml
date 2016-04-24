@@ -1,0 +1,88 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tool="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+    <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fadeScrollbars="true">
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                <ImageView
+                        android:id="@+id/im_nurseFace_nurseFragment"
+                        android:layout_width="136dp"
+                        android:layout_height="136dp"
+                        android:layout_margin="8dp"
+                        android:src="@drawable/user_ic_face"/>
+
+                <TextView
+                        android:id="@+id/tv_nurseName_nurseFraghment"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_margin="8dp"
+                        android:textColor="@color/colorBlake_101010"
+                        android:textSize="25sp"
+                        tool:text="祈Inory"/>
+            </LinearLayout>
+
+            <Button
+                    android:id="@+id/bn_fastCall_NurseFragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
+                    android:background="@color/colorPink_e83f9c"
+                    android:text="紧急联系"
+                    android:textColor="@color/colorWhite_ffffff"
+                    android:textSize="25sp"/>
+
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:textColor="@color/colorBlake_101010"
+                    android:textSize="20sp"
+                    tool:text="护理经验:"/>
+
+            <TextView
+                    android:id="@+id/tv_experience_NurseFragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
+                    android:textSize="18sp"
+                    tool:text="         撒打发山东发生地方
+            巍峨的服务器儿啥都发生的阿斯顿发阿斯顿发阿斯顿发阿斯顿发阿斯顿发
+            阿斯顿发阿斯顿发阿斯顿发阿斯顿发生的f"/>
+
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:textColor="@color/colorBlake_101010"
+                    android:textSize="20sp"
+                    tool:text="最新动态:"/>
+
+            <TextView
+                    android:id="@+id/tv_zone_NurseFragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
+                    android:textSize="18sp"
+                    tool:text="护理经验:撒打发山东发生地方
+            巍峨的服务器儿啥都发生的阿斯顿发阿斯顿发阿斯顿发阿斯顿发阿斯顿发
+            阿斯顿发阿斯顿发阿斯顿发阿斯顿发生的f"/>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>
