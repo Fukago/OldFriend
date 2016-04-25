@@ -39,6 +39,7 @@ dependencies {
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.jude:rollviewpager:1.2.4'
     compile 'com.jude:imageprovider:2.0.8'
+    compile 'com.pnikosis:materialish-progress:1.7'
 }
 
 

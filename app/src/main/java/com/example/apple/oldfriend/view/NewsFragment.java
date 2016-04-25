@@ -10,6 +10,7 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.example.apple.oldfriend.R;
@@ -31,9 +32,10 @@ public class NewsFragment extends Fragment implements IGetHealthNews {
     private NewsAdapter mAdapter;
     private RecyclerView recyclerView;
     private SwipeRefreshLayout mSwipeRefreshWidget;
-    private int lastVisibleItem=4;
-    private int totalItemCount=6;
+    private int lastVisibleItem = 4;
+    private int totalItemCount = 6;
     private HealthNewsPresenter presenter;
+    private RelativeLayout progressLayout;
 
     public NewsFragment() {
 
@@ -48,19 +50,20 @@ public class NewsFragment extends Fragment implements IGetHealthNews {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        presenter=new HealthNewsPresenter(this);
-        presenter.getNewsList(0,0,totalItemCount);
+        presenter = new HealthNewsPresenter(this);
+        presenter.getNewsList(0, 0, totalItemCount);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_news, container, false);
+        progressLayout = (RelativeLayout) view.findViewById(R.id.progress_layout);
         mSwipeRefreshWidget = (SwipeRefreshLayout) view.findViewById(R.id.fragment_news_swipe_refresh_widget);
         recyclerView = (RecyclerView) view.findViewById(R.id.recycle_news);
         final RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
-        mAdapter = new NewsAdapter(mList,getContext());
+        mAdapter = new NewsAdapter(mList, getContext());
         recyclerView.setAdapter(mAdapter);
         //initData();
         mSwipeRefreshWidget.setColorSchemeResources(R.color.colorGreen_32CD32, R.color.colorAccent_FF4081,
@@ -69,7 +72,7 @@ public class NewsFragment extends Fragment implements IGetHealthNews {
             @Override
             public void onRefresh() {
                /* initData();*/
-                presenter.getNewsList(0,0,totalItemCount);
+                presenter.getNewsList(0, 0, totalItemCount);
             }
         });
         mSwipeRefreshWidget.setProgressViewOffset(false, 0, (int) TypedValue
@@ -92,7 +95,7 @@ public class NewsFragment extends Fragment implements IGetHealthNews {
                 lastVisibleItem = ((LinearLayoutManager) layoutManager).findLastVisibleItemPosition();
                 totalItemCount = layoutManager.getItemCount();
                 if (lastVisibleItem >= totalItemCount - 4 && dy > 0) {
-                    presenter.getNewsList(0,0,totalItemCount+8);
+                    presenter.getNewsList(0, 0, totalItemCount + 8);
                 }
             }
         });
@@ -127,6 +130,7 @@ public class NewsFragment extends Fragment implements IGetHealthNews {
         mList.addAll(tngou);
         mAdapter.notifyDataSetChanged();
         mSwipeRefreshWidget.setRefreshing(false);
+        progressLayout.setVisibility(View.GONE);
     }
 
     @Override
