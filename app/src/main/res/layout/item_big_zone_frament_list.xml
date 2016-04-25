@@ -6,7 +6,7 @@
     <com.jude.rollviewpager.RollPagerView
             android:id="@+id/item_big_zone_roll_viewpager"
             android:layout_width="match_parent"
-            android:layout_height="166dp"
+            android:layout_height="168dp"
             app:rollviewpager_hint_mode="point"
             app:rollviewpager_play_delay="3000" />
 </LinearLayout>
