@@ -12,10 +12,12 @@ import java.util.List;
 public interface IGetBothMessage {
     void getNurseMessage(User nurse);
 
-    void getNurseMessageError(String s);
+    void getAllNurseMessage(List<User> allNurseList);
+
 
     void getOldMessage(List<User> oldList);
 
-    void getOldMessageError(String s);
+    void getAllOldMessage(List<User> allOldList);
+
 
 }

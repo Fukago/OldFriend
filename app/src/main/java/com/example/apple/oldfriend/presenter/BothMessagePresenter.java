@@ -32,4 +32,19 @@ public class BothMessagePresenter {
     }
 
 
+    /**
+     * 拿到所有老人信息
+     */
+
+    public void getAllOldMessage(final IGetBothMessage callback) {
+        model.getAllOldMessage(callback);
+    }
+
+
+    /**
+     * 拿到所有护士信息
+     */
+    public void getAllNurseMessage(final IGetBothMessage callback) {
+        model.getAllNurseMessage(callback);
+    }
 }

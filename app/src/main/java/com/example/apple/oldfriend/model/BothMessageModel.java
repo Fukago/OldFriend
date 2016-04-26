@@ -1,6 +1,7 @@
 package com.example.apple.oldfriend.model;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.example.apple.oldfriend.cofing.IGetBothMessage;
 import com.example.apple.oldfriend.model.bean.User;
@@ -10,6 +11,7 @@ import java.util.List;
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.listener.FindListener;
+import cn.bmob.v3.listener.GetListener;
 
 /**
  * Created by gan on 2016/4/22.
@@ -21,25 +23,66 @@ public class BothMessageModel {
         this.context = context;
     }
 
+
+    /**
+     * 拿到所有护士信息
+     */
+    public void getAllNurseMessage(final IGetBothMessage callback) {
+        BmobQuery<User> query = new BmobQuery<User>();
+        query.addWhereEqualTo("isOld", false);
+        query.include("myOld,myNurseState,likeArticle");
+        query.findObjects(context, new FindListener<User>() {
+            @Override
+            public void onSuccess(List<User> list) {
+                callback.getAllNurseMessage(list);
+            }
+
+            @Override
+            public void onError(int i, String s) {
+                Log.d("TAG", "getAllNurseMessage(s)" + s);
+
+            }
+        });
+    }
+
+    /**
+     * 拿到所有老人信息
+     */
+
+    public void getAllOldMessage(final IGetBothMessage callback) {
+        BmobQuery<User> query = new BmobQuery<User>();
+        query.addWhereEqualTo("isOld", true);
+        query.include("myNurse,myNurseState,likeArticle");
+        query.findObjects(context, new FindListener<User>() {
+            @Override
+            public void onSuccess(List<User> list) {
+                callback.getAllOldMessage(list);
+            }
+
+            @Override
+            public void onError(int i, String s) {
+                Log.d("TAG", "getAllOldMessage(s)" + s);
+            }
+        });
+    }
+
     /**
      * 老人拿到照顾自己的护士的信息
      */
-
     public void getNurseMessage(final IGetBothMessage callback) {
         User me = BmobUser.getCurrentUser(context, User.class);
-        if (me.isOld()) {
+        if (me.getOld()) {
             BmobQuery<User> query = new BmobQuery<User>();
-            query.addWhereEqualTo("myOld", me);    // 查询当前用户的护理人
-            query.include("myNurseState");
-            query.findObjects(context, new FindListener<User>() {
+            query.include("myNurse.myNurseState,likeArticle");
+            query.getObject(context, me.getObjectId(), new GetListener<User>() {
                 @Override
-                public void onSuccess(List<User> list) {
-                    callback.getNurseMessage(list.get(0));
+                public void onSuccess(User user) {
+                    callback.getNurseMessage(user);
                 }
 
                 @Override
-                public void onError(int i, String s) {
-                    callback.getNurseMessageError(s);
+                public void onFailure(int i, String s) {
+                    Log.d("TAG", "getNurseMessage---wrong" + s);
                 }
             });
         }
@@ -51,10 +94,10 @@ public class BothMessageModel {
 
     public void getOldMessage(final IGetBothMessage callback) {
         User me = BmobUser.getCurrentUser(context, User.class);
-        if (!me.isOld()) {
+        if (!me.getOld()) {
             BmobQuery<User> query = new BmobQuery<>();
             query.addWhereEqualTo("myNurse", me);
-            query.include("myOldState");
+            query.include("myOldState,likeArticle");
             query.findObjects(context, new FindListener<User>() {
                 @Override
                 public void onSuccess(List<User> list) {
@@ -63,10 +106,11 @@ public class BothMessageModel {
 
                 @Override
                 public void onError(int i, String s) {
-                    callback.getOldMessageError(s);
+                    Log.d("TAG", "getOldMessageError(s)" + s);
                 }
             });
         }
     }
+
 
 }
