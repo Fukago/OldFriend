@@ -4,11 +4,12 @@ import cn.bmob.v3.BmobObject;
 
 /**
  * Created by gan on 2016/4/22.
- * <p/>
+ * <p>
  * 老人的心理情况表
  */
 public class OldPsychoState extends BmobObject {
     private OldState oldState;
+    private String situation;
 
 
     public OldState getOldState() {
@@ -19,4 +20,11 @@ public class OldPsychoState extends BmobObject {
         this.oldState = oldState;
     }
 
+    public String getSituation() {
+        return situation;
+    }
+
+    public void setSituation(String situation) {
+        this.situation = situation;
+    }
 }

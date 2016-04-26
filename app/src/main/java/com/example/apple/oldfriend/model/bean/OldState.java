@@ -8,7 +8,7 @@ import cn.bmob.v3.BmobObject;
  */
 public class OldState extends BmobObject {
     private String name;//老人名字
-    private String age;//老人年龄
+    private Integer age;//老人年龄
     private String briefState;//基本健康情况
     private OldPhysioState oldPhysioState;//老人生理情况表
     private OldPsychoState oldPsychoState;//老人心理情况表
@@ -22,11 +22,11 @@ public class OldState extends BmobObject {
         this.name = name;
     }
 
-    public String getAge() {
+    public Integer getAge() {
         return age;
     }
 
-    public void setAge(String age) {
+    public void setAge(Integer age) {
         this.age = age;
     }
 
