@@ -8,6 +8,7 @@
     <color name="colorPink_ff4081">#ff4081</color>
     <color name="colorWhite_ffffff">#ffffff</color>
     <color name="colorBlake_101010">#101010</color>
+    <color name="colorGray_FFE0E6E6">#e0e6e6</color>
     <color name="colorGray_aaaaa">#aaaaaa</color>
     <color name="colorGray_a9b7b7">#a9b7b7</color>
     <color name="colorGreen_32CD32">#32CD32</color>
@@ -16,4 +17,5 @@
     <color name="colorOrange_E65100">#E65100</color>
     <color name="colorRed_FF0000">#FF0000</color>
     <color name="colorBlack_000000">#000000</color>
+    <color name="colorPink_FFA62D6F">#FFA62D6F</color>
 </resources>

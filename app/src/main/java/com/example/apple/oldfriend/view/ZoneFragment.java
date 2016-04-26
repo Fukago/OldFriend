@@ -9,8 +9,10 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.apple.oldfriend.R;
+import com.example.apple.oldfriend.cofing.IGetArticleAndAuthor;
 import com.example.apple.oldfriend.model.bean.Article;
 import com.example.apple.oldfriend.presenter.FriendArticlePresenter;
 
@@ -21,13 +23,13 @@ import java.util.List;
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.listener.FindListener;
 
-public class ZoneFragment extends Fragment {
-    private List<Article> mList=new ArrayList<>();
+public class ZoneFragment extends Fragment implements IGetArticleAndAuthor {
+    private List<Article> mList = new ArrayList<>();
     private ZoneAdapter mAdapter;
     private RecyclerView recyclerView;
     private SwipeRefreshLayout mSwipeRefreshWidget;
-    private int lastVisibleItem;
-    private int totalItemCount;
+    private int lastVisibleItem = 4;
+    private int totalItemCount = 6;
     private FriendArticlePresenter presenter;
 
     public ZoneFragment() {
@@ -42,19 +44,19 @@ public class ZoneFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        presenter=new FriendArticlePresenter(getContext());
-
+        presenter = new FriendArticlePresenter(getContext());
+        presenter.getArticleAndAuthor(this);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_news, container, false);
-        mSwipeRefreshWidget = (SwipeRefreshLayout) view.findViewById(R.id.fragment_news_swipe_refresh_widget);
-        recyclerView = (RecyclerView) view.findViewById(R.id.recycle_news);
+        View view = inflater.inflate(R.layout.fragment_zone, container, false);
+        mSwipeRefreshWidget = (SwipeRefreshLayout) view.findViewById(R.id.fragment_zone_swipe_refresh_widget);
+        recyclerView = (RecyclerView) view.findViewById(R.id.recycle_zone);
         final RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
-        mAdapter = new ZoneAdapter(mList,getContext(),this);
+        mAdapter = new ZoneAdapter(mList, getContext(), this);
         recyclerView.setAdapter(mAdapter);
         //initData();
         mSwipeRefreshWidget.setColorSchemeResources(R.color.colorGreen_32CD32, R.color.colorAccent_FF4081,
@@ -63,7 +65,7 @@ public class ZoneFragment extends Fragment {
             @Override
             public void onRefresh() {
                /* initData();*/
-
+                presenter.getArticleAndAuthor(ZoneFragment.this);
             }
         });
         mSwipeRefreshWidget.setProgressViewOffset(false, 0, (int) TypedValue
@@ -86,6 +88,7 @@ public class ZoneFragment extends Fragment {
                 lastVisibleItem = ((LinearLayoutManager) layoutManager).findLastVisibleItemPosition();
                 totalItemCount = layoutManager.getItemCount();
                 if (lastVisibleItem >= totalItemCount - 4 && dy > 0) {
+                    presenter.getArticleAndAuthor(ZoneFragment.this);
                 }
             }
         });
@@ -112,4 +115,17 @@ public class ZoneFragment extends Fragment {
         });
     }
 
+    @Override
+    public void onGetArticleAndAuthor(List<Article> articleList) {
+        mList.clear();
+        mList.addAll(articleList);
+        mAdapter.notifyDataSetChanged();
+        mSwipeRefreshWidget.setRefreshing(false);
+    }
+
+    @Override
+    public void onGetArticleAndAuthorError(String s) {
+        Toast.makeText(getContext(), "数据加载失败,请检查您的网络环境~", Toast.LENGTH_SHORT).show();
+
+    }
 }
