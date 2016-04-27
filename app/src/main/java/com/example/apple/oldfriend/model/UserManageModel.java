@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.example.apple.oldfriend.cofing.ILogin;
 import com.example.apple.oldfriend.cofing.IRegist;
+import com.example.apple.oldfriend.cofing.IUser;
 import com.example.apple.oldfriend.model.bean.NurseState;
 import com.example.apple.oldfriend.model.bean.OldPhysioState;
 import com.example.apple.oldfriend.model.bean.OldPsychoState;
@@ -17,7 +18,9 @@ import java.util.List;
 import cn.bmob.sms.BmobSMS;
 import cn.bmob.sms.exception.BmobException;
 import cn.bmob.sms.listener.RequestSMSCodeListener;
+import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.BmobUser;
+import cn.bmob.v3.listener.FindListener;
 import cn.bmob.v3.listener.LogInListener;
 import cn.bmob.v3.listener.SaveListener;
 
@@ -32,8 +35,28 @@ public class UserManageModel {
     }
 
 
+    public void getUser(final IUser callback) {
+        User user = BmobUser.getCurrentUser(context, User.class);
+        if (user != null) {
+            BmobQuery<User> query = new BmobQuery<>();
+            query.addWhereEqualTo("username", user.getUsername());
+            query.include("myOldState.oldPsychoState,myOldState.oldSociaState,myOldState.oldPhysioState,myNurseState");
+            query.findObjects(context, new FindListener<User>() {
+                @Override
+                public void onSuccess(List<User> list) {
+                    callback.getUserSuccess(list.get(0));
+                }
+
+                @Override
+                public void onError(int i, String s) {
+                    Log.d("TAG", "getUser----fail" + s);
+                }
+            });
+        }
+    }
+
     //发送验证码
-    private void getSMS(String phoneNum) {
+    public void getSMS(String phoneNum) {
         BmobSMS.requestSMSCode(context, phoneNum, "模板名称", new RequestSMSCodeListener() {
             @Override
             public void done(Integer smsId, BmobException ex) {
@@ -44,32 +67,33 @@ public class UserManageModel {
         });
     }
 
-    private void register(String phoneNum, String password, String sms, Boolean isOld, User nurse, final
+    public void register(String phoneNum, String password, String sms, Boolean isOld, User nurse, final
     IRegist callback) {
         User user = new User();
         user.setMobilePhoneNumber(phoneNum);
         user.setUsername(phoneNum);
         user.setPassword(password);
         user.setOld(isOld);
-        if (isOld) {
-            user.setMyNurse(nurse);
-            OldState oldState = new OldState();
-            OldSociaState oldSociaState = new OldSociaState();
-            oldSociaState.save(context);
-            OldPhysioState oldPhysioState = new OldPhysioState();
-            oldPhysioState.save(context);
-            OldPsychoState oldPsychoState = new OldPsychoState();
-            oldPsychoState.save(context);
-            oldState.setOldPhysioState(oldPhysioState);
-            oldState.setOldPsychoState(oldPsychoState);
-            oldState.setOldSociaState(oldSociaState);
-            oldState.save(context);
-            user.setMyOldState(oldState);
-        } else {
-            NurseState nurseState = new NurseState();
-            nurseState.save(context);
-            user.setMyNurseState(nurseState);
-        }
+//        if (isOld) {
+//            user.setMyNurse(nurse);
+//            OldState oldState = new OldState();
+//            user.setMyOldState(oldState);
+//            oldState.save(context);
+//            OldSociaState oldSociaState = new OldSociaState();
+//            oldSociaState.setMyOldState(oldState);
+//
+//            oldSociaState.save(context);
+//            OldPhysioState oldPhysioState = new OldPhysioState();
+//            oldPhysioState.setMyOldState(oldState);
+//            oldPhysioState.save(context);
+//            OldPsychoState oldPsychoState = new OldPsychoState();
+//            oldPsychoState.setMyOldState(oldState);
+//            oldPsychoState.save(context);
+//        } else {
+//            NurseState nurseState = new NurseState();
+//            nurseState.save(context);
+//            user.setMyNurseState(nurseState);
+//        }
         user.signOrLogin(context, sms, new SaveListener() {
 
             @Override
@@ -85,7 +109,7 @@ public class UserManageModel {
     }
 
 
-    private void login(String phoneNum, String passWord, final ILogin callback) {
+    public void login(String phoneNum, String passWord, final ILogin callback) {
         BmobUser.loginByAccount(context, phoneNum, passWord, new LogInListener<User>() {
             @Override
             public void done(User user, cn.bmob.v3.exception.BmobException e) {
@@ -99,7 +123,7 @@ public class UserManageModel {
     }
 
     //退出登录
-    private void exitLogin() {
+    public void exitLogin() {
         BmobUser.logOut(context);
     }
 }

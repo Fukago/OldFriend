@@ -9,11 +9,13 @@ import com.example.apple.oldfriend.model.bean.User;
 
 /**
  * Created by gan on 2016/4/23.
+ * ********************测试通过********************
+ *
  */
 public class OldManagePresenter {
     private OldManageModel model;
 
-    public OldManagePresenter(OldManageModel model, Context context) {
+    public OldManagePresenter(Context context) {
         model = new OldManageModel(context);
     }
 

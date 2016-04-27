@@ -8,19 +8,19 @@ import cn.bmob.v3.BmobObject;
  * 老人的生理情况表
  */
 public class OldPhysioState extends BmobObject {
-    private OldState oldState;
+    private OldState myOldState;
     private String xueya;
     private String xuetang;
     private String xuezhi;
     private String tiwen;
 
 
-    public OldState getOldState() {
-        return oldState;
+    public OldState getMyOldState() {
+        return myOldState;
     }
 
-    public void setOldState(OldState oldState) {
-        this.oldState = oldState;
+    public void setMyOldState(OldState myOldState) {
+        this.myOldState = myOldState;
     }
 
     public String getXueya() {
@@ -53,5 +53,16 @@ public class OldPhysioState extends BmobObject {
 
     public void setTiwen(String tiwen) {
         this.tiwen = tiwen;
+    }
+
+    @Override
+    public String toString() {
+        return "OldPhysioState{" +
+                "myOldState=" + myOldState +
+                ", xueya='" + xueya + '\'' +
+                ", xuetang='" + xuetang + '\'' +
+                ", xuezhi='" + xuezhi + '\'' +
+                ", tiwen='" + tiwen + '\'' +
+                '}';
     }
 }

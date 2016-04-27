@@ -4,20 +4,20 @@ import cn.bmob.v3.BmobObject;
 
 /**
  * Created by gan on 2016/4/22.
- * <p>
+ * <p/>
  * 老人的心理情况表
  */
 public class OldPsychoState extends BmobObject {
-    private OldState oldState;
+    private OldState myOldState;
     private String situation;
 
 
-    public OldState getOldState() {
-        return oldState;
+    public OldState getMyOldState() {
+        return myOldState;
     }
 
-    public void setOldState(OldState oldState) {
-        this.oldState = oldState;
+    public void setMyOldState(OldState myOldState) {
+        this.myOldState = myOldState;
     }
 
     public String getSituation() {
@@ -26,5 +26,13 @@ public class OldPsychoState extends BmobObject {
 
     public void setSituation(String situation) {
         this.situation = situation;
+    }
+
+    @Override
+    public String toString() {
+        return "OldPsychoState{" +
+                "myOldState=" + myOldState +
+                ", situation='" + situation + '\'' +
+                '}';
     }
 }

@@ -9,8 +9,7 @@ import cn.bmob.v3.datatype.BmobRelation;
  */
 public class User extends BmobUser {
     private BmobRelation likeArticle;//点赞的文章
-    private String username;//手机号码
-    private String password;//密码
+
     private Boolean isOld;//是否是老人
     private User myNurse;//我的护理人员
     private OldState myOldState;//老人的个人状态
@@ -24,24 +23,7 @@ public class User extends BmobUser {
         this.likeArticle = likeArticle;
     }
 
-    @Override
-    public String getUsername() {
-        return username;
-    }
-
-    @Override
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    @Override
-    public void setPassword(String password) {
-        this.password = password;
-    }
+//
 
     public Boolean getOld() {
         return isOld;

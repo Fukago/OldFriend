@@ -5,5 +5,4 @@ package com.example.apple.oldfriend.cofing;
  */
 public interface ILogin {
     void loginSuccess();
-    void loginError();
 }

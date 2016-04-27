@@ -12,10 +12,8 @@ import java.util.List;
 public interface IGetOldPhysioAndPsychoState {
     void getOldPhysioStateSuccess(List<OldPhysioState> allOldPhysioState);
 
-    void getOldPhysioStateFail(String s);
 
     void getOldPsychoStateSuccess(List<OldPsychoState> allOldPsychoState);
 
-    void getOldPsychoStateFail(String s);
 
 }
