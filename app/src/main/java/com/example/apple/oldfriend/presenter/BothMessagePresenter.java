@@ -1,16 +1,20 @@
 package com.example.apple.oldfriend.presenter;
 
+import android.content.Context;
+
 import com.example.apple.oldfriend.model.BothMessageModel;
 import com.example.apple.oldfriend.cofing.IGetBothMessage;
 
 /**
  * Created by gan on 2016/4/22.
+ *
+ * -------------------------已测试------------------------
  */
 public class BothMessagePresenter {
     private BothMessageModel model;
 
-    public BothMessagePresenter(BothMessageModel model) {
-        this.model = model;
+    public BothMessagePresenter(Context context) {
+        model = new BothMessageModel(context);
     }
 
 

@@ -77,7 +77,7 @@ public class BothMessageModel {
             query.getObject(context, me.getObjectId(), new GetListener<User>() {
                 @Override
                 public void onSuccess(User user) {
-                    callback.getNurseMessage(user);
+                    callback.getNurseMessage(user.getMyNurse());
                 }
 
                 @Override
@@ -97,7 +97,7 @@ public class BothMessageModel {
         if (!me.getOld()) {
             BmobQuery<User> query = new BmobQuery<>();
             query.addWhereEqualTo("myNurse", me);
-            query.include("myOldState.oldPsychoState,myOldState.oldSociaState,myOldState.oldPhysioState");
+            query.include("myOldState");
             query.findObjects(context, new FindListener<User>() {
                 @Override
                 public void onSuccess(List<User> list) {

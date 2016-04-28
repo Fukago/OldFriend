@@ -9,6 +9,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.apple.oldfriend.R;
+import com.example.apple.oldfriend.cofing.IGetBothMessage;
 import com.example.apple.oldfriend.cofing.IGetOldBriefState;
 import com.example.apple.oldfriend.cofing.IGetOldPhysioAndPsychoState;
 import com.example.apple.oldfriend.cofing.ILogin;
@@ -19,135 +20,168 @@ import com.example.apple.oldfriend.model.bean.OldPsychoState;
 import com.example.apple.oldfriend.model.bean.OldSociaState;
 import com.example.apple.oldfriend.model.bean.OldState;
 import com.example.apple.oldfriend.model.bean.User;
+import com.example.apple.oldfriend.presenter.BothMessagePresenter;
+import com.example.apple.oldfriend.presenter.NurseManagePresenter;
 import com.example.apple.oldfriend.presenter.OldManagePresenter;
 import com.example.apple.oldfriend.presenter.UserManagePresenter;
 
 import java.util.List;
 
+import cn.bmob.v3.BmobUser;
+import cn.bmob.v3.listener.UpdateListener;
 
-public class LoginActivity extends AppCompatActivity implements IRegist, ILogin, IGetOldBriefState,
-        IGetOldPhysioAndPsychoState, IUser {
+
+public class LoginActivity extends AppCompatActivity implements IRegist, ILogin, IUser, IGetBothMessage,
+        IGetOldPhysioAndPsychoState {
     private UserManagePresenter presenter;
     private OldManagePresenter oldManagePresenter;
     private UserManagePresenter userManagePresenter;
-    private Button button;
-    private Button button1;
-    private Button exitLogin;
+    private BothMessagePresenter bothMessagePresenter;
+    private NurseManagePresenter nurseManagePresenter;
+    private Button getMyNurse;
+    private Button nurseState;
+    private Button regist;
     private Button login;
+    private Button getMyOld;
+    private Button send;
+    private Button setMyNurse;
     private EditText et;
-    private User me;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initView();
-        presenter = new UserManagePresenter(LoginActivity.this);
-        oldManagePresenter = new OldManagePresenter(LoginActivity.this);
-        userManagePresenter = new UserManagePresenter(LoginActivity.this);
-        userManagePresenter.getUser(this);
-//        button.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                presenter.getSMS("18902679166");
-//
-//            }
-//        });
-//        button1.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Log.d("TAG", "Sms------------" + et.getText().toString());
-//                presenter.register("18902679166", "159753", et.getText().toString(), true, null, LoginActivity.this);
-//            }
-//        });
+        nurseManagePresenter = new NurseManagePresenter(this);
+        bothMessagePresenter = new BothMessagePresenter(this);
+        oldManagePresenter = new OldManagePresenter(this);
+        presenter = new UserManagePresenter(this);
+        presenter.getUser(this);
+        send.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                presenter.getSMS("18902679166");
+            }
+        });
+        regist.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                presenter.register("18902679166", "159753", et.getText().toString(), false, null, LoginActivity.this);
+            }
+        });
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 presenter.login("18902679166", "159753", LoginActivity.this);
             }
         });
-        exitLogin.setOnClickListener(new View.OnClickListener() {
+        setMyNurse.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                presenter.exitLogin();
+//                bothMessagePresenter.getAllNurseMessage(LoginActivity.this);
+                User user = BmobUser.getCurrentUser(LoginActivity.this, User.class);
+                oldManagePresenter.setOldSociaState(user, "感觉身体又被掏空");
+                oldManagePresenter.setOldPsychoState(user, "内心空虚");
+                oldManagePresenter.setOldPhysioState(user, "tiwen1", "xuetang1", "xueya1", "xuezhi1");
+
             }
         });
+        getMyNurse.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                bothMessagePresenter.getNurseMessage(LoginActivity.this);
+            }
+        });
+        getMyOld.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                bothMessagePresenter.getOldMessage(LoginActivity.this);
+            }
+        });
+
     }
 
     public void initView() {
         setContentView(R.layout.activity_login);
-        button = (Button) findViewById(R.id.button);
-        button1 = (Button) findViewById(R.id.button1);
+        send = (Button) findViewById(R.id.button);
+        regist = (Button) findViewById(R.id.button1);
         login = (Button) findViewById(R.id.button2);
-        exitLogin = (Button) findViewById(R.id.button3);
         et = (EditText) findViewById(R.id.ed);
+        nurseState = (Button) findViewById(R.id.button4);
+        setMyNurse = (Button) findViewById(R.id.button5);
+        getMyNurse = (Button) findViewById(R.id.button6);
+        getMyOld = (Button) findViewById(R.id.button7);
     }
+
 
     @Override
     public void registSuccess() {
-        Toast.makeText(LoginActivity.this, "RegistSuccess", Toast.LENGTH_SHORT).show();
+        Log.d("TAG", "RegistSuc" + BmobUser.getCurrentUser(LoginActivity.this, User.class).getObjectId());
     }
 
     @Override
     public void loginSuccess() {
-        Log.d("TAG", "LoginSuccess");
-    }
-
-    @Override
-    public void getOldSociaStateSuccess(List<OldSociaState> allOldSociaState) {
-        Log.d("TAG", "getOldSociaStateSuccess----" + allOldSociaState.get(0).getSituation());
-    }
-
-    @Override
-    public void getOldbriefStateSuccess(String s) {
-        Log.d("TAG", "getOldbriefStateSuccess----" + s);
-
-    }
-
-    @Override
-    public void getOldNameAndAge(String name, Integer age) {
-        Log.d("TAG", "getOldNameAndAge----" + name + "------>" + age);
-
-    }
-
-    @Override
-    public void getOldPhysioStateSuccess(List<OldPhysioState> allOldPhysioState) {
-        Log.d("TAG", "getOldPhysioStateSuccess" + allOldPhysioState.get(0).toString());
-    }
-
-
-    @Override
-    public void getOldPsychoStateSuccess(List<OldPsychoState> allOldPsychoState) {
-        Log.d("TAG", "getOldPsychoStateSuccess" + allOldPsychoState.get(0).toString());
+        Log.d("TAG", "loginSuccess" + BmobUser.getCurrentUser(LoginActivity.this, User.class).getObjectId());
 
     }
 
     @Override
     public void getUserSuccess(final User user) {
-        button.setOnClickListener(new View.OnClickListener() {
+        nurseState.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                nurseManagePresenter.setNurseAllInfomation(user, "王大雷", 32, "经验丰富", "身体良好");
+            }
+        });
+    }
 
-                oldManagePresenter.setOldNameAndAge(user, "王瓜娃", 72);
-                oldManagePresenter.setOldbriefState(user, "健康活泼");
-                oldManagePresenter.setOldPhysioState(user, "体温", "血糖", "血压", "血脂1");
-                oldManagePresenter.setOldPsychoState(user, "心理正常");
-                oldManagePresenter.setOldSociaState(user, "状态不错");
+    /**
+     * ----------------------------------------------------------------------------------------------------------------
+     */
+    @Override
+    public void getNurseMessage(User nurse) {
+        Log.d("Tag", "nurseInfo" + nurse.getMyNurseState().toString());
+    }
+
+    @Override
+    public void getAllNurseMessage(List<User> allNurseList) {
+        User user = BmobUser.getCurrentUser(LoginActivity.this, User.class);
+        user.setMyNurse(allNurseList.get(0));
+        user.update(LoginActivity.this, new UpdateListener() {
+            @Override
+            public void onSuccess() {
+                Log.d("TAG", "succuss");
+            }
+
+            @Override
+            public void onFailure(int i, String s) {
+                Log.d("TAG", "fail------" + s);
 
             }
         });
+    }
 
-        button1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-//                Log.d("TAG", "Sms------------" + et.getText().toString());
-//                presenter.register("18902679166", "159753", et.getText().toString(), true, null, LoginActivity.this);
-                oldManagePresenter.getOldSociaState(user, LoginActivity.this);
-                oldManagePresenter.getOldPsychoState(user, LoginActivity.this);
-                oldManagePresenter.getOldNameAndAge(user, LoginActivity.this);
-                oldManagePresenter.getOldBriefState(user, LoginActivity.this);
-                oldManagePresenter.getOldPhysioState(user, LoginActivity.this);
+    @Override
+    public void getOldMessage(List<User> oldList) {
+        for (User old : oldList) {
+            Log.d("TAG", "name:" + old.getMyOldState().getName() + "\n" + "brief" + old.getMyOldState().getBriefState
+                    () + "\n");
+            oldManagePresenter.getOldPhysioState(old, LoginActivity.this);
+        }
+    }
 
-            }
-        });
+    @Override
+    public void getAllOldMessage(List<User> allOldList) {
+
+    }
+
+    @Override
+    public void getOldPhysioStateSuccess(List<OldPhysioState> allOldPhysioState) {
+        Log.d("TAG", allOldPhysioState.get(0).toString());
+    }
+
+    @Override
+    public void getOldPsychoStateSuccess(List<OldPsychoState> allOldPsychoState) {
+        Log.d("TAG", allOldPsychoState.get(0).toString());
+
     }
 }

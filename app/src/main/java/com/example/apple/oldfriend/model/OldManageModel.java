@@ -55,6 +55,7 @@ public class OldManageModel {
         }
     }
 
+
     //设置姓名年龄
     public void setOldNameAndAge(final User oldPeople, final String name, final Integer age) {
         if (oldPeople.getMyOldState() == null) {
@@ -88,6 +89,45 @@ public class OldManageModel {
         }
     }
 
+    //同时设置姓名年龄简要状况
+    public void setOldNameAndAgeAndBriefState(final User oldPeople, final String name, final Integer age, String
+            briefStateContent) {
+        if (oldPeople.getMyOldState() == null) {
+            final OldState oldState = new OldState();
+            oldState.setName(name);
+            oldState.setAge(age);
+            oldState.setBriefState(briefStateContent);
+            oldState.save(context, new SaveListener() {
+                @Override
+                public void onSuccess() {
+                    oldPeople.setMyOldState(oldState);
+                    oldPeople.update(context);
+                }
+
+                @Override
+                public void onFailure(int i, String s) {
+                }
+            });
+        } else {
+            oldPeople.getMyOldState().setName(name);
+            oldPeople.getMyOldState().setAge(age);
+            oldPeople.getMyOldState().setBriefState(briefStateContent);
+            oldPeople.getMyOldState().update(context, new UpdateListener() {
+                @Override
+                public void onSuccess() {
+                    oldPeople.update(context);
+                }
+
+                @Override
+                public void onFailure(int i, String s) {
+
+                }
+            });
+        }
+
+    }
+
+
     //得到简要情况
     public void getOldBriefState(User oldPeople, IGetOldBriefState callback) {
 
@@ -105,6 +145,7 @@ public class OldManageModel {
     public void setOldPhysioState(final User oldPeople, final String tiWen, final String xueTang, final String xueYa,
                                   final String xueZhi) {
         BmobQuery<OldPhysioState> query = new BmobQuery<>();
+        query.order("-createdAt");
         query.addWhereEqualTo("myOldState", oldPeople.getMyOldState());
         query.findObjects(context, new FindListener<OldPhysioState>() {
             @Override
@@ -129,32 +170,31 @@ public class OldManageModel {
                         }
                     });
                 } else {
-                    for (OldPhysioState state : list) {
-                        if (state.getCreatedAt().contains(TimeUtil.getTime("MM-dd"))) {
-                            state.setTiwen(tiWen);
-                            state.setXuetang(xueTang);
-                            state.setXueya(xueYa);
-                            state.setXuezhi(xueZhi);
-                            state.update(context, new UpdateListener() {
-                                @Override
-                                public void onSuccess() {
-                                    Log.d("TAG", "setOlPhysioState------>success");
-                                }
+                    OldPhysioState state = list.get(0);
+                    if (state.getCreatedAt().contains(TimeUtil.getTime("MM-dd"))) {
+                        state.setTiwen(tiWen);
+                        state.setXuetang(xueTang);
+                        state.setXueya(xueYa);
+                        state.setXuezhi(xueZhi);
+                        state.update(context, new UpdateListener() {
+                            @Override
+                            public void onSuccess() {
+                                Log.d("TAG", "setOlPhysioState------>success");
+                            }
 
-                                @Override
-                                public void onFailure(int i, String s) {
-                                    Log.d("TAG", "setOlPhysioState------>fail" + s);
-                                }
-                            });
-                        } else {
-                            OldPhysioState oldPhysioState = new OldPhysioState();
-                            oldPhysioState.setMyOldState(oldPeople.getMyOldState());
-                            oldPhysioState.setTiwen(tiWen);
-                            oldPhysioState.setXuetang(xueTang);
-                            oldPhysioState.setXueya(xueYa);
-                            oldPhysioState.setXuezhi(xueZhi);
-                            oldPhysioState.save(context);
-                        }
+                            @Override
+                            public void onFailure(int i, String s) {
+                                Log.d("TAG", "setOlPhysioState------>fail" + s);
+                            }
+                        });
+                    } else {
+                        OldPhysioState oldPhysioState = new OldPhysioState();
+                        oldPhysioState.setMyOldState(oldPeople.getMyOldState());
+                        oldPhysioState.setTiwen(tiWen);
+                        oldPhysioState.setXuetang(xueTang);
+                        oldPhysioState.setXueya(xueYa);
+                        oldPhysioState.setXuezhi(xueZhi);
+                        oldPhysioState.save(context);
                     }
                 }
             }
@@ -171,6 +211,7 @@ public class OldManageModel {
     public void setOldPsychoState(final User oldPeople, final String content) {
         BmobQuery<OldPsychoState> query = new BmobQuery<>();
         query.addWhereEqualTo("myOldState", oldPeople.getMyOldState());
+        query.order("-createdAt");
         query.findObjects(context, new FindListener<OldPsychoState>() {
             @Override
             public void onSuccess(List<OldPsychoState> list) {
@@ -189,8 +230,8 @@ public class OldManageModel {
                             Log.d("TAG", "setOlPhysioState->getOldPhysioState--->fail" + s);
                         }
                     });
-                }
-                for (OldPsychoState state : list) {
+                } else {
+                    OldPsychoState state = list.get(0);
                     if (state.getCreatedAt().contains(TimeUtil.getTime("MM-dd"))) {
                         state.setSituation(content);
                         state.update(context, new UpdateListener() {
@@ -224,6 +265,7 @@ public class OldManageModel {
     public void setOldSociaState(final User oldPeople, final String situation) {
         BmobQuery<OldSociaState> query = new BmobQuery<>();
         query.addWhereEqualTo("myOldState", oldPeople.getMyOldState());
+        query.order("-createdAt");
         query.findObjects(context, new FindListener<OldSociaState>() {
             @Override
             public void onSuccess(List<OldSociaState> list) {
@@ -233,26 +275,24 @@ public class OldManageModel {
                     oldSociaState.setSituation(situation);
                     oldSociaState.save(context);
                 } else {
-                    for (OldSociaState state : list) {
-                        if (state.getCreatedAt().contains(TimeUtil.getTime("MM-dd"))) {
-                            state.setSituation(situation);
-                            state.update(context, new UpdateListener() {
-                                @Override
-                                public void onSuccess() {
-                                    Log.d("TAG", "setOldSociaState------>success");
-                                }
+                    if (list.get(0).getCreatedAt().contains(TimeUtil.getTime("MM-dd"))) {
+                        list.get(0).setSituation(situation);
+                        list.get(0).update(context, new UpdateListener() {
+                            @Override
+                            public void onSuccess() {
+                                Log.d("TAG", "setOldSociaState------>success");
+                            }
 
-                                @Override
-                                public void onFailure(int i, String s) {
-                                    Log.d("TAG", "setOldSociaState---->fail" + s);
-                                }
-                            });
-                        } else {
-                            OldSociaState oldSociaState = new OldSociaState();
-                            oldSociaState.setMyOldState(oldPeople.getMyOldState());
-                            oldSociaState.setSituation(situation);
-                            oldSociaState.save(context);
-                        }
+                            @Override
+                            public void onFailure(int i, String s) {
+                                Log.d("TAG", "setOldSociaState---->fail" + s);
+                            }
+                        });
+                    } else {
+                        OldSociaState oldSociaState = new OldSociaState();
+                        oldSociaState.setMyOldState(oldPeople.getMyOldState());
+                        oldSociaState.setSituation(situation);
+                        oldSociaState.save(context);
                     }
                 }
             }

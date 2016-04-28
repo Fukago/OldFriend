@@ -9,8 +9,9 @@ import com.example.apple.oldfriend.model.bean.User;
 
 /**
  * Created by gan on 2016/4/23.
- * ********************测试通过********************
  *
+ * ********************测试通过********************
+ * FBI:warning如果要设置同时简要身体状态和姓名和年龄，请不要单独调用两个方法，而是调用setOldNameAndAgeAndBriefState方法。
  */
 public class OldManagePresenter {
     private OldManageModel model;
@@ -41,6 +42,14 @@ public class OldManagePresenter {
         model.setOldNameAndAge(oldPeople, name, age);
     }
 
+    /**
+     * 得到老人的年龄和姓名和简要身体状况
+     */
+
+    public void setOldNameAndAgeAndBriefState(final User oldPeople, final String name, final Integer age, String
+            briefStateContent) {
+        model.setOldNameAndAgeAndBriefState(oldPeople, name, age, briefStateContent);
+    }
 
     /**
      * 得到老人的年龄和姓名

@@ -5,6 +5,7 @@ import com.example.apple.oldfriend.cofing.IGetHealthNews;
 
 /**
  * Created by gan on 2016/4/21.
+ * ********************测试通过********************
  */
 public class HealthNewsPresenter {
     private HealthNewsModel model;

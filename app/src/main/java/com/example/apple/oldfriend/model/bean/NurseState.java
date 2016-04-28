@@ -43,4 +43,14 @@ public class NurseState extends BmobObject {
     public void setSituation(String situation) {
         this.situation = situation;
     }
+
+    @Override
+    public String toString() {
+        return "NurseState{" +
+                "name='" + name + '\'' +
+                ", age=" + age +
+                ", exp='" + exp + '\'' +
+                ", situation='" + situation + '\'' +
+                '}';
+    }
 }
