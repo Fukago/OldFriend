@@ -30,7 +30,7 @@ public class BothMessageModel {
     public void getAllNurseMessage(final IGetBothMessage callback) {
         BmobQuery<User> query = new BmobQuery<User>();
         query.addWhereEqualTo("isOld", false);
-        query.include("myOld,myNurseState");
+        query.include("myOld,myNurseState,headPic");
         query.findObjects(context, new FindListener<User>() {
             @Override
             public void onSuccess(List<User> list) {
@@ -52,7 +52,7 @@ public class BothMessageModel {
     public void getAllOldMessage(final IGetBothMessage callback) {
         BmobQuery<User> query = new BmobQuery<User>();
         query.addWhereEqualTo("isOld", true);
-        query.include("myOldState.oldPsychoState,myOldState.oldSociaState,myOldState.oldPhysioState");
+        query.include("myOldState.oldPsychoState,myOldState.oldSociaState,myOldState.oldPhysioState,headPic");
         query.findObjects(context, new FindListener<User>() {
             @Override
             public void onSuccess(List<User> list) {
@@ -73,7 +73,7 @@ public class BothMessageModel {
         User me = BmobUser.getCurrentUser(context, User.class);
         if (me.getOld()) {
             BmobQuery<User> query = new BmobQuery<User>();
-            query.include("myNurse.myNurseState");
+            query.include("myNurse.myNurseState,headPic");
             query.getObject(context, me.getObjectId(), new GetListener<User>() {
                 @Override
                 public void onSuccess(User user) {
@@ -97,7 +97,7 @@ public class BothMessageModel {
         if (!me.getOld()) {
             BmobQuery<User> query = new BmobQuery<>();
             query.addWhereEqualTo("myNurse", me);
-            query.include("myOldState");
+            query.include("myOldState,headPic");
             query.findObjects(context, new FindListener<User>() {
                 @Override
                 public void onSuccess(List<User> list) {

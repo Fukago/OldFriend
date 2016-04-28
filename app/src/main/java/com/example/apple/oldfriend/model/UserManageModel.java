@@ -12,6 +12,7 @@ import com.example.apple.oldfriend.model.bean.OldPsychoState;
 import com.example.apple.oldfriend.model.bean.OldSociaState;
 import com.example.apple.oldfriend.model.bean.OldState;
 import com.example.apple.oldfriend.model.bean.User;
+import com.example.apple.oldfriend.util.FileUtil;
 
 import java.util.List;
 
@@ -20,6 +21,7 @@ import cn.bmob.sms.exception.BmobException;
 import cn.bmob.sms.listener.RequestSMSCodeListener;
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.BmobUser;
+import cn.bmob.v3.datatype.BmobFile;
 import cn.bmob.v3.listener.FindListener;
 import cn.bmob.v3.listener.LogInListener;
 import cn.bmob.v3.listener.SaveListener;
@@ -40,7 +42,8 @@ public class UserManageModel {
         if (user != null) {
             BmobQuery<User> query = new BmobQuery<>();
             query.addWhereEqualTo("username", user.getUsername());
-            query.include("myOldState.oldPsychoState,myOldState.oldSociaState,myOldState.oldPhysioState,myNurseState");
+            query.include("myOldState.oldPsychoState,myOldState.oldSociaState,myOldState.oldPhysioState,myNurseState," +
+                    "headPic");
             query.findObjects(context, new FindListener<User>() {
                 @Override
                 public void onSuccess(List<User> list) {
@@ -74,26 +77,9 @@ public class UserManageModel {
         user.setUsername(phoneNum);
         user.setPassword(password);
         user.setOld(isOld);
-//        if (isOld) {
-//            user.setMyNurse(nurse);
-//            OldState oldState = new OldState();
-//            user.setMyOldState(oldState);
-//            oldState.save(context);
-//            OldSociaState oldSociaState = new OldSociaState();
-//            oldSociaState.setMyOldState(oldState);
-//
-//            oldSociaState.save(context);
-//            OldPhysioState oldPhysioState = new OldPhysioState();
-//            oldPhysioState.setMyOldState(oldState);
-//            oldPhysioState.save(context);
-//            OldPsychoState oldPsychoState = new OldPsychoState();
-//            oldPsychoState.setMyOldState(oldState);
-//            oldPsychoState.save(context);
-//        } else {
-//            NurseState nurseState = new NurseState();
-//            nurseState.save(context);
-//            user.setMyNurseState(nurseState);
-//        }
+        if (nurse != null) {
+            user.setMyNurse(nurse);
+        }
         user.signOrLogin(context, sms, new SaveListener() {
 
             @Override
@@ -125,5 +111,20 @@ public class UserManageModel {
     //退出登录
     public void exitLogin() {
         BmobUser.logOut(context);
+    }
+
+    //上传头像
+    public void upLoadHeadPic(String picPath) {
+        FileUtil.upLoadFile(context, picPath);
+    }
+
+    //下拉头像
+    public String getHeadPicUrl(User user) {
+        BmobFile file = user.getHeadPic();
+        if (file != null) {
+            return file.getFileUrl(context);
+        }
+        return null;
+
     }
 }

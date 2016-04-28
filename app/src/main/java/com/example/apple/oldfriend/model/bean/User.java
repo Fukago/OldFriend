@@ -1,6 +1,7 @@
 package com.example.apple.oldfriend.model.bean;
 
 import cn.bmob.v3.BmobUser;
+import cn.bmob.v3.datatype.BmobFile;
 import cn.bmob.v3.datatype.BmobRelation;
 
 /**
@@ -14,6 +15,8 @@ public class User extends BmobUser {
     private User myNurse;//我的护理人员
     private OldState myOldState;//老人的个人状态
     private NurseState myNurseState;//看护人员的个人状态
+
+    private BmobFile headPic;
 
     public BmobRelation getLikeArticle() {
         return likeArticle;
@@ -56,5 +59,13 @@ public class User extends BmobUser {
 
     public void setMyNurseState(NurseState myNurseState) {
         this.myNurseState = myNurseState;
+    }
+
+    public BmobFile getHeadPic() {
+        return headPic;
+    }
+
+    public void setHeadPic(BmobFile headPic) {
+        this.headPic = headPic;
     }
 }

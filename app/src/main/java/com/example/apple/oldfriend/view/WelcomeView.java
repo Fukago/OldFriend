@@ -7,7 +7,6 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.example.apple.oldfriend.R;
 import com.example.apple.oldfriend.model.bean.User;
-import com.example.apple.oldfriend.model.bean.Userbean;
 
 import cn.bmob.v3.BmobUser;
 

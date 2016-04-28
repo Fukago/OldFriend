@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,11 +50,13 @@ public class ZoneAdapter extends RecyclerView.Adapter {
         View view = null;
         switch (viewType) {
             case TYPE_HEADER: {
-                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_big_zone_frament_list, parent, false);
+                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_big_zone_frament_list, parent,
+                        false);
                 return new RollViewHolder(view);
             }
             case TYPE_CELL: {
-                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_small_zone_fragment_list, parent, false);
+                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_small_zone_fragment_list,
+                        parent, false);
                 return new ZoneViewHolder(view);
             }
         }
@@ -71,8 +74,11 @@ public class ZoneAdapter extends RecyclerView.Adapter {
             case TYPE_CELL: {
                 final ZoneViewHolder viewHolder = (ZoneViewHolder) holder;
                 // todo 缺少用户头像上传
-                mList.get(position).getArticlePic().loadImage(context, viewHolder.im_item_zone_picture);
-                viewHolder.tv_item_zone_userName.setText("" + mList.get(position - 1).getAuthor().getMyOldState().getName());
+                if (mList.get(position - 1).getArticlePic() != null) {
+                    mList.get(position - 1).getArticlePic().loadImage(context, viewHolder.im_item_zone_picture);
+                }
+                viewHolder.tv_item_zone_userName.setText("" + mList.get(position - 1).getAuthor().getMyOldState()
+                        .getName());
                 viewHolder.tv_item_zone_description.setText("" + mList.get(position - 1).getContent());
                 viewHolder.tv_item_zone_message.setText("" + mList.get(position - 1).getReadTimes());
             }

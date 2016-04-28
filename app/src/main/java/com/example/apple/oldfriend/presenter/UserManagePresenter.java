@@ -10,8 +10,8 @@ import com.example.apple.oldfriend.model.bean.User;
 
 /**
  * Created by gan on 2016/4/26.
- *
- *         ********************测试通过********************
+ * <p>
+ * ********************测试通过********************
  */
 public class UserManagePresenter {
     private UserManageModel model;
@@ -60,5 +60,20 @@ public class UserManagePresenter {
     public void exitLogin() {
         model.exitLogin();
     }
+
+    /**
+     * 上传头像
+     */
+    public void uploadHeadPic(String picPath) {
+        model.upLoadHeadPic(picPath);
+    }
+
+    /**
+     * 得到头像地址
+     */
+    public String getHeadPicUrl(User user) {
+        return model.getHeadPicUrl(user);
+    }
+
 
 }

@@ -36,7 +36,7 @@ public class FriendArticleModel {
     //得到文章和作者
     public void getArticleAndAuthor(final IGetArticleAndAuthor callback) {
         BmobQuery<Article> query = new BmobQuery<>();
-        query.include("author");
+        query.include("author.myOldState");
         query.findObjects(context, new FindListener<Article>() {
             @Override
             public void onSuccess(List<Article> list) {
