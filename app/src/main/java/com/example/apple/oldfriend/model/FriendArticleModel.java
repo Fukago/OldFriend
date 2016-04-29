@@ -60,6 +60,7 @@ public class FriendArticleModel {
             @Override
             public void onSuccess() {
                 article.setArticlePic(bmobFile);
+                article.update(context);
                 Log.d("TAG", "上传图片成功");
             }
 

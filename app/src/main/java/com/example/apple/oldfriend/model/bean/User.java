@@ -10,7 +10,8 @@ import cn.bmob.v3.datatype.BmobRelation;
  */
 public class User extends BmobUser {
     private BmobRelation likeArticle;//点赞的文章
-
+    private String sex;//性别
+    private String blood;//血型
     private Boolean isOld;//是否是老人
     private User myNurse;//我的护理人员
     private OldState myOldState;//老人的个人状态
@@ -27,6 +28,23 @@ public class User extends BmobUser {
     }
 
 //
+
+
+    public String getSex() {
+        return sex;
+    }
+
+    public void setSex(String sex) {
+        this.sex = sex;
+    }
+
+    public String getBlood() {
+        return blood;
+    }
+
+    public void setBlood(String blood) {
+        this.blood = blood;
+    }
 
     public Boolean getOld() {
         return isOld;

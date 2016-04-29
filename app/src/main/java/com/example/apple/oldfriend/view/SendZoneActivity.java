@@ -169,6 +169,7 @@ public class SendZoneActivity extends AppCompatActivity implements View.OnClickL
                     presenter.setArticleAndAuthor(et_send_zone.getText().toString(), im_uri);
                 }
                 isSend = true;
+                finish();
                 break;
             }
         }

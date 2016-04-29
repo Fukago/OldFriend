@@ -45,12 +45,14 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     private ImageView drawer_im_userface;
     private ImageView im_userface_toolbar;
     private boolean isOld = true;
+    private UserManagePresenter userManagePresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         provider = new ImageProvider(this);
+        userManagePresenter = new UserManagePresenter(MainActivity.this);
         initData();
         initToolbar();
         initDrawer();
@@ -189,7 +191,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                         .items(new String[]{"相机", "相册", "网络"})
                         .itemsCallback(new MaterialDialog.ListCallback() {
                             @Override
-                            public void onSelection(MaterialDialog dialog, View itemView, int which, CharSequence text) {
+                            public void onSelection(MaterialDialog dialog, View itemView, int which, CharSequence
+                                    text) {
                                 switch (which) {
                                     case 0: {
                                         provider.getImageFromCamera(MainActivity.this);
@@ -281,7 +284,13 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     }
 
 
+
     public void addImage(Uri uri) {
+
+        String im_uri = uri.toString();
+        im_uri = im_uri.substring(7);
+        userManagePresenter.uploadHeadPic(im_uri);
+
         try {
             bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(uri));
         } catch (FileNotFoundException e) {
@@ -305,7 +314,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         }
     }
 
-    private class SampleFragmentPagerAdapter extends FragmentStatePagerAdapter implements ViewPager.OnPageChangeListener {
+    private class SampleFragmentPagerAdapter extends FragmentStatePagerAdapter implements ViewPager
+            .OnPageChangeListener {
         final int PAGE_COUNT = 3;
         private String tabTitles[] = new String[]{"信息库", "老友圈", "资讯栏"};
         private int imageResId[] = new int[]{

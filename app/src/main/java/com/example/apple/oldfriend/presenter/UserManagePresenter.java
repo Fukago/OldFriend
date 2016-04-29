@@ -10,7 +10,7 @@ import com.example.apple.oldfriend.model.bean.User;
 
 /**
  * Created by gan on 2016/4/26.
- * <p>
+ * <p/>
  * ********************测试通过********************
  */
 public class UserManagePresenter {
@@ -75,5 +75,18 @@ public class UserManagePresenter {
         return model.getHeadPicUrl(user);
     }
 
+    /**
+     * 设置性别
+     */
+    public void setSex(String sex) {
+        model.setSex(sex);
+    }
+
+    /**
+     * 设置血型
+     */
+    public void setBlood(String blood) {
+        model.setSex(blood);
+    }
 
 }

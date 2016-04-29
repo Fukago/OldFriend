@@ -6,14 +6,9 @@ import android.util.Log;
 import com.example.apple.oldfriend.cofing.ILogin;
 import com.example.apple.oldfriend.cofing.IRegist;
 import com.example.apple.oldfriend.cofing.IUser;
-import com.example.apple.oldfriend.model.bean.NurseState;
-import com.example.apple.oldfriend.model.bean.OldPhysioState;
-import com.example.apple.oldfriend.model.bean.OldPsychoState;
-import com.example.apple.oldfriend.model.bean.OldSociaState;
-import com.example.apple.oldfriend.model.bean.OldState;
 import com.example.apple.oldfriend.model.bean.User;
-import com.example.apple.oldfriend.util.FileUtil;
 
+import java.io.File;
 import java.util.List;
 
 import cn.bmob.sms.BmobSMS;
@@ -25,6 +20,8 @@ import cn.bmob.v3.datatype.BmobFile;
 import cn.bmob.v3.listener.FindListener;
 import cn.bmob.v3.listener.LogInListener;
 import cn.bmob.v3.listener.SaveListener;
+import cn.bmob.v3.listener.UpdateListener;
+import cn.bmob.v3.listener.UploadFileListener;
 
 /**
  * Created by gan on 2016/4/26.
@@ -116,7 +113,30 @@ public class UserManageModel {
 
     //上传头像
     public void upLoadHeadPic(String picPath) {
-        FileUtil.upLoadFile(context, picPath);
+        final BmobFile bmobFile = new BmobFile(new File(picPath));
+        final User user = BmobUser.getCurrentUser(context, User.class);
+        bmobFile.uploadblock(context, new UploadFileListener() {
+            @Override
+            public void onSuccess() {
+                user.setHeadPic(bmobFile);
+                user.update(context, new UpdateListener() {
+                    @Override
+                    public void onSuccess() {
+                        Log.d("TAG", "upLoadFile-------Success" + bmobFile.getFileUrl(context));
+                    }
+
+                    @Override
+                    public void onFailure(int i, String s) {
+                        Log.d("TAG", "uoLoadFile-----Wrong");
+                    }
+                });
+            }
+
+            @Override
+            public void onFailure(int i, String s) {
+                Log.d("TAG", "upLoadFile-------Fail" + s);
+            }
+        });
     }
 
     //下拉头像
@@ -126,6 +146,19 @@ public class UserManageModel {
             return file.getFileUrl(context);
         }
         return null;
+    }
 
+    //设置性别
+    public void setSex(String sex) {
+        User user = BmobUser.getCurrentUser(context, User.class);
+        user.setSex(sex);
+        user.update(context);
+    }
+
+    //设置血型
+    public void setBlood(String blood) {
+        User user = BmobUser.getCurrentUser(context, User.class);
+        user.setSex(blood);
+        user.update(context);
     }
 }
