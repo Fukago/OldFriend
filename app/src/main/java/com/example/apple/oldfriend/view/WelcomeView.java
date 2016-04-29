@@ -24,18 +24,17 @@ public class WelcomeView extends AppCompatActivity {
             @Override
             public void run() {
                 User userInfo = BmobUser.getCurrentUser(WelcomeView.this, User.class);
-//                if (userInfo != null) {
-//                    Intent intent = new Intent(WelcomeView.this, LoginActivity.class);
-//                    Bundle bundle = new Bundle();
-//                    //TODO 可能崩
-//                    bundle.putString("userName", userInfo.getMyOldState().getName());
-//                    intent.putExtras(bundle);
-//                    WelcomeView.this.startActivity(intent);
-//                    WelcomeView.this.finish();
-//                } else {
+                if (userInfo != null) {
+                    Intent intent = new Intent(WelcomeView.this, LoginActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putBoolean("isOld", userInfo.getOld());
+                    intent.putExtras(bundle);
+                    WelcomeView.this.startActivity(intent);
+                    WelcomeView.this.finish();
+                } else {
                     WelcomeView.this.startActivity(new Intent(WelcomeView.this, LoginActivity.class));
                     WelcomeView.this.finish();
-//                }
+                }
 
             }
         }, SPLASH_DELAY_TIME);

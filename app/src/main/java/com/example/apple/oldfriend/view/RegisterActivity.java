@@ -92,6 +92,8 @@ public class RegisterActivity extends AppCompatActivity implements IRegist, IGet
                     }
                 }
             }
+
+
         });
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -121,7 +123,11 @@ public class RegisterActivity extends AppCompatActivity implements IRegist, IGet
 
     @Override
     public void registSuccess() {
-        startActivity(new Intent(RegisterActivity.this, MainActivity.class));
+        Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putBoolean("isOld", isOld);
+        intent.putExtras(bundle);
+        startActivity(intent);
         finish();
     }
 
