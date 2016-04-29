@@ -25,6 +25,7 @@ import android.widget.Toast;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.example.apple.oldfriend.R;
 import com.example.apple.oldfriend.app.BaseActivity;
+import com.example.apple.oldfriend.presenter.UserManagePresenter;
 import com.example.apple.oldfriend.util.CircleTransform;
 import com.jude.library.imageprovider.ImageProvider;
 import com.jude.library.imageprovider.OnImageSelectListener;
@@ -216,6 +217,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 break;
             }
             case R.id.drawer_ll_exit: {
+                UserManagePresenter managePresenter = new UserManagePresenter(MainActivity.this);
+                managePresenter.exitLogin();
+                startActivity(new Intent(MainActivity.this, LoginActivity.class));
+                finish();
                 Toast.makeText(MainActivity.this, "exit", Toast.LENGTH_SHORT).show();
                 break;
             }
