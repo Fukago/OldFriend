@@ -9,7 +9,10 @@ import android.widget.EditText;
 
 import com.example.apple.oldfriend.R;
 import com.example.apple.oldfriend.cofing.ILogin;
+import com.example.apple.oldfriend.model.bean.User;
 import com.example.apple.oldfriend.presenter.UserManagePresenter;
+
+import cn.bmob.v3.BmobUser;
 
 
 public class LoginActivity extends AppCompatActivity implements ILogin {
@@ -56,7 +59,12 @@ public class LoginActivity extends AppCompatActivity implements ILogin {
 
     @Override
     public void loginSuccess() {
-        startActivity(new Intent(LoginActivity.this, MainActivity.class));
+        User user = BmobUser.getCurrentUser(LoginActivity.this, User.class);
+        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putBoolean("isOld", user.getOld());
+        intent.putExtras(bundle);
+        startActivity(intent);
         finish();
     }
 }
