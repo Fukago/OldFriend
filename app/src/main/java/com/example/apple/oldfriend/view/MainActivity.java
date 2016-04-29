@@ -9,7 +9,7 @@ import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.Toolbar;
@@ -59,8 +59,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 
     private void initData() {
         Intent it = getIntent();
-        it.getBooleanExtra("isOld", isOld);
-        Log.d("isOld",""+isOld);
+        isOld = it.getBooleanExtra("isOld", isOld);
     }
 
 
@@ -70,9 +69,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
             setSupportActionBar(toolbar);
         }
         im_userface_toolbar = (ImageView) findViewById(R.id.im_userFace_toolbar);
-        im_userface_toolbar.setOnClickListener(this);
         TextView im_tittle_toolbar = (TextView) findViewById(R.id.tv_tittle_toolbar);
         im_more_toolbar = (ImageView) findViewById(R.id.im_more_toolbar);
+        im_userface_toolbar.setOnClickListener(this);
         im_more_toolbar.setOnClickListener(this);
     }
 
@@ -100,7 +99,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
             }
         });
         drawer_im_userface = (ImageView) findViewById(R.id.drawer_im_userFace);
-        drawer_im_userface.setOnClickListener(this);
         TextView drawer_tv_userName = (TextView) findViewById(R.id.drawer_tv_userName);
         LinearLayout ll_message = (LinearLayout) findViewById(R.id.drawer_ll_message);
         ll_message.setOnClickListener(this);
@@ -110,6 +108,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         ll_aboutas.setOnClickListener(this);
         LinearLayout ll_exit = (LinearLayout) findViewById(R.id.drawer_ll_exit);
         ll_exit.setOnClickListener(this);
+        drawer_im_userface.setOnClickListener(this);
     }
 
     private void iniView() {
@@ -119,6 +118,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 new SampleFragmentPagerAdapter(getSupportFragmentManager(), this);
         viewPager.setAdapter(pagerAdapter);
         tabLayout.setupWithViewPager(viewPager);
+        viewPager.setOffscreenPageLimit(3);
+        tabLayout.setTabMode(TabLayout.MODE_FIXED);
         for (int i = 0; i < tabLayout.getTabCount(); i++) {
             TabLayout.Tab tab = tabLayout.getTabAt(i);
             if (tab != null) {
@@ -149,20 +150,24 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                         break;
                     }
                 }
+
             }
 
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
                 tab.setCustomView(null);
                 tab.setCustomView(pagerAdapter.getTabView(tab.getPosition()));
+
             }
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
+                tab.setCustomView(null);
+                tab.setCustomView(pagerAdapter.getTabView(tab.getPosition()));
 
             }
         });
-        viewPager.setCurrentItem(0);
+        viewPager.setCurrentItem(2);
     }
 
     @Override
@@ -238,7 +243,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 
     @Override
     public void onImageSelect() {
-        Log.d("changeImage", "" + "onImageSelect---");
         dialog = new MaterialDialog.Builder(MainActivity.this)
                 .progress(true, 100)
                 .title("加载中")
@@ -251,7 +255,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     public void onImageLoaded(Uri uri) {
         dialog.dismiss();
         addImage(uri);
-        Log.d("changeImage", "" + "onImageLoaded---");
         provider.corpImage(uri, 200, 200, new OnImageSelectListener() {
             @Override
             public void onImageSelect() {
@@ -279,7 +282,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 
 
     public void addImage(Uri uri) {
-        Log.d("changeImage", "" + uri);
         try {
             bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(uri));
         } catch (FileNotFoundException e) {
@@ -300,12 +302,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                     .centerCrop()
                     .transform(new CircleTransform())
                     .into(im_userface_toolbar);
-
-            //drawer_im_userface.setImageDrawable(new BitmapDrawable(bitmap));
         }
     }
 
-    private class SampleFragmentPagerAdapter extends FragmentPagerAdapter implements ViewPager.OnPageChangeListener {
+    private class SampleFragmentPagerAdapter extends FragmentStatePagerAdapter implements ViewPager.OnPageChangeListener {
         final int PAGE_COUNT = 3;
         private String tabTitles[] = new String[]{"信息库", "老友圈", "资讯栏"};
         private int imageResId[] = new int[]{
@@ -385,7 +385,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 
         @Override
         public void onPageSelected(int position) {
-            Log.d("position", "onPageSelected------" + position);
             switch (position) {
                 case 0: {
                     im_more_toolbar.setVisibility(View.GONE);

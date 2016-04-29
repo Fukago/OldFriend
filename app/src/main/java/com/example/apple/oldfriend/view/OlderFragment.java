@@ -18,17 +18,18 @@ import com.example.apple.oldfriend.presenter.BothMessagePresenter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class OlderFragment extends Fragment{
+public class OlderFragment extends Fragment implements IGetBothMessage {
 
-    private List<User> oldList=new ArrayList<>();
+    private List<User> oldList = new ArrayList<>();
     private OlderAdapter mAdapter;
     private RecyclerView recyclerView;
     private SwipeRefreshLayout mSwipeRefreshWidget;
     private int lastVisibleItem = 4;
     private int totalItemCount = 6;
     private BothMessagePresenter presenter;
+
     public OlderFragment() {
-        // Required empty public constructor
+
     }
 
     public static OlderFragment newInstance(String param1, String param2) {
@@ -39,38 +40,16 @@ public class OlderFragment extends Fragment{
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        presenter=new BothMessagePresenter(getContext());
-        presenter.getAllOldMessage(new IGetBothMessage() {
-            @Override
-            public void getNurseMessage(User nurse) {
-
-            }
-
-            @Override
-            public void getAllNurseMessage(List<User> allNurseList) {
-
-            }
-
-            @Override
-            public void getOldMessage(List<User> oldList) {
-                oldList.clear();
-                oldList.addAll(oldList);
-                mAdapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void getAllOldMessage(List<User> allOldList) {
-
-            }
-        });
+        presenter = new BothMessagePresenter(getContext());
+        presenter.getAllOldMessage(OlderFragment.this);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_news, container, false);
-        mSwipeRefreshWidget = (SwipeRefreshLayout) view.findViewById(R.id.fragment_news_swipe_refresh_widget);
-        recyclerView = (RecyclerView) view.findViewById(R.id.recycle_news);
+        View view = inflater.inflate(R.layout.fragment_older, container, false);
+        mSwipeRefreshWidget = (SwipeRefreshLayout) view.findViewById(R.id.fragment_olders_swipe_refresh_widget);
+        recyclerView = (RecyclerView) view.findViewById(R.id.recycle_olders);
         final RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
         mAdapter = new OlderAdapter(oldList, getContext());
@@ -80,29 +59,7 @@ public class OlderFragment extends Fragment{
         mSwipeRefreshWidget.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                presenter.getAllOldMessage(new IGetBothMessage() {
-                    @Override
-                    public void getNurseMessage(User nurse) {
-
-                    }
-
-                    @Override
-                    public void getAllNurseMessage(List<User> allNurseList) {
-
-                    }
-
-                    @Override
-                    public void getOldMessage(List<User> oldList) {
-                        oldList.clear();
-                        oldList.addAll(oldList);
-                        mAdapter.notifyDataSetChanged();
-                    }
-
-                    @Override
-                    public void getAllOldMessage(List<User> allOldList) {
-
-                    }
-                });
+                presenter.getAllOldMessage(OlderFragment.this);
             }
         });
         mSwipeRefreshWidget.setProgressViewOffset(false, 0, (int) TypedValue
@@ -125,29 +82,8 @@ public class OlderFragment extends Fragment{
                 lastVisibleItem = ((LinearLayoutManager) layoutManager).findLastVisibleItemPosition();
                 totalItemCount = layoutManager.getItemCount();
                 if (lastVisibleItem >= totalItemCount - 4 && dy > 0) {
-                    presenter.getAllOldMessage(new IGetBothMessage() {
-                        @Override
-                        public void getNurseMessage(User nurse) {
+                    presenter.getAllOldMessage(OlderFragment.this);
 
-                        }
-
-                        @Override
-                        public void getAllNurseMessage(List<User> allNurseList) {
-
-                        }
-
-                        @Override
-                        public void getOldMessage(List<User> oldList) {
-                            oldList.clear();
-                            oldList.addAll(oldList);
-                            mAdapter.notifyDataSetChanged();
-                        }
-
-                        @Override
-                        public void getAllOldMessage(List<User> allOldList) {
-
-                        }
-                    });
                 }
             }
         });
@@ -156,4 +92,25 @@ public class OlderFragment extends Fragment{
     }
 
 
+    @Override
+    public void getNurseMessage(User nurse) {
+
+    }
+
+    @Override
+    public void getAllNurseMessage(List<User> allNurseList) {
+
+    }
+
+    @Override
+    public void getOldMessage(List<User> oldList) {
+
+    }
+
+    @Override
+    public void getAllOldMessage(List<User> allOldList) {
+        oldList.clear();
+        oldList.addAll(allOldList);
+        mAdapter.notifyDataSetChanged();
+    }
 }

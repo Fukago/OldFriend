@@ -6,7 +6,7 @@
         android:orientation="vertical">
 
     <android.support.v7.widget.Toolbar
-            android:id="@+id/news_toolbar"
+            android:id="@+id/older_toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="@color/colorPink_e83f9c"
@@ -18,7 +18,7 @@
 
 
             <ImageView
-                    android:id="@+id/im_back_toobar"
+                    android:id="@+id/im_back_toolbar"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:layout_centerVertical="true"
@@ -27,7 +27,7 @@
                     android:src="@drawable/toolbar_ic_back"/>
 
             <TextView
-                    android:id="@+id/tv_tittle"
+                    android:id="@+id/tv_tittle_toolbar"
                     style="@style/TextAppearance.AppCompat.Subhead"
                     android:layout_width="wrap_content"
                     android:layout_height="?attr/actionBarSize"
@@ -55,26 +55,76 @@
                     android:layout_margin="4dp"
                     android:src="@drawable/user_ic_face"/>
 
-            <LinearLayout
-                    android:id="@+id/ll_"
+            <android.support.v7.widget.CardView
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp">
 
-                <TextView
+                <LinearLayout
+                        android:id="@+id/ll_basic_message_old_activity"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:text="姓名:张三"
-                        android:textSize="20sp"/>
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
 
-                <TextView
+                    <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="姓名:张三"
+                            android:textSize="20sp"/>
+
+                    <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="年龄20"
+                            android:textSize="20sp"/>
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp">
+
+                <LinearLayout
+                        android:id="@+id/ll_body_message_old_activity"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:text="年龄20"
-                        android:textSize="20sp"/>
-            </LinearLayout>
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                    <TextView
+                            android:id="@+id/tv_body_message_old_activity"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="start"
+                            android:text="最近情况:     阿斯顿发贺卡收到回复圣诞节客服哈说的话阿萨德就好烦四大皆空发货圣诞节客服哈撒啊数据库的发挥 阿斯顿发哈速度加快发挥啥都好烦金卡上的发挥"
+                            android:textSize="20sp"/>
+
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp">
+
+                <LinearLayout
+                        android:id="@+id/ll_social_message_old_activity"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                    <TextView
+                            android:id="@+id/tv_social_message_old_activity"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="start"
+                            android:text="社会赡养: 啊大家是否快乐阿克琉斯的风景阿斯顿法律界卡斯蒂略飞机啊殳代理反馈就啊算了打飞机打算"
+                            android:textSize="20sp"/>
+
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

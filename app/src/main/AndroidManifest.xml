@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest package="com.example.apple.oldfriend"
-          xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          package="com.example.apple.oldfriend">
 
     <uses-permission android:name="android.permission.CALL_PHONE"/>
     <uses-permission android:name="android.permission.INTERNET"/>
@@ -18,42 +18,46 @@
     <uses-permission android:name="android.permission.WAKE_LOCK"/>
 
     <application
-        android:name=".app.App"
-        android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
-        android:supportsRtl="true"
-        android:theme="@style/AppTheme">
-        <activity
-            android:name=".view.MainActivity"
+            android:name=".app.App"
+            android:allowBackup="true"
+            android:icon="@mipmap/ic_launcher"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:supportsRtl="true"
+            android:theme="@style/AppTheme">
+        <activity
+                android:name=".view.MainActivity"
+                android:label="@string/app_name"
+                android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <activity
-            android:name=".view.WelcomeView"
-            android:theme="@style/AppTheme.NoActionBar">
+                android:name=".view.WelcomeView"
+                android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".view.LoginActivity"
-            android:theme="@style/AppTheme.NoActionBar">
+        <activity
+                android:name=".view.LoginActivity"
+                android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <activity
-            android:name=".view.NewsInfoActivity"
-            android:theme="@style/AppTheme.NoActionBar">
+                android:name=".view.NewsInfoActivity"
+                android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <activity
-            android:name=".view.SendZoneActivity"
-            android:label="@string/title_activity_send_zone"
-            android:theme="@style/AppTheme.NoActionBar">
+                android:name=".view.SendZoneActivity"
+                android:label="@string/title_activity_send_zone"
+                android:theme="@style/AppTheme.NoActionBar">
         </activity>
-        <activity android:name=".view.OlderActivity">
+        <activity
+                android:name=".view.OlderActivity"
+                android:theme="@style/AppTheme.NoActionBar">
         </activity>
-        <activity android:name=".view.RegisterActivity"
-                  android:theme="@style/AppTheme.NoActionBar">
+        <activity
+                android:name=".view.RegisterActivity"
+                android:theme="@style/AppTheme.NoActionBar">
         </activity>
     </application>
 

@@ -36,7 +36,6 @@ public class NewsFragment extends Fragment implements IGetHealthNews {
     private int totalItemCount = 6;
     private HealthNewsPresenter presenter;
     private RelativeLayout progressLayout;
-
     public NewsFragment() {
 
     }
@@ -65,13 +64,11 @@ public class NewsFragment extends Fragment implements IGetHealthNews {
         recyclerView.setLayoutManager(layoutManager);
         mAdapter = new NewsAdapter(mList, getContext());
         recyclerView.setAdapter(mAdapter);
-        //initData();
         mSwipeRefreshWidget.setColorSchemeResources(R.color.colorGreen_32CD32, R.color.colorAccent_FF4081,
                 R.color.colorOrange_E65100, R.color.colorPrimary_3F51B5);
         mSwipeRefreshWidget.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-               /* initData();*/
                 presenter.getNewsList(0, 0, totalItemCount);
             }
         });

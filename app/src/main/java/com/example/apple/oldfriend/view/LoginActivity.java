@@ -3,7 +3,6 @@ package com.example.apple.oldfriend.view;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -35,9 +34,8 @@ public class LoginActivity extends AppCompatActivity implements ILogin {
         mBtLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                userManagePresenter.login("13709425206", "159753", LoginActivity.this);
-//                userManagePresenter.login(mEtPhoneNum.getText().toString(), mEtPassword.getText().toString(),
-//                        LoginActivity.this);
+                userManagePresenter.login(mEtPhoneNum.getText().toString(), mEtPassword.getText().toString(),
+                        LoginActivity.this);
             }
         });
 

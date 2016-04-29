@@ -1,11 +1,13 @@
 package com.example.apple.oldfriend.view;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.apple.oldfriend.R;
@@ -32,10 +34,20 @@ public class OlderAdapter extends RecyclerView.Adapter{
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         OlderViewHolder viewHolder= (OlderViewHolder) holder;
         viewHolder.tv_item_odler_name.setText(mList.get(position).getMyOldState().getName());
         viewHolder.tv_item_older_context.setText(mList.get(position).getMyOldState().getBriefState());
+        viewHolder.ll_item_older.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent it =new Intent(context,OlderActivity.class);
+                it.putExtra("name", "" +mList.get(position).getMyOldState().getName());
+                it.putExtra("context",""+mList.get(position).getMyOldState().getBriefState());
+                it.putExtra("age",""+mList.get(position).getMyOldState().getAge());
+                context.startActivity(it);
+            }
+        });
     }
 
     @Override
@@ -48,8 +60,10 @@ public class OlderAdapter extends RecyclerView.Adapter{
         private TextView tv_item_odler_name;
         private TextView tv_item_older_situation;
         private TextView tv_item_older_context;
+        private LinearLayout ll_item_older;
         public OlderViewHolder(View view) {
             super(view);
+            ll_item_older= (LinearLayout) view.findViewById(R.id.ll_item_older);
             im_item_older_face= (ImageView) view.findViewById(R.id.im_item_older_face);
             tv_item_odler_name= (TextView) view.findViewById(R.id.tv_item_odler_name);
             tv_item_older_situation= (TextView) view.findViewById(R.id.tv_item_older_situation);
