@@ -25,6 +25,7 @@ import android.widget.Toast;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.example.apple.oldfriend.R;
 import com.example.apple.oldfriend.app.BaseActivity;
+import com.example.apple.oldfriend.presenter.UserManagePresenter;
 import com.example.apple.oldfriend.util.CircleTransform;
 import com.jude.library.imageprovider.ImageProvider;
 import com.jude.library.imageprovider.OnImageSelectListener;
@@ -43,6 +44,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     private Bitmap bitmap;
     private ImageView drawer_im_userface;
     private ImageView im_userface_toolbar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -174,7 +176,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                         .items(new String[]{"相机", "相册", "网络"})
                         .itemsCallback(new MaterialDialog.ListCallback() {
                             @Override
-                            public void onSelection(MaterialDialog dialog, View itemView, int which, CharSequence text) {
+                            public void onSelection(MaterialDialog dialog, View itemView, int which, CharSequence
+                                    text) {
                                 switch (which) {
                                     case 0: {
                                         provider.getImageFromCamera(MainActivity.this);
@@ -207,6 +210,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 break;
             }
             case R.id.drawer_ll_exit: {
+                UserManagePresenter managePresenter = new UserManagePresenter(MainActivity.this);
+                managePresenter.exitLogin();
+                startActivity(new Intent(MainActivity.this, LoginActivity.class));
+                finish();
                 Toast.makeText(MainActivity.this, "exit", Toast.LENGTH_SHORT).show();
                 break;
             }
@@ -224,9 +231,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 
     @Override
     public void onImageSelect() {
-        Log.d("changeImage",""+"onImageSelect---");
+        Log.d("changeImage", "" + "onImageSelect---");
         dialog = new MaterialDialog.Builder(MainActivity.this)
-                .progress(true,100)
+                .progress(true, 100)
                 .title("加载中")
                 .content("请稍候")
                 .cancelable(false)
@@ -238,7 +245,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         dialog.dismiss();
         addImage(uri);
         Log.d("changeImage", "" + "onImageLoaded---");
-        provider.corpImage(uri,200, 200, new OnImageSelectListener() {
+        provider.corpImage(uri, 200, 200, new OnImageSelectListener() {
             @Override
             public void onImageSelect() {
 
@@ -265,7 +272,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 
 
     public void addImage(Uri uri) {
-        Log.d("changeImage",""+uri);
+        Log.d("changeImage", "" + uri);
         try {
             bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(uri));
         } catch (FileNotFoundException e) {
@@ -274,7 +281,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         if (bitmap != null) {
             Picasso.with(MainActivity.this)
                     .load(uri)
-                    .resize(136,136)
+                    .resize(136, 136)
                     .centerCrop()
                     .transform(new CircleTransform())
                     .placeholder(R.drawable.user_ic_face)
@@ -282,7 +289,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                     .into(drawer_im_userface);
             Picasso.with(MainActivity.this)
                     .load(uri)
-                    .resize(136,136)
+                    .resize(136, 136)
                     .centerCrop()
                     .transform(new CircleTransform())
                     .into(im_userface_toolbar);
@@ -290,6 +297,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
             //drawer_im_userface.setImageDrawable(new BitmapDrawable(bitmap));
         }
     }
+
     private class SampleFragmentPagerAdapter extends FragmentPagerAdapter implements ViewPager.OnPageChangeListener {
         final int PAGE_COUNT = 3;
         private String tabTitles[] = new String[]{"信息库", "老友圈", "资讯栏"};

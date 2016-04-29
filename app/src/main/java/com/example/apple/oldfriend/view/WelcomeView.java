@@ -25,7 +25,7 @@ public class WelcomeView extends AppCompatActivity {
             public void run() {
                 User userInfo = BmobUser.getCurrentUser(WelcomeView.this, User.class);
                 if (userInfo != null) {
-                    Intent intent = new Intent(WelcomeView.this, LoginActivity.class);
+                    Intent intent = new Intent(WelcomeView.this, MainActivity.class);
                     Bundle bundle = new Bundle();
                     bundle.putBoolean("isOld", userInfo.getOld());
                     intent.putExtras(bundle);
