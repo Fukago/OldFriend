@@ -31,8 +31,9 @@ public class LoginActivity extends AppCompatActivity implements ILogin {
         mBtLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                userManagePresenter.login(mEtPhoneNum.getText().toString(), mEtPassword.getText().toString(),
-                        LoginActivity.this);
+                userManagePresenter.login("18902679166", "159753", LoginActivity.this);
+//                userManagePresenter.login(mEtPhoneNum.getText().toString(), mEtPassword.getText().toString(),
+//                        LoginActivity.this);
             }
         });
 

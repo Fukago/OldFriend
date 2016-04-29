@@ -86,7 +86,7 @@ public class RegisterActivity extends AppCompatActivity implements IRegist, IGet
                     if (TextUtils.isEmpty(phoneNum) || TextUtils.isEmpty(password) || TextUtils.isEmpty(identify)) {
                         Toast.makeText(RegisterActivity.this, "不能有空项", Toast.LENGTH_SHORT).show();
                     } else {
-                        userManagePresenter.register("18902679166", "159753",
+                        userManagePresenter.register(phoneNum, password,
                                 identify, isOld, nurse, RegisterActivity.this);
                         finish();
                     }
