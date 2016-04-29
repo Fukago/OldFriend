@@ -14,6 +14,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.apple.oldfriend.R;
+import com.example.apple.oldfriend.cofing.IGetNurseState;
+import com.example.apple.oldfriend.cofing.IUser;
+import com.example.apple.oldfriend.model.bean.User;
+import com.example.apple.oldfriend.presenter.NurseManagePresenter;
+import com.example.apple.oldfriend.presenter.UserManagePresenter;
 
 
 public class NurseFragment extends Fragment {
@@ -25,6 +30,9 @@ public class NurseFragment extends Fragment {
     private Button bn_fastCall_NurseFragment;
     private TextView tv_experience_NurseFragment;
     private TextView tv_zone_NurseFragment;
+
+    private NurseManagePresenter nursePresenter;
+    private UserManagePresenter userPresenter;
 
 
     public NurseFragment() {
@@ -40,7 +48,8 @@ public class NurseFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        nursePresenter = new NurseManagePresenter(getContext());
+        userPresenter = new UserManagePresenter(getContext());
     }
 
     @Override
@@ -55,18 +64,53 @@ public class NurseFragment extends Fragment {
         bn_fastCall_NurseFragment = (Button) view.findViewById(R.id.bn_fastCall_NurseFragment);
         tv_experience_NurseFragment = (TextView) view.findViewById(R.id.tv_experience_NurseFragment);
         tv_zone_NurseFragment = (TextView) view.findViewById(R.id.tv_zone_NurseFragment);
+        initData();
+        return view;
+    }
+
+    private void initData() {
         bn_fastCall_NurseFragment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String mobile = "" +tv_nurseTel_nurseFraghment.getText().toString();
+                String mobile = "" + tv_nurseTel_nurseFraghment.getText().toString();
                 if (!TextUtils.isEmpty(mobile)) {
-                    Log.d("tel1","mobile"+mobile);
                     Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + "18902679166"));
                     getActivity().startActivity(intent);
                 }
             }
         });
-        return view;
+
+        userPresenter.getUser(new IUser() {
+            @Override
+            public void getUserSuccess(User user) {
+                /*Picasso.with(getContext())
+                        .load(user.getMyNurse().getHeadPic().getFileUrl(getContext()))
+                        .resize(136,136)
+                        .placeholder(R.drawable.picasso_ic_loading)
+                        .error(R.drawable.picasso_ic_loadingerror)
+                        .into(im_nurseFace_nurseFragment);*/
+                Log.d("moblie",""+true);
+                tv_nurseTel_nurseFraghment.setText(""+user.getMyNurse().getUsername());
+                Log.d("moblie",""+user.getMyNurse().getUsername());
+                nursePresenter.getNurseNameAndAge(user.getMyNurse(), new IGetNurseState() {
+                    @Override
+                    public void getNurseNameAndAgeSuccess(String name, Integer age) {
+                        tv_nurseName_nurseFraghment.setText(""+name);
+
+                    }
+
+                    @Override
+                    public void getNurseExpSuccess(String exp) {
+                        tv_experience_NurseFragment.setText(""+exp);
+                    }
+
+                    @Override
+                    public void getNurseSituationSuccess(String situation) {
+                        tv_zone_NurseFragment.setText(""+situation);
+                    }
+                });
+            }
+        });
     }
 
 

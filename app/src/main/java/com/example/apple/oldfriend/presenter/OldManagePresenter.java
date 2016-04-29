@@ -43,7 +43,7 @@ public class OldManagePresenter {
     }
 
     /**
-     * 得到老人的年龄和姓名和简要身体状况
+     * 设置老人的年龄和姓名和简要身体状况
      */
 
     public void setOldNameAndAgeAndBriefState(final User oldPeople, final String name, final Integer age, String

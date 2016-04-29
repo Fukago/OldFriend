@@ -46,11 +46,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="?attr/actionBarSize"
                     android:layout_alignParentRight="true"
-                    android:clickable="false"
                     android:gravity="center"
                     android:text="@string/tittle_send"
                     android:background="@color/colorPink_e83f9c"
-                    android:textColor="@color/colorGray_a9b7b7"
+                    android:textColor="@color/colorWhite_ffffff"
                     android:textSize="18sp"/>
         </RelativeLayout>
     </android.support.v7.widget.Toolbar>
@@ -77,7 +76,6 @@
                 android:layout_width="64dp"
                 android:layout_height="64dp"
                 android:layout_margin="12dp"
-
                 android:src="@drawable/activity_sendzone_addpicture"/>
     </LinearLayout>
 

@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -77,8 +76,7 @@ public class ZoneAdapter extends RecyclerView.Adapter {
                 if (mList.get(position - 1).getArticlePic() != null) {
                     mList.get(position - 1).getArticlePic().loadImage(context, viewHolder.im_item_zone_picture);
                 }
-                viewHolder.tv_item_zone_userName.setText("" + mList.get(position - 1).getAuthor().getMyOldState()
-                        .getName());
+//                viewHolder.tv_item_zone_userName.setText("" + mList.get(position - 1).getAuthor().getMyOldState().getName());
                 viewHolder.tv_item_zone_description.setText("" + mList.get(position - 1).getContent());
                 viewHolder.tv_item_zone_message.setText("" + mList.get(position - 1).getReadTimes());
             }

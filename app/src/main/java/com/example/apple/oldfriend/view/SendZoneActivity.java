@@ -1,6 +1,10 @@
 package com.example.apple.oldfriend.view;
 
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -16,9 +20,16 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.example.apple.oldfriend.R;
+import com.example.apple.oldfriend.presenter.FriendArticlePresenter;
+import com.jude.library.imageprovider.ImageProvider;
+import com.jude.library.imageprovider.OnImageSelectListener;
+import com.squareup.picasso.Picasso;
 
-public class SendZoneActivity extends AppCompatActivity implements View.OnClickListener {
+import java.io.FileNotFoundException;
+
+public class SendZoneActivity extends AppCompatActivity implements View.OnClickListener, OnImageSelectListener {
     private EditText et_send_zone;
     private ImageView im_addpicture_send_zone;
     private AlertDialog.Builder builder;
@@ -27,14 +38,26 @@ public class SendZoneActivity extends AppCompatActivity implements View.OnClickL
     private static final String DIALOG_MESSGAE = "未保存编辑内容,确认退出?";
     private static final String DIALOG_OK = "确认";
     private static final String DIALOG_CANCEL = "取消";
+    private FriendArticlePresenter presenter;
+    private MaterialDialog dialog;
+    private ImageProvider provider;
+    private Bitmap bitmap;
+    private String im_uri = null;
+    private boolean isSend = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_send_zone);
+        provider = new ImageProvider(this);
+        initPresenter();
         initToolbar();
         initDialog();
         initView();
+    }
+
+    private void initPresenter() {
+        presenter = new FriendArticlePresenter(this);
     }
 
     private void initDialog() {
@@ -50,6 +73,7 @@ public class SendZoneActivity extends AppCompatActivity implements View.OnClickL
         }).setNegativeButton(DIALOG_CANCEL, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+
                 dialog.cancel();
             }
         }).create();
@@ -60,7 +84,7 @@ public class SendZoneActivity extends AppCompatActivity implements View.OnClickL
         et_send_zone = (EditText) findViewById(R.id.et_send_zone);
         et_send_zone.addTextChangedListener(et_watcher);
         im_addpicture_send_zone = (ImageView) findViewById(R.id.im_addpicture_send_zone);
-
+        im_addpicture_send_zone.setOnClickListener(this);
     }
 
     private void initToolbar() {
@@ -82,11 +106,12 @@ public class SendZoneActivity extends AppCompatActivity implements View.OnClickL
 
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
+
         }
 
         @Override
         public void afterTextChanged(Editable s) {
-            if (!TextUtils.isEmpty(et_send_zone.getText())) {
+           /* if (!TextUtils.isEmpty(et_send_zone.getText())) {
                 Log.d("clickable", "" + true);
                 bn_tittle_toolbar_send.setClickable(true);
                 bn_tittle_toolbar_send.setTextColor(R.color.colorWhite_ffffff);
@@ -94,7 +119,8 @@ public class SendZoneActivity extends AppCompatActivity implements View.OnClickL
                 Log.d("clickable", "" + false);
                 bn_tittle_toolbar_send.setClickable(false);
                 bn_tittle_toolbar_send.setTextColor(R.color.colorGray_a9b7b7);
-            }
+            }*/
+            isSend = false;
         }
     };
 
@@ -103,16 +129,117 @@ public class SendZoneActivity extends AppCompatActivity implements View.OnClickL
         switch (v.getId()) {
             case R.id.im_addpicture_send_zone: {
                 Toast.makeText(SendZoneActivity.this, "send", Toast.LENGTH_SHORT).show();
+                new MaterialDialog.Builder(SendZoneActivity.this)
+                        .title("选择图片来源")
+                        .items(new String[]{"相机", "相册", "网络"})
+                        .itemsCallback(new MaterialDialog.ListCallback() {
+                            @Override
+                            public void onSelection(MaterialDialog dialog, View itemView, int which, CharSequence text) {
+                                switch (which) {
+                                    case 0: {
+                                        provider.getImageFromCamera(SendZoneActivity.this);
+                                        break;
+                                    }
+                                    case 1: {
+                                        provider.getImageFromAlbum(SendZoneActivity.this);
+                                        break;
+                                    }
+                                    case 2: {
+                                        provider.getImageFromNet(SendZoneActivity.this);
+                                        break;
+                                    }
+                                }
+
+                            }
+                        }).show();
                 break;
             }
             case R.id.tv_tittle_toolbar_cancel: {
-                builder.show();
+                if (!isSend) {
+                    builder.show();
+                }else {
+                    finish();
+                }
                 break;
             }
             case R.id.bn_tittle_toolbar_send: {
-
+                if (TextUtils.isEmpty(im_uri)) {
+                    presenter.setArticleAndAuthor(et_send_zone.getText().toString());
+                } else {
+                    presenter.setArticleAndAuthor(et_send_zone.getText().toString(), im_uri);
+                }
+                isSend = true;
                 break;
             }
         }
+    }
+
+    @Override
+    public void onImageSelect() {
+        Log.d("changeImage", "" + "onImageSelect---");
+        dialog = new MaterialDialog.Builder(SendZoneActivity.this)
+                .progress(true, 100)
+                .title("加载中")
+                .content("请稍候")
+                .cancelable(false)
+                .show();
+    }
+
+    @Override
+    public void onImageLoaded(Uri uri) {
+        dialog.dismiss();
+        addImage(uri);
+        Log.d("changeImage", "" + "onImageLoaded---");
+        provider.corpImage(uri, 200, 200, new OnImageSelectListener() {
+            @Override
+            public void onImageSelect() {
+
+            }
+
+            @Override
+            public void onImageLoaded(Uri uric) {
+                Log.d("changeImage", "" + uric);
+                addImage(uric);
+            }
+
+            @Override
+            public void onError() {
+                Toast.makeText(SendZoneActivity.this, "添加图片失败", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    @Override
+    public void onError() {
+        dialog.dismiss();
+        Toast.makeText(SendZoneActivity.this, "添加图片失败", Toast.LENGTH_SHORT).show();
+    }
+
+
+    public void addImage(Uri uri) {
+        im_uri = uri.toString();
+        im_uri=im_uri.substring(7);
+        Log.d("changeImage", "" + uri);
+        try {
+            bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(uri));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        if (bitmap != null) {
+            Picasso.with(SendZoneActivity.this)
+                    .load(uri)
+                    .resize(64, 64)
+                    .centerCrop()
+                    .error(R.drawable.user_ic_face)
+                    .into(im_addpicture_send_zone);
+            im_addpicture_send_zone.setClickable(false);
+            //drawer_im_userface.setImageDrawable(new BitmapDrawable(bitmap));
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        provider.onActivityResult(requestCode, resultCode, data);
     }
 }

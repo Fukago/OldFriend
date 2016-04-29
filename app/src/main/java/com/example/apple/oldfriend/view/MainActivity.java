@@ -25,7 +25,6 @@ import android.widget.Toast;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.example.apple.oldfriend.R;
 import com.example.apple.oldfriend.app.BaseActivity;
-import com.example.apple.oldfriend.presenter.UserManagePresenter;
 import com.example.apple.oldfriend.util.CircleTransform;
 import com.jude.library.imageprovider.ImageProvider;
 import com.jude.library.imageprovider.OnImageSelectListener;
@@ -44,15 +43,23 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     private Bitmap bitmap;
     private ImageView drawer_im_userface;
     private ImageView im_userface_toolbar;
+    private boolean isOld = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         provider = new ImageProvider(this);
+        initData();
         initToolbar();
         initDrawer();
         iniView();
+    }
+
+    private void initData() {
+        Intent it = getIntent();
+        it.getBooleanExtra("isOld", isOld);
+        Log.d("isOld",""+isOld);
     }
 
 
@@ -154,7 +161,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 
             }
         });
-        viewPager.setCurrentItem(1);
+        viewPager.setCurrentItem(0);
     }
 
     @Override
@@ -176,8 +183,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                         .items(new String[]{"相机", "相册", "网络"})
                         .itemsCallback(new MaterialDialog.ListCallback() {
                             @Override
-                            public void onSelection(MaterialDialog dialog, View itemView, int which, CharSequence
-                                    text) {
+                            public void onSelection(MaterialDialog dialog, View itemView, int which, CharSequence text) {
                                 switch (which) {
                                     case 0: {
                                         provider.getImageFromCamera(MainActivity.this);
@@ -210,10 +216,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 break;
             }
             case R.id.drawer_ll_exit: {
-                UserManagePresenter managePresenter = new UserManagePresenter(MainActivity.this);
-                managePresenter.exitLogin();
-                startActivity(new Intent(MainActivity.this, LoginActivity.class));
-                finish();
                 Toast.makeText(MainActivity.this, "exit", Toast.LENGTH_SHORT).show();
                 break;
             }
@@ -343,7 +345,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         public Fragment getItem(int position) {
             switch (position) {
                 case 0: {
-                    return NurseFragment.newInstance("NurseFragment", "NurseFragment");
+                    if (!isOld) {
+                        return OlderFragment.newInstance("OlderFragment", "OlderFragment");
+                    } else {
+                        return NurseFragment.newInstance("NurseFragment", "NurseFragment");
+                    }
                 }
                 case 1: {
                     return ZoneFragment.newInstance("ZoneFragment", "ZoneFragment");

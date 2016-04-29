@@ -9,7 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.apple.oldfriend.R;
-import com.example.apple.oldfriend.model.bean.OldState;
+import com.example.apple.oldfriend.model.bean.User;
 
 import java.util.List;
 
@@ -17,10 +17,10 @@ import java.util.List;
  * Created by apple on 16/4/26.
  */
 public class OlderAdapter extends RecyclerView.Adapter{
-    private List<OldState> mList;
+    private List<User> mList;
     private Context context;
 
-    public OlderAdapter (List<OldState> list, Context context){
+    public OlderAdapter (List<User> list, Context context){
         mList = list;
         this.context = context;
     }
@@ -34,7 +34,8 @@ public class OlderAdapter extends RecyclerView.Adapter{
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         OlderViewHolder viewHolder= (OlderViewHolder) holder;
-
+        viewHolder.tv_item_odler_name.setText(mList.get(position).getMyOldState().getName());
+        viewHolder.tv_item_older_context.setText(mList.get(position).getMyOldState().getBriefState());
     }
 
     @Override
@@ -53,6 +54,8 @@ public class OlderAdapter extends RecyclerView.Adapter{
             tv_item_odler_name= (TextView) view.findViewById(R.id.tv_item_odler_name);
             tv_item_older_situation= (TextView) view.findViewById(R.id.tv_item_older_situation);
             tv_item_older_context= (TextView) view.findViewById(R.id.tv_item_older_context);
+
+
         }
     }
 }

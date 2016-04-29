@@ -17,11 +17,7 @@ import com.example.apple.oldfriend.model.bean.Article;
 import com.example.apple.oldfriend.presenter.FriendArticlePresenter;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-
-import cn.bmob.v3.BmobQuery;
-import cn.bmob.v3.listener.FindListener;
 
 public class ZoneFragment extends Fragment implements IGetArticleAndAuthor {
     private List<Article> mList = new ArrayList<>();
@@ -58,13 +54,11 @@ public class ZoneFragment extends Fragment implements IGetArticleAndAuthor {
         recyclerView.setLayoutManager(layoutManager);
         mAdapter = new ZoneAdapter(mList, getContext(), this);
         recyclerView.setAdapter(mAdapter);
-        //initData();
         mSwipeRefreshWidget.setColorSchemeResources(R.color.colorGreen_32CD32, R.color.colorAccent_FF4081,
                 R.color.colorOrange_E65100, R.color.colorPrimary_3F51B5);
         mSwipeRefreshWidget.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-               /* initData();*/
                 presenter.getArticleAndAuthor(ZoneFragment.this);
             }
         });
@@ -95,25 +89,7 @@ public class ZoneFragment extends Fragment implements IGetArticleAndAuthor {
         return view;
     }
 
-    private void initData() {
-        BmobQuery<Article> query = new BmobQuery<>();
-        query.include("author");
-        query.findObjects(getActivity(), new FindListener<Article>() {
-            @Override
-            public void onSuccess(List<Article> list) {
-                Collections.reverse(list);
-                mList.clear();
-                mList.addAll(list);
-                mAdapter.notifyDataSetChanged();
-                mSwipeRefreshWidget.setRefreshing(false);
-            }
 
-            @Override
-            public void onError(int i, String s) {
-                mSwipeRefreshWidget.setRefreshing(false);
-            }
-        });
-    }
 
     @Override
     public void onGetArticleAndAuthor(List<Article> articleList) {
