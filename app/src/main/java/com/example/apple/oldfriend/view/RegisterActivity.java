@@ -103,6 +103,7 @@ public class RegisterActivity extends AppCompatActivity implements IRegist, IGet
                     isOld = true;
                 } else {
                     isOld = false;
+                    nurse = null;
                 }
             }
         });

@@ -42,7 +42,8 @@ public class UserManageModel {
         if (user != null) {
             BmobQuery<User> query = new BmobQuery<>();
             query.addWhereEqualTo("username", user.getUsername());
-            query.include("myOldState.oldPsychoState,myOldState.oldSociaState,myOldState.oldPhysioState,myNurseState," +
+            query.include("myOldState.oldPsychoState,myOldState.oldSociaState,myOldState.oldPhysioState,myNurse" +
+                    ".myNurseState," +
                     "headPic");
             query.findObjects(context, new FindListener<User>() {
                 @Override
