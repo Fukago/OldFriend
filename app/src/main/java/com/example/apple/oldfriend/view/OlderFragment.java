@@ -44,6 +44,7 @@ public class OlderFragment extends Fragment implements IGetBothMessage {
         presenter.getAllOldMessage(OlderFragment.this);
     }
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

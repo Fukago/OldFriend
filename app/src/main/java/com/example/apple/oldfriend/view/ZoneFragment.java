@@ -106,4 +106,5 @@ public class ZoneFragment extends Fragment implements IGetArticleAndAuthor {
         Toast.makeText(getContext(), "数据加载失败,请检查您的网络环境~", Toast.LENGTH_SHORT).show();
         mSwipeRefreshWidget.setRefreshing(false);
     }
+
 }

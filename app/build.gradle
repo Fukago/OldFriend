@@ -41,6 +41,8 @@ dependencies {
     compile 'com.jude:imageprovider:2.0.8'
     compile 'com.pnikosis:materialish-progress:1.7'
     compile 'com.github.PhilJay:MPAndroidChart:v2.2.4'
+    compile 'com.rengwuxian.materialedittext:library:2.1.4'
+    compile 'com.github.PhilJay:MPAndroidChart:v2.2.4'
 }
 
 

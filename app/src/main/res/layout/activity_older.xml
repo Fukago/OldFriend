@@ -41,7 +41,8 @@
 
     <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:scrollbars="none">
 
         <LinearLayout
                 android:layout_width="match_parent"
@@ -49,6 +50,7 @@
                 android:orientation="vertical">
 
             <ImageView
+                    android:id="@+id/im_older_face_old_activity"
                     android:layout_width="136dp"
                     android:layout_height="136dp"
                     android:layout_gravity="center"
@@ -66,7 +68,17 @@
                         android:layout_height="match_parent"
                         android:orientation="vertical">
 
-                    <TextView
+                    <ListView
+                            android:id="@+id/lv_basic_message_old_activity"
+                            android:layout_width="match_parent"
+                            android:layout_height="194dp"
+                            android:layout_margin="8dp"
+                            android:layout_gravity="center"
+                            android:background="#ffffff">
+
+                    </ListView>
+                   <!-- <TextView
+                            android:id="@+id/tv_name_basic_message_old_activity"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="center"
@@ -74,11 +86,26 @@
                             android:textSize="20sp"/>
 
                     <TextView
+                            android:id="@+id/tv_age_basic_message_old_activity"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="center"
                             android:text="年龄20"
                             android:textSize="20sp"/>
+                    <TextView
+                            android:id="@+id/tv_sex_basic_message_old_activity"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="性别:男"
+                            android:textSize="20sp"/>
+                    <TextView
+                            android:id="@+id/tv_blood_basic_message_old_activity"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="血型:0型"
+                            android:textSize="20sp"/>-->
                 </LinearLayout>
             </android.support.v7.widget.CardView>
 
@@ -98,8 +125,9 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="start"
+                            android:layout_margin="8dp"
                             android:text="最近情况:     阿斯顿发贺卡收到回复圣诞节客服哈说的话阿萨德就好烦四大皆空发货圣诞节客服哈撒啊数据库的发挥 阿斯顿发哈速度加快发挥啥都好烦金卡上的发挥"
-                            android:textSize="20sp"/>
+                            android:textSize="16sp"/>
 
                 </LinearLayout>
             </android.support.v7.widget.CardView>
@@ -120,8 +148,9 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="start"
+                            android:layout_margin="8dp"
                             android:text="社会赡养: 啊大家是否快乐阿克琉斯的风景阿斯顿法律界卡斯蒂略飞机啊殳代理反馈就啊算了打飞机打算"
-                            android:textSize="20sp"/>
+                            android:textSize="16sp"/>
 
                 </LinearLayout>
             </android.support.v7.widget.CardView>
