@@ -25,6 +25,8 @@ import android.widget.Toast;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.example.apple.oldfriend.R;
 import com.example.apple.oldfriend.app.BaseActivity;
+import com.example.apple.oldfriend.cofing.IUser;
+import com.example.apple.oldfriend.model.bean.User;
 import com.example.apple.oldfriend.presenter.UserManagePresenter;
 import com.example.apple.oldfriend.util.CircleTransform;
 import com.jude.library.imageprovider.ImageProvider;
@@ -42,6 +44,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     private ImageProvider provider;
     private MaterialDialog dialog;
     private Bitmap bitmap;
+    private UserManagePresenter presenter;
     private ImageView drawer_im_userface;
     private ImageView im_userface_toolbar;
     private boolean isOld = true;
@@ -54,9 +57,14 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         provider = new ImageProvider(this);
         userManagePresenter = new UserManagePresenter(MainActivity.this);
         initData();
+        initPresenter();
         initToolbar();
         initDrawer();
         iniView();
+    }
+
+    private void initPresenter() {
+        presenter = new UserManagePresenter(this);
     }
 
     private void initData() {
@@ -101,6 +109,24 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
             }
         });
         drawer_im_userface = (ImageView) findViewById(R.id.drawer_im_userFace);
+        presenter.getUser(new IUser() {
+            @Override
+            public void getUserSuccess(User user) {
+                Picasso.with(MainActivity.this)
+                        .load(presenter.getHeadPicUrl(user))
+                        .placeholder(R.drawable.user_ic_face)
+                        .error(R.drawable.picasso_ic_loadingerror)
+                        .transform(new CircleTransform())
+                        .into(im_userface_toolbar);
+
+                Picasso.with(MainActivity.this)
+                        .load(presenter.getHeadPicUrl(user))
+                        .placeholder(R.drawable.user_ic_face)
+                        .error(R.drawable.picasso_ic_loadingerror)
+                        .transform(new CircleTransform())
+                        .into(drawer_im_userface);
+            }
+        });
         TextView drawer_tv_userName = (TextView) findViewById(R.id.drawer_tv_userName);
         LinearLayout ll_message = (LinearLayout) findViewById(R.id.drawer_ll_message);
         ll_message.setOnClickListener(this);
@@ -286,9 +312,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 
 
     public void addImage(Uri uri) {
-
         String im_uri = uri.toString();
         im_uri = im_uri.substring(7);
+        presenter.uploadHeadPic(im_uri);
         userManagePresenter.uploadHeadPic(im_uri);
 
         try {

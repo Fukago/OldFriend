@@ -191,7 +191,7 @@ public class SendZoneActivity extends AppCompatActivity implements View.OnClickL
         dialog.dismiss();
         addImage(uri);
         Log.d("changeImage", "" + "onImageLoaded---");
-        provider.corpImage(uri, 200, 200, new OnImageSelectListener() {
+        provider.corpImage(uri,272,192, new OnImageSelectListener() {
             @Override
             public void onImageSelect() {
 
@@ -229,7 +229,7 @@ public class SendZoneActivity extends AppCompatActivity implements View.OnClickL
         if (bitmap != null) {
             Picasso.with(SendZoneActivity.this)
                     .load(uri)
-                    .resize(64, 64)
+                    .resize(98, 64)
                     .centerCrop()
                     .error(R.drawable.user_ic_face)
                     .into(im_addpicture_send_zone);

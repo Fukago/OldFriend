@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import com.example.apple.oldfriend.R;
 import com.example.apple.oldfriend.model.bean.Article;
 import com.jude.rollviewpager.RollPagerView;
 import com.jude.rollviewpager.adapter.StaticPagerAdapter;
+import com.squareup.picasso.Picasso;
 
 import java.io.InputStream;
 import java.util.List;
@@ -72,10 +74,18 @@ public class ZoneAdapter extends RecyclerView.Adapter {
             }
             case TYPE_CELL: {
                 final ZoneViewHolder viewHolder = (ZoneViewHolder) holder;
-                // todo 缺少用户头像上传
+                viewHolder.im_item_zone_picture.setImageResource(R.drawable.picasso_ic_loading);
                 if (mList.get(position - 1).getArticlePic() != null) {
-                    mList.get(position - 1).getArticlePic().loadImage(context, viewHolder.im_item_zone_picture);
+                    String url =""+mList.get(position - 1).getArticlePic().getFileUrl(context);
+                    Log.d("getArticlePic().getFileUrl---", "    " + url + "    position" + position);
+                    Picasso.with(context)
+                            .load(url)
+                            .placeholder(R.drawable.picasso_ic_loading)
+                            .error(R.drawable.picasso_ic_loadingerror)
+                            .into(viewHolder.im_item_zone_picture);
+
                 }
+                //.loadImage(context, viewHolder.im_item_zone_picture);
 //                viewHolder.tv_item_zone_userName.setText("" + mList.get(position - 1).getAuthor().getMyOldState().getName());
                 viewHolder.tv_item_zone_description.setText("" + mList.get(position - 1).getContent());
                 viewHolder.tv_item_zone_message.setText("" + mList.get(position - 1).getReadTimes());

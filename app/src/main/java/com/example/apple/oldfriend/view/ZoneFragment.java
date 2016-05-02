@@ -17,6 +17,7 @@ import com.example.apple.oldfriend.model.bean.Article;
 import com.example.apple.oldfriend.presenter.FriendArticlePresenter;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class ZoneFragment extends Fragment implements IGetArticleAndAuthor {
@@ -93,6 +94,7 @@ public class ZoneFragment extends Fragment implements IGetArticleAndAuthor {
 
     @Override
     public void onGetArticleAndAuthor(List<Article> articleList) {
+        Collections.reverse(articleList);
         mList.clear();
         mList.addAll(articleList);
         mAdapter.notifyDataSetChanged();
@@ -102,6 +104,6 @@ public class ZoneFragment extends Fragment implements IGetArticleAndAuthor {
     @Override
     public void onGetArticleAndAuthorError(String s) {
         Toast.makeText(getContext(), "数据加载失败,请检查您的网络环境~", Toast.LENGTH_SHORT).show();
-
+        mSwipeRefreshWidget.setRefreshing(false);
     }
 }
