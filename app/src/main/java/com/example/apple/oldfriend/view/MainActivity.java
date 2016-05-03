@@ -148,6 +148,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         presenter.getUser(new IUser() {
             @Override
             public void getUserSuccess(User user) {
+                if (!isOld) {
+                    drawer_tv_userName.setText(user.getMyNurse().getMyNurseState().getName());
+                } else {
+                    drawer_tv_userName.setText(user.getMyOldState().getName());
+                }
                 Picasso.with(MainActivity.this)
                         .load(presenter.getHeadPicUrl(user))
                         .placeholder(R.drawable.user_ic_face)
@@ -161,7 +166,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                         .error(R.drawable.picasso_ic_loadingerror)
                         .transform(new CircleTransform())
                         .into(drawer_im_userface);
-                drawer_tv_userName.setText(user.getMyOldState().getName());
             }
         });
 

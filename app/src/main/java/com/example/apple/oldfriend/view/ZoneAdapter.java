@@ -76,7 +76,7 @@ public class ZoneAdapter extends RecyclerView.Adapter {
                 final ZoneViewHolder viewHolder = (ZoneViewHolder) holder;
                 viewHolder.im_item_zone_picture.setImageResource(R.drawable.picasso_ic_loading);
                 if (mList.get(position - 1).getArticlePic() != null) {
-                    String url =""+mList.get(position - 1).getArticlePic().getFileUrl(context);
+                    String url = "" + mList.get(position - 1).getArticlePic().getFileUrl(context);
                     Log.d("getArticlePic().getFileUrl---", "    " + url + "    position" + position);
                     Picasso.with(context)
                             .load(url)
@@ -85,10 +85,9 @@ public class ZoneAdapter extends RecyclerView.Adapter {
                             .into(viewHolder.im_item_zone_picture);
 
                 }
-                //.loadImage(context, viewHolder.im_item_zone_picture);
-//                viewHolder.tv_item_zone_userName.setText("" + mList.get(position - 1).getAuthor().getMyOldState().getName());
+                //viewHolder.tv_item_zone_userName.setText("" + mList.get(position - 1).getAuthor().getMyOldState().getName());
                 viewHolder.tv_item_zone_description.setText("" + mList.get(position - 1).getContent());
-                viewHolder.tv_item_zone_message.setText("" + mList.get(position - 1).getReadTimes());
+                viewHolder.tv_item_zone_message.setText("被浏览" + mList.get(position - 1).getReadTimes()+"次");
             }
         }
 
