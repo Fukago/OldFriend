@@ -14,7 +14,10 @@
 
         <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize">
+                android:layout_height="?attr/actionBarSize"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true">
 
 
             <ImageView
@@ -68,7 +71,7 @@
                         android:layout_height="match_parent"
                         android:orientation="vertical">
 
-                    <ListView
+                    <com.example.apple.oldfriend.weidge.UnScrollLisiView
                             android:id="@+id/lv_basic_message_old_activity"
                             android:layout_width="match_parent"
                             android:layout_height="194dp"
@@ -76,36 +79,8 @@
                             android:layout_gravity="center"
                             android:background="#ffffff">
 
-                    </ListView>
-                   <!-- <TextView
-                            android:id="@+id/tv_name_basic_message_old_activity"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:text="姓名:张三"
-                            android:textSize="20sp"/>
+                    </com.example.apple.oldfriend.weidge.UnScrollLisiView>
 
-                    <TextView
-                            android:id="@+id/tv_age_basic_message_old_activity"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:text="年龄20"
-                            android:textSize="20sp"/>
-                    <TextView
-                            android:id="@+id/tv_sex_basic_message_old_activity"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:text="性别:男"
-                            android:textSize="20sp"/>
-                    <TextView
-                            android:id="@+id/tv_blood_basic_message_old_activity"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:text="血型:0型"
-                            android:textSize="20sp"/>-->
                 </LinearLayout>
             </android.support.v7.widget.CardView>
 

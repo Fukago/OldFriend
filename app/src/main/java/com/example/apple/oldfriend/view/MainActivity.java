@@ -1,6 +1,7 @@
 package com.example.apple.oldfriend.view;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -12,9 +13,11 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -43,12 +46,20 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     private TabLayout tabLayout;
     private ImageProvider provider;
     private MaterialDialog dialog;
+    private AlertDialog.Builder builder;
+    private static final String DIALOG_TITTLE = "是否登出";
+    private static final String DIALOG_MESSGAE = "确认切换账号?";
+    private static final String DIALOG_OK = "确认";
+    private static final String DIALOG_CANCEL = "取消";
     private Bitmap bitmap;
     private UserManagePresenter presenter;
     private ImageView drawer_im_userface;
+    private TextView drawer_tv_userName;
     private ImageView im_userface_toolbar;
+    private TextView im_tittle_toolbar;
     private boolean isOld = true;
     private UserManagePresenter userManagePresenter;
+    private long exitTime = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,11 +71,35 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         initPresenter();
         initToolbar();
         initDrawer();
+        initDialog();
         iniView();
     }
 
     private void initPresenter() {
         presenter = new UserManagePresenter(this);
+    }
+
+    private void initDialog() {
+        builder = new AlertDialog.Builder(MainActivity.this);
+        builder.setTitle(DIALOG_TITTLE);
+        builder.setMessage(DIALOG_MESSGAE);
+        builder.setPositiveButton(DIALOG_OK, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+                UserManagePresenter managePresenter = new UserManagePresenter(MainActivity.this);
+                managePresenter.exitLogin();
+                startActivity(new Intent(MainActivity.this, LoginActivity.class));
+                finish();
+            }
+        }).setNegativeButton(DIALOG_CANCEL, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                dialog.cancel();
+            }
+        }).create();
+
     }
 
     private void initData() {
@@ -79,7 +114,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
             setSupportActionBar(toolbar);
         }
         im_userface_toolbar = (ImageView) findViewById(R.id.im_userFace_toolbar);
-        TextView im_tittle_toolbar = (TextView) findViewById(R.id.tv_tittle_toolbar);
+        im_tittle_toolbar = (TextView) findViewById(R.id.tv_tittle_toolbar);
         im_more_toolbar = (ImageView) findViewById(R.id.im_more_toolbar);
         im_userface_toolbar.setOnClickListener(this);
         im_more_toolbar.setOnClickListener(this);
@@ -108,6 +143,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 
             }
         });
+        drawer_tv_userName = (TextView) findViewById(R.id.drawer_tv_userName);
         drawer_im_userface = (ImageView) findViewById(R.id.drawer_im_userFace);
         presenter.getUser(new IUser() {
             @Override
@@ -125,9 +161,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                         .error(R.drawable.picasso_ic_loadingerror)
                         .transform(new CircleTransform())
                         .into(drawer_im_userface);
+                drawer_tv_userName.setText(user.getMyOldState().getName());
             }
         });
-        TextView drawer_tv_userName = (TextView) findViewById(R.id.drawer_tv_userName);
+
         LinearLayout ll_message = (LinearLayout) findViewById(R.id.drawer_ll_message);
         ll_message.setOnClickListener(this);
         LinearLayout ll_sitiation = (LinearLayout) findViewById(R.id.drawer_ll_situation);
@@ -163,18 +200,26 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 switch (tab.getPosition()) {
                     case 0: {
                         im_more_toolbar.setVisibility(View.GONE);
+                        if (!isOld) {
+                            im_tittle_toolbar.setText("看护对象");
+                        } else {
+                            im_tittle_toolbar.setText("护理人员");
+                        }
                         break;
                     }
                     case 1: {
                         im_more_toolbar.setVisibility(View.VISIBLE);
+                        im_tittle_toolbar.setText("老友圈");
                         break;
                     }
                     case 2: {
                         im_more_toolbar.setVisibility(View.GONE);
+                        im_tittle_toolbar.setText("资讯栏");
                         break;
                     }
                     default: {
                         im_more_toolbar.setVisibility(View.GONE);
+                        im_tittle_toolbar.setText("Error");
                         break;
                     }
                 }
@@ -239,11 +284,27 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 break;
             }
             case R.id.drawer_ll_message: {
-                Toast.makeText(MainActivity.this, "message", Toast.LENGTH_SHORT).show();
+                Intent it;
+                if (!isOld) {
+                    it = new Intent(MainActivity.this, NurseActivity.class);
+                    im_tittle_toolbar.setText("看护对象");
+                } else {
+                    it = new Intent(MainActivity.this, OlderActivity.class);
+                    im_tittle_toolbar.setText("护理人员");
+                }
+                startActivity(it);
                 break;
             }
             case R.id.drawer_ll_situation: {
-                Toast.makeText(MainActivity.this, "situation", Toast.LENGTH_SHORT).show();
+                Intent it;
+                if (!isOld) {
+                    it = new Intent(MainActivity.this, NurseActivity.class);
+                    im_tittle_toolbar.setText("看护对象");
+                } else {
+                    it = new Intent(MainActivity.this, OlderSituationActivity.class);
+                    im_tittle_toolbar.setText("护理人员");
+                }
+                startActivity(it);
                 break;
             }
             case R.id.drawer_ll_aboutAs: {
@@ -251,11 +312,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 break;
             }
             case R.id.drawer_ll_exit: {
-                UserManagePresenter managePresenter = new UserManagePresenter(MainActivity.this);
-                managePresenter.exitLogin();
-                startActivity(new Intent(MainActivity.this, LoginActivity.class));
-                finish();
-                Toast.makeText(MainActivity.this, "exit", Toast.LENGTH_SHORT).show();
+                builder.show();
                 break;
             }
             default: {
@@ -268,6 +325,20 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         provider.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
+            if ((System.currentTimeMillis() - exitTime) > 2000) {
+                Toast.makeText(getApplicationContext(), "亲～再按一次退出程序哦！", Toast.LENGTH_SHORT).show();
+                exitTime = System.currentTimeMillis();
+            } else {
+                finish();
+            }
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
     @Override
@@ -308,7 +379,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         dialog.dismiss();
         Toast.makeText(MainActivity.this, "更改头像失败", Toast.LENGTH_SHORT).show();
     }
-
 
 
     public void addImage(Uri uri) {
