@@ -80,12 +80,12 @@ public class OlderFragment extends Fragment implements IGetBothMessage {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-                lastVisibleItem = ((LinearLayoutManager) layoutManager).findLastVisibleItemPosition();
+               /* lastVisibleItem = ((LinearLayoutManager) layoutManager).findLastVisibleItemPosition();
                 totalItemCount = layoutManager.getItemCount();
                 if (lastVisibleItem >= totalItemCount - 4 && dy > 0) {
                     presenter.getAllOldMessage(OlderFragment.this);
 
-                }
+                }*/
             }
         });
         return view;
@@ -113,5 +113,6 @@ public class OlderFragment extends Fragment implements IGetBothMessage {
         oldList.clear();
         oldList.addAll(allOldList);
         mAdapter.notifyDataSetChanged();
+        mSwipeRefreshWidget.setRefreshing(false);
     }
 }

@@ -31,7 +31,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="@string/tittle_oldfreind"
                     android:textColor="@color/colorWhite_ffffff"
                     android:textSize="16sp"/>
 

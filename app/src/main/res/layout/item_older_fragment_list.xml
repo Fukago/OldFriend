@@ -17,7 +17,8 @@
                 android:id="@+id/im_item_older_face"
                 android:layout_width="96dp"
                 android:layout_height="96dp"
-                android:layout_gravity="center_vertical"/>
+                android:layout_gravity="center_vertical"
+                android:layout_margin="8dp"/>
 
         <LinearLayout
 
@@ -39,6 +40,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="5dp"
+                        android:layout_marginTop="3dp"
                         android:ellipsize="end"
                         android:lines="1"
                         android:singleLine="true"
@@ -50,12 +52,11 @@
                         android:id="@+id/tv_item_older_situation"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginLeft="4dp"
                         android:gravity="center"
                         android:textSize="10sp"
-                        android:layout_marginLeft="4dp"
                         tool:text="(良好)"/>
             </LinearLayout>
-            >
 
             <TextView
                     android:id="@+id/tv_item_older_context"

@@ -13,10 +13,10 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.apple.oldfriend.R;
+import com.example.apple.oldfriend.weidge.UnScrollLisiView;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
@@ -53,7 +53,7 @@ public class OlderSituationActivity extends AppCompatActivity implements View.On
     private void initView() {
         mChart = (BarChart) findViewById(R.id.chart);
         initChart();
-        ListView lv_body_message = (ListView) findViewById(R.id.lv_body_message_older_situation);
+        UnScrollLisiView lv_body_message = (UnScrollLisiView) findViewById(R.id.lv_body_message_older_situation);
         if (lv_body_message != null) {
             lv_body_message.setAdapter(new BaseAdapter() {
                 @Override

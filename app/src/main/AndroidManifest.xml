@@ -64,6 +64,11 @@
                 android:label="@string/title_activity_older_situation"
                 android:theme="@style/AppTheme.NoActionBar">
         </activity>
+        <activity
+                android:name=".view.NurseActivity"
+                android:label="@string/title_activity_nurse"
+                android:theme="@style/AppTheme.NoActionBar">
+        </activity>
     </application>
 
 </manifest>

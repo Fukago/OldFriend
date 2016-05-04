@@ -39,28 +39,47 @@
         </RelativeLayout>
     </android.support.v7.widget.Toolbar>
 
-    <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="4dp"
-            android:text="近况柱形图"
-            android:textColor="@color/colorBlack_000000"
-            android:textSize="20sp"/>
-
-    <com.github.mikephil.charting.charts.BarChart
-            android:id="@+id/chart"
-            android:layout_width="match_parent"
-            android:layout_height="240dp"/>
-
-    <LinearLayout
+    <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:scrollbars="none">
 
-        <ListView
-                android:id="@+id/lv_body_message_older_situation"
+        <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-    </LinearLayout>
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="4dp"
+                    android:text="近况柱形图"
+                    android:textColor="@color/colorBlack_000000"
+                    android:textSize="20sp"/>
+
+
+            <com.github.mikephil.charting.charts.BarChart
+                    android:id="@+id/chart"
+                    android:layout_width="match_parent"
+                    android:layout_height="240dp"/>
+
+
+            <com.example.apple.oldfriend.weidge.UnScrollLisiView
+                    android:id="@+id/lv_body_message_older_situation"
+                    android:layout_width="match_parent"
+                    android:layout_height="194dp"
+                    android:layout_gravity="center"
+                    android:layout_margin="8dp"/>
+
+            <EditText
+                    android:id="@+id/et_send_zone"
+                    android:layout_width="match_parent"
+                    android:layout_height="120dp"
+                    android:layout_margin="8dp"
+                    android:hint="情况说明"
+                    android:background="@drawable/sharp_editext"
+                    android:gravity="start"
+                    />
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>

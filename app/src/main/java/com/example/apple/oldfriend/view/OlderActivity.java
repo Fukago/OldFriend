@@ -13,10 +13,10 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.apple.oldfriend.R;
+import com.example.apple.oldfriend.weidge.UnScrollLisiView;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
 import java.util.ArrayList;
@@ -67,7 +67,7 @@ public class OlderActivity extends AppCompatActivity implements View.OnClickList
     private void initView() {
         im_older_face = (ImageView) findViewById(R.id.im_older_face_old_activity);
         ll_basic_message = (LinearLayout) findViewById(R.id.ll_basic_message_old_activity);
-        ListView lv_basic_message_old_activity = (ListView) findViewById(R.id.lv_basic_message_old_activity);
+        UnScrollLisiView lv_basic_message_old_activity = (UnScrollLisiView) findViewById(R.id.lv_basic_message_old_activity);
         if (lv_basic_message_old_activity != null) {
             lv_basic_message_old_activity.setAdapter(new BaseAdapter() {
                 @Override

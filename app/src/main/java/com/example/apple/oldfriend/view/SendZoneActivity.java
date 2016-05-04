@@ -35,7 +35,7 @@ public class SendZoneActivity extends AppCompatActivity implements View.OnClickL
     private AlertDialog.Builder builder;
     private Button bn_tittle_toolbar_send;
     private static final String DIALOG_TITTLE = "是否退出";
-    private static final String DIALOG_MESSGAE = "未保存编辑内容,确认退出?";
+    private static final String DIALOG_MESSGAE = "未发送编辑内容,确认退出?";
     private static final String DIALOG_OK = "确认";
     private static final String DIALOG_CANCEL = "取消";
     private FriendArticlePresenter presenter;
@@ -82,9 +82,13 @@ public class SendZoneActivity extends AppCompatActivity implements View.OnClickL
 
     private void initView() {
         et_send_zone = (EditText) findViewById(R.id.et_send_zone);
-        et_send_zone.addTextChangedListener(et_watcher);
+        if (et_send_zone != null) {
+            et_send_zone.addTextChangedListener(et_watcher);
+        }
         im_addpicture_send_zone = (ImageView) findViewById(R.id.im_addpicture_send_zone);
-        im_addpicture_send_zone.setOnClickListener(this);
+        if (im_addpicture_send_zone != null) {
+            im_addpicture_send_zone.setOnClickListener(this);
+        }
     }
 
     private void initToolbar() {
@@ -92,7 +96,9 @@ public class SendZoneActivity extends AppCompatActivity implements View.OnClickL
         if (toolbar != null) {
             setSupportActionBar(toolbar);
             TextView tv_tittle_toolbar_cancel = (TextView) findViewById(R.id.tv_tittle_toolbar_cancel);
-            tv_tittle_toolbar_cancel.setOnClickListener(this);
+            if (tv_tittle_toolbar_cancel != null) {
+                tv_tittle_toolbar_cancel.setOnClickListener(this);
+            }
             bn_tittle_toolbar_send = (Button) toolbar.findViewById(R.id.bn_tittle_toolbar_send);
             bn_tittle_toolbar_send.setOnClickListener(this);
         }
@@ -120,7 +126,10 @@ public class SendZoneActivity extends AppCompatActivity implements View.OnClickL
                 bn_tittle_toolbar_send.setClickable(false);
                 bn_tittle_toolbar_send.setTextColor(R.color.colorGray_a9b7b7);
             }*/
-            isSend = false;
+            if (!TextUtils.isEmpty(s)) {
+                isSend = false;
+            }
+
         }
     };
 
@@ -157,7 +166,7 @@ public class SendZoneActivity extends AppCompatActivity implements View.OnClickL
             case R.id.tv_tittle_toolbar_cancel: {
                 if (!isSend) {
                     builder.show();
-                }else {
+                } else {
                     finish();
                 }
                 break;
@@ -191,7 +200,7 @@ public class SendZoneActivity extends AppCompatActivity implements View.OnClickL
         dialog.dismiss();
         addImage(uri);
         Log.d("changeImage", "" + "onImageLoaded---");
-        provider.corpImage(uri,272,192, new OnImageSelectListener() {
+        provider.corpImage(uri, 272, 192, new OnImageSelectListener() {
             @Override
             public void onImageSelect() {
 
@@ -219,7 +228,7 @@ public class SendZoneActivity extends AppCompatActivity implements View.OnClickL
 
     public void addImage(Uri uri) {
         im_uri = uri.toString();
-        im_uri=im_uri.substring(7);
+        im_uri = im_uri.substring(7);
         Log.d("changeImage", "" + uri);
         try {
             bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(uri));
@@ -234,7 +243,6 @@ public class SendZoneActivity extends AppCompatActivity implements View.OnClickL
                     .error(R.drawable.user_ic_face)
                     .into(im_addpicture_send_zone);
             im_addpicture_send_zone.setClickable(false);
-            //drawer_im_userface.setImageDrawable(new BitmapDrawable(bitmap));
         }
     }
 
