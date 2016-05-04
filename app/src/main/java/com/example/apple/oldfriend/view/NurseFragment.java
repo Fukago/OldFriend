@@ -83,12 +83,6 @@ public class NurseFragment extends Fragment {
         userPresenter.getUser(new IUser() {
             @Override
             public void getUserSuccess(User user) {
-                /*Picasso.with(getContext())
-                        .load(user.getMyNurse().getHeadPic().getFileUrl(getContext()))
-                        .resize(136,136)
-                        .placeholder(R.drawable.picasso_ic_loading)
-                        .error(R.drawable.picasso_ic_loadingerror)
-                        .into(im_nurseFace_nurseFragment);*/
                 Log.d("moblie",""+true);
                 tv_nurseTel_nurseFraghment.setText(""+user.getMyNurse().getUsername());
                 Log.d("moblie",""+user.getMyNurse().getUsername());
