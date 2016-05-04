@@ -32,7 +32,6 @@ import cn.bmob.v3.listener.UploadFileListener;
  */
 public class FriendArticleModel {
     private Context context;
-
     public FriendArticleModel(Context context) {
         this.context = context;
     }
@@ -65,6 +64,7 @@ public class FriendArticleModel {
             public void onSuccess() {
                 article.setArticlePic(bmobFile);
                 article.update(context);
+
             }
 
             @Override

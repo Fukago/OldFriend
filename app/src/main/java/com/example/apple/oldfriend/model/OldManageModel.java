@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.example.apple.oldfriend.cofing.IGetMyNurse;
 import com.example.apple.oldfriend.cofing.IGetOldBriefState;
+import com.example.apple.oldfriend.cofing.IGetOldPhyStateAndTimeList;
 import com.example.apple.oldfriend.cofing.IGetOldPhysioAndPsychoState;
 import com.example.apple.oldfriend.model.bean.OldPhysioState;
 import com.example.apple.oldfriend.model.bean.OldPsychoState;
@@ -153,7 +154,6 @@ public class OldManageModel {
             });
         }
     }
-
 
 
     //得到简要情况
@@ -387,13 +387,15 @@ public class OldManageModel {
     }
 
     //得到老人全部身体数据时间、最大值、最小值和差值
-    public void getOldPhysioStateTimeList(User oldPeople, final IGetOldPhysioAndPsychoState callback) {
+    public void getOldPhysioStateTimeList(User oldPeople, final IGetOldPhyStateAndTimeList callback) {
         final List<String> timeList = new ArrayList<>();
+        final List<Integer> bigList = new ArrayList<>();
         BmobQuery<OldPhysioState> query = new BmobQuery<>();
         query.addWhereEqualTo("myOldState", oldPeople.getMyOldState());
         query.findObjects(context, new FindListener<OldPhysioState>() {
             @Override
             public void onSuccess(List<OldPhysioState> list) {
+                float maxValue = 0;
                 for (OldPhysioState oldPhysioState : list) {
                     //设置全部身体数据时间
                     String pat1 = "yyyy-MM-dd HH:mm:ss";
@@ -408,8 +410,14 @@ public class OldManageModel {
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }
-                    //TODO 得到所有数据的最大值、最小值
+                    if (Float.valueOf(oldPhysioState.getXueya()) > maxValue) {
+                        maxValue = Float.valueOf(oldPhysioState.getXueya());
+                    }
                 }
+                for (int i = 0; i <= maxValue + 5; i += 15) {
+                    bigList.add(i);
+                }
+                callback.getOldPhyStateAndTimeListSuccess(timeList, bigList);
             }
 
             @Override

@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.example.apple.oldfriend.cofing.IGetMyNurse;
 import com.example.apple.oldfriend.cofing.IGetOldBriefState;
+import com.example.apple.oldfriend.cofing.IGetOldPhyStateAndTimeList;
 import com.example.apple.oldfriend.cofing.IGetOldPhysioAndPsychoState;
 import com.example.apple.oldfriend.model.OldManageModel;
 import com.example.apple.oldfriend.model.bean.User;
@@ -116,6 +117,15 @@ public class OldManagePresenter {
      */
     public void getMyNurseInfo(final IGetMyNurse callback) {
         model.getMyNurseInfo(callback);
+    }
+
+
+    /**
+     *
+     * 得到老人全部身体数据时间、最大值、最小值和差值
+     */
+    public void getOldPhysioStateTimeList(User oldPeople, final IGetOldPhyStateAndTimeList callback) {
+        model.getOldPhysioStateTimeList(oldPeople, callback);
     }
 }
 
