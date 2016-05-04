@@ -40,16 +40,18 @@ public class UserManageModel {
             BmobQuery<User> query = new BmobQuery<>();
             query.addWhereEqualTo("username", user.getUsername());
             query.include("myOldState.oldPsychoState,myOldState.oldSociaState,myOldState.oldPhysioState,myNurseState," +
-                    "" + "headPic");
+                    "myNurse,headPic");
             query.findObjects(context, new FindListener<User>() {
                 @Override
                 public void onSuccess(List<User> list) {
                     callback.getUserSuccess(list.get(0));
+                    Log.d("TAG", "getUser---->>>>>>>>>>getName" + list.get(0).getMyOldState().getName());
+
                 }
 
                 @Override
                 public void onError(int i, String s) {
-                    Log.d("TAG", "getUser----fail" + s);
+                    Log.d("TAG", "getUser----fail------->>>>>>>>>>" + s);
                 }
             });
         }

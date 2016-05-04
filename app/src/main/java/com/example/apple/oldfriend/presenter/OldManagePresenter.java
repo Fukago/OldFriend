@@ -2,6 +2,7 @@ package com.example.apple.oldfriend.presenter;
 
 import android.content.Context;
 
+import com.example.apple.oldfriend.cofing.IGetMyNurse;
 import com.example.apple.oldfriend.cofing.IGetOldBriefState;
 import com.example.apple.oldfriend.cofing.IGetOldPhysioAndPsychoState;
 import com.example.apple.oldfriend.model.OldManageModel;
@@ -9,14 +10,13 @@ import com.example.apple.oldfriend.model.bean.User;
 
 /**
  * Created by gan on 2016/4/23.
- *
+ * <p/>
  * ********************测试通过********************
  * FBI:warning如果要设置同时简要身体状态和姓名和年龄，请不要单独调用两个方法，而是调用setOldNameAndAgeAndBriefState方法。
- *
+ * <p/>
  * 血脂的正常范围：2.8～5.17mmol/L
  * 血压的正常范围：收缩压<130mmHg，舒张压<85mmHg；
  * 血糖的正常范围：<2.78mmol/L
- *
  */
 public class OldManagePresenter {
     private OldManageModel model;
@@ -110,4 +110,10 @@ public class OldManagePresenter {
         model.getOldSociaState(oldPeople, callback);
     }
 
+    /**
+     * 得到照顾老人的护士
+     */
+    public void getMyNurseInfo(final IGetMyNurse callback) {
+        model.getMyNurseInfo(callback);
+    }
 }

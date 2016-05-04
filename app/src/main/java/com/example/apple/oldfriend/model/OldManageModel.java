@@ -3,6 +3,7 @@ package com.example.apple.oldfriend.model;
 import android.content.Context;
 import android.util.Log;
 
+import com.example.apple.oldfriend.cofing.IGetMyNurse;
 import com.example.apple.oldfriend.cofing.IGetOldBriefState;
 import com.example.apple.oldfriend.cofing.IGetOldPhysioAndPsychoState;
 import com.example.apple.oldfriend.model.bean.OldPhysioState;
@@ -19,6 +20,7 @@ import java.util.Date;
 import java.util.List;
 
 import cn.bmob.v3.BmobQuery;
+import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.listener.FindListener;
 import cn.bmob.v3.listener.SaveListener;
 import cn.bmob.v3.listener.UpdateListener;
@@ -129,6 +131,27 @@ public class OldManageModel {
             });
         }
 
+    }
+
+    public void getMyNurseInfo(final IGetMyNurse callback) {
+        User user = BmobUser.getCurrentUser(context, User.class);
+        if (user != null) {
+            BmobQuery<User> query = new BmobQuery<>();
+            query.addWhereEqualTo("objectId", user.getMyNurse().getObjectId());
+            query.include("myNurseState");
+            query.findObjects(context, new FindListener<User>() {
+                @Override
+                public void onSuccess(List<User> list) {
+                    callback.getMyNurseSuccess(list.get(0));
+
+                }
+
+                @Override
+                public void onError(int i, String s) {
+                    Log.d("TAG", "getNurse----fail------->>>>>>>>>>" + s);
+                }
+            });
+        }
     }
 
 

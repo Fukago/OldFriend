@@ -1,6 +1,7 @@
 package com.example.apple.oldfriend.model;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.example.apple.oldfriend.cofing.IGetNurseState;
 import com.example.apple.oldfriend.model.bean.NurseState;
@@ -167,6 +168,7 @@ public class NurseManageModel {
     public void getNurseNameAndAge(User nurse, IGetNurseState callback) {
         Integer age = nurse.getMyNurseState().getAge();
         String name = nurse.getMyNurseState().getName();
+        Log.d("MODTAG", "age :" + age + "name" + name);
         callback.getNurseNameAndAgeSuccess(name, age);
     }
 

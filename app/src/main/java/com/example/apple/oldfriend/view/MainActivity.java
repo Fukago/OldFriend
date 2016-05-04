@@ -148,11 +148,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         presenter.getUser(new IUser() {
             @Override
             public void getUserSuccess(User user) {
+                Log.d("username", "isOld----------->>>>>" + isOld);
                 if (!isOld) {
-                    Log.d("user.getMyNurse()",presenter.getHeadPicUrl(user));
-                    drawer_tv_userName.setText(user.getMyNurse().getMyNurseState().getName());
+                    Log.d("username", "nurse------------->>>>>" + user.getMyNurseState().getName());
+                    drawer_tv_userName.setText(user.getMyNurseState().getName());
                 } else {
-                    Log.d("user.getMyNurse()",presenter.getHeadPicUrl(user));
+                    Log.d("username", "old------------->>>>>" + user.getMyOldState().getName());
                     drawer_tv_userName.setText(user.getMyOldState().getName());
                 }
                 Picasso.with(MainActivity.this)
