@@ -85,7 +85,8 @@ public class ZoneAdapter extends RecyclerView.Adapter {
                             .into(viewHolder.im_item_zone_picture);
 
                 }
-                //viewHolder.tv_item_zone_userName.setText("" + mList.get(position - 1).getAuthor().getMyOldState().getName());
+
+                viewHolder.tv_item_zone_userName.setText("" + mList.get(position - 1).getAuthor().getMyOldState().getName());
                 viewHolder.tv_item_zone_description.setText("" + mList.get(position - 1).getContent());
                 viewHolder.tv_item_zone_message.setText("被浏览" + mList.get(position - 1).getReadTimes()+"次");
             }

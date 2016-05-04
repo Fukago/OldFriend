@@ -155,6 +155,7 @@ public class OldManageModel {
     }
 
 
+
     //得到简要情况
     public void getOldBriefState(User oldPeople, IGetOldBriefState callback) {
 
