@@ -16,6 +16,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.apple.oldfriend.R;
+import com.example.apple.oldfriend.cofing.IGetOldPhysioAndPsychoState;
+import com.example.apple.oldfriend.model.bean.OldPhysioState;
+import com.example.apple.oldfriend.model.bean.OldPsychoState;
+import com.example.apple.oldfriend.model.bean.User;
+import com.example.apple.oldfriend.presenter.OldManagePresenter;
 import com.example.apple.oldfriend.weidge.UnScrollLisiView;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
@@ -33,6 +38,8 @@ public class OlderActivity extends AppCompatActivity implements View.OnClickList
     private TextView tv_body_message;
     private LinearLayout ll_social_message;
     private TextView tv_social_message;
+    private OldManagePresenter presenter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,19 +62,33 @@ public class OlderActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void iniData() {
+        presenter = new OldManagePresenter(OlderActivity.this);
         Intent it = getIntent();
+        User old = (User) it.getSerializableExtra("old");
         list.clear();
         list.add("姓名:          " + it.getStringExtra("name"));
         list.add("年龄:          " + it.getStringExtra("age"));
         list.add("性别:          ");
         list.add("血型:          ");
         tv_body_message.setText("最近情况:   " + it.getStringExtra("context"));
+        presenter.getOldPhysioState(old, new IGetOldPhysioAndPsychoState() {
+            @Override
+            public void getOldPhysioStateSuccess(List<OldPhysioState> allOldPhysioState) {
+
+            }
+
+            @Override
+            public void getOldPsychoStateSuccess(List<OldPsychoState> allOldPsychoState) {
+
+            }
+        });
     }
 
     private void initView() {
         im_older_face = (ImageView) findViewById(R.id.im_older_face_old_activity);
         ll_basic_message = (LinearLayout) findViewById(R.id.ll_basic_message_old_activity);
-        UnScrollLisiView lv_basic_message_old_activity = (UnScrollLisiView) findViewById(R.id.lv_basic_message_old_activity);
+        UnScrollLisiView lv_basic_message_old_activity = (UnScrollLisiView) findViewById(R.id
+                .lv_basic_message_old_activity);
         if (lv_basic_message_old_activity != null) {
             lv_basic_message_old_activity.setAdapter(new BaseAdapter() {
                 @Override
@@ -88,7 +109,8 @@ public class OlderActivity extends AppCompatActivity implements View.OnClickList
                 @Override
                 public View getView(int position, View convertView, ViewGroup parent) {
                     View view;
-                    view = LayoutInflater.from(OlderActivity.this).inflate(R.layout.item_basic_message_older_activity, null);
+                    view = LayoutInflater.from(OlderActivity.this).inflate(R.layout
+                            .item_basic_message_older_activity, null);
                     tv_item = (TextView) view.findViewById(R.id.tv_item_older_activity);
                     tv_item.setText(list.get(position));
                     return view;
@@ -99,7 +121,8 @@ public class OlderActivity extends AppCompatActivity implements View.OnClickList
             lv_basic_message_old_activity.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    TextView textView = (TextView) parent.getChildAt(position).findViewById(R.id.tv_item_older_activity);
+                    TextView textView = (TextView) parent.getChildAt(position).findViewById(R.id
+                            .tv_item_older_activity);
                     switch (position) {
                         case 0: {
                             createDialog(textView, "姓名", "姓名", "输入姓名", 5, 2);

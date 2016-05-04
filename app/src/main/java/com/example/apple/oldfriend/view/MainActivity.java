@@ -162,8 +162,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                         .transform(new CircleTransform())
                         .into(drawer_im_userface);
                 if (!isOld) {
-                    Log.d("user.getMyNurse()",user.getMyNurse().getMyNurseState().getName());
-                    drawer_tv_userName.setText(user.getMyNurse().getMyNurseState().getName());
+                    drawer_tv_userName.setText(user.getMyNurseState().getName());
                 } else {
                     Log.d("user.getMyNurse()",user.getMyOldState().getName());
                     drawer_tv_userName.setText(user.getMyOldState().getName());

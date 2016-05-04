@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.example.apple.oldfriend.R;
 import com.example.apple.oldfriend.model.bean.User;
+import com.example.apple.oldfriend.presenter.OldManagePresenter;
 import com.example.apple.oldfriend.util.CircleTransform;
 import com.squareup.picasso.Picasso;
 
@@ -60,6 +61,9 @@ public class OlderAdapter extends RecyclerView.Adapter {
                 it.putExtra("name", "" + mList.get(position).getMyOldState().getName());
                 it.putExtra("context", "" + mList.get(position).getMyOldState().getBriefState());
                 it.putExtra("age", "" + mList.get(position).getMyOldState().getAge());
+
+                it.putExtra("old", mList.get(position));
+
                 context.startActivity(it);
             }
         });
