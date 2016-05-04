@@ -1,5 +1,6 @@
 package com.example.apple.oldfriend.view;
 
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -22,6 +23,7 @@ import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.example.apple.oldfriend.R;
+import com.example.apple.oldfriend.cofing.ISetArticle;
 import com.example.apple.oldfriend.presenter.FriendArticlePresenter;
 import com.jude.library.imageprovider.ImageProvider;
 import com.jude.library.imageprovider.OnImageSelectListener;
@@ -44,6 +46,7 @@ public class SendZoneActivity extends AppCompatActivity implements View.OnClickL
     private Bitmap bitmap;
     private String im_uri = null;
     private boolean isSend = false;
+    public ProgressDialog p_dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -172,10 +175,25 @@ public class SendZoneActivity extends AppCompatActivity implements View.OnClickL
                 break;
             }
             case R.id.bn_tittle_toolbar_send: {
+                p_dialog = ProgressDialog
+                        .show(SendZoneActivity.this,
+                                null,
+                                "正在为您登录...",
+                                true);
                 if (TextUtils.isEmpty(im_uri)) {
-                    presenter.setArticleAndAuthor(et_send_zone.getText().toString());
+                    presenter.setArticleAndAuthor(et_send_zone.getText().toString(), new ISetArticle() {
+                        @Override
+                        public void setArticleSuccess() {
+                            p_dialog.cancel();
+                        }
+                    });
                 } else {
-                    presenter.setArticleAndAuthor(et_send_zone.getText().toString(), im_uri);
+                    presenter.setArticleAndAuthor(et_send_zone.getText().toString(), im_uri, new ISetArticle() {
+                        @Override
+                        public void setArticleSuccess() {
+                            p_dialog.cancel();
+                        }
+                    });
                 }
                 isSend = true;
                 finish();
