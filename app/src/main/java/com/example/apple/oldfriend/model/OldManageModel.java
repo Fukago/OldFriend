@@ -13,11 +13,13 @@ import com.example.apple.oldfriend.model.bean.OldSociaState;
 import com.example.apple.oldfriend.model.bean.OldState;
 import com.example.apple.oldfriend.model.bean.User;
 import com.example.apple.oldfriend.util.TimeUtil;
+import com.github.mikephil.charting.data.BarEntry;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import cn.bmob.v3.BmobQuery;
@@ -390,6 +392,11 @@ public class OldManageModel {
     public void getOldPhysioStateTimeList(User oldPeople, final IGetOldPhyStateAndTimeList callback) {
         final List<String> timeList = new ArrayList<>();
         final List<Integer> bigList = new ArrayList<>();
+        final ArrayList<BarEntry> tiwenList = new ArrayList<>();
+        final ArrayList<BarEntry> xuetangList = new ArrayList<>();
+        final ArrayList<BarEntry> xueyaList = new ArrayList<>();
+        final ArrayList<BarEntry> xuezhiList = new ArrayList<>();
+        final HashMap<String, ArrayList<BarEntry>> stateMap = new HashMap<>();
         BmobQuery<OldPhysioState> query = new BmobQuery<>();
         query.addWhereEqualTo("myOldState", oldPeople.getMyOldState());
         query.findObjects(context, new FindListener<OldPhysioState>() {
@@ -397,6 +404,7 @@ public class OldManageModel {
             public void onSuccess(List<OldPhysioState> list) {
                 float maxValue = 0;
                 for (OldPhysioState oldPhysioState : list) {
+                    int i = 0;
                     //设置全部身体数据时间
                     String pat1 = "yyyy-MM-dd HH:mm:ss";
                     SimpleDateFormat sdf1 = new SimpleDateFormat(pat1);
@@ -413,11 +421,20 @@ public class OldManageModel {
                     if (Float.valueOf(oldPhysioState.getXueya()) > maxValue) {
                         maxValue = Float.valueOf(oldPhysioState.getXueya());
                     }
+                    tiwenList.add(new BarEntry(Float.valueOf(oldPhysioState.getTiwen()), i));
+                    xuetangList.add(new BarEntry(Float.valueOf(oldPhysioState.getXuetang()), i));
+                    xueyaList.add(new BarEntry(Float.valueOf(oldPhysioState.getXueya()), i));
+                    xuezhiList.add(new BarEntry(Float.valueOf(oldPhysioState.getXuezhi()), i));
+                    i++;
                 }
-                for (int i = 0; i <= maxValue + 5; i += 15) {
-                    bigList.add(i);
-                }
-                callback.getOldPhyStateAndTimeListSuccess(timeList, bigList);
+//                for (int i = 0; i <= maxValue + 5; i += 15) {
+//                    bigList.add(i);
+//                }
+                stateMap.put("tiwen", tiwenList);
+                stateMap.put("xuetang", xuetangList);
+                stateMap.put("xueya", xueyaList);
+                stateMap.put("xuezhi", xuezhiList);
+                callback.getOldPhyStateAndTimeListSuccess(timeList, stateMap);
             }
 
             @Override
