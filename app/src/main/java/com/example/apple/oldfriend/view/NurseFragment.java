@@ -14,10 +14,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.apple.oldfriend.R;
+import com.example.apple.oldfriend.cofing.IGetMyNurse;
 import com.example.apple.oldfriend.cofing.IGetNurseState;
 import com.example.apple.oldfriend.cofing.IUser;
 import com.example.apple.oldfriend.model.bean.User;
 import com.example.apple.oldfriend.presenter.NurseManagePresenter;
+import com.example.apple.oldfriend.presenter.OldManagePresenter;
 import com.example.apple.oldfriend.presenter.UserManagePresenter;
 
 
@@ -86,21 +88,26 @@ public class NurseFragment extends Fragment {
                 Log.d("moblie",""+true);
                 tv_nurseTel_nurseFraghment.setText(""+user.getMyNurse().getUsername());
                 Log.d("moblie",""+user.getMyNurse().getUsername());
-                nursePresenter.getNurseNameAndAge(user.getMyNurse(), new IGetNurseState() {
+                new OldManagePresenter(getContext()).getMyNurseInfo(new IGetMyNurse() {
                     @Override
-                    public void getNurseNameAndAgeSuccess(String name, Integer age) {
-                        tv_nurseName_nurseFraghment.setText(""+name);
+                    public void getMyNurseSuccess(User nurse) {
+                        nursePresenter.getNurseNameAndAge(nurse, new IGetNurseState() {
+                            @Override
+                            public void getNurseNameAndAgeSuccess(String name, Integer age) {
+                                tv_nurseName_nurseFraghment.setText(""+name);
 
-                    }
+                            }
 
-                    @Override
-                    public void getNurseExpSuccess(String exp) {
-                        tv_experience_NurseFragment.setText(""+exp);
-                    }
+                            @Override
+                            public void getNurseExpSuccess(String exp) {
+                                tv_experience_NurseFragment.setText(""+exp);
+                            }
 
-                    @Override
-                    public void getNurseSituationSuccess(String situation) {
-                        tv_zone_NurseFragment.setText(""+situation);
+                            @Override
+                            public void getNurseSituationSuccess(String situation) {
+                                tv_zone_NurseFragment.setText(""+situation);
+                            }
+                        });
                     }
                 });
             }
