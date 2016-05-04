@@ -12,6 +12,10 @@ import com.example.apple.oldfriend.model.bean.OldState;
 import com.example.apple.oldfriend.model.bean.User;
 import com.example.apple.oldfriend.util.TimeUtil;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import cn.bmob.v3.BmobQuery;
@@ -358,5 +362,37 @@ public class OldManageModel {
         });
     }
 
+    //得到老人全部身体数据时间、最大值、最小值和差值
+    public void getOldPhysioStateTimeList(User oldPeople, final IGetOldPhysioAndPsychoState callback) {
+        final List<String> timeList = new ArrayList<>();
+        BmobQuery<OldPhysioState> query = new BmobQuery<>();
+        query.addWhereEqualTo("myOldState", oldPeople.getMyOldState());
+        query.findObjects(context, new FindListener<OldPhysioState>() {
+            @Override
+            public void onSuccess(List<OldPhysioState> list) {
+                for (OldPhysioState oldPhysioState : list) {
+                    //设置全部身体数据时间
+                    String pat1 = "yyyy-MM-dd HH:mm:ss";
+                    SimpleDateFormat sdf1 = new SimpleDateFormat(pat1);
+                    SimpleDateFormat sdf2 = new SimpleDateFormat("MM-dd");
+                    Date d = null;
+                    try {
+                        d = sdf1.parse(oldPhysioState.getCreatedAt());
+                        if (!timeList.contains(sdf2.format(d))) {
+                            timeList.add(sdf2.format(d));
+                        }
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                    //TODO 得到所有数据的最大值、最小值
+                }
+            }
+
+            @Override
+            public void onError(int i, String s) {
+                Log.d("TAG", "getOldPhysioState--Wrong" + s);
+            }
+        });
+    }
 
 }

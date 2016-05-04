@@ -1,9 +1,13 @@
 package com.example.apple.oldfriend.model;
 
+import android.app.IntentService;
 import android.content.Context;
+import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.example.apple.oldfriend.cofing.IGetArticleAndAuthor;
+import com.example.apple.oldfriend.cofing.ISetArticle;
 import com.example.apple.oldfriend.cofing.IjudgeLike;
 import com.example.apple.oldfriend.model.bean.Article;
 import com.example.apple.oldfriend.model.bean.Comment;
@@ -52,7 +56,7 @@ public class FriendArticleModel {
     }
 
     //发表文章（有图）
-    public void setArticleAndAuthor(String content, String picSrc) {
+    public void setArticleAndAuthor(String content, String picSrc, final ISetArticle callback) {
         User me = BmobUser.getCurrentUser(context, User.class);
         final Article article = new Article();
         final BmobFile bmobFile = new BmobFile(new File(picSrc));
@@ -61,7 +65,6 @@ public class FriendArticleModel {
             public void onSuccess() {
                 article.setArticlePic(bmobFile);
                 article.update(context);
-                Log.d("TAG", "上传图片成功");
             }
 
             @Override
@@ -74,23 +77,58 @@ public class FriendArticleModel {
         article.setTransmitTimes(0);
         article.setTime(TimeUtil.getTime("yyyy-MM-dd"));
         article.setContent(content);
-        article.setAuthor(me);
-        article.save(context, new SaveListener() {
-            @Override
-            public void onSuccess() {
-                Log.d("TAG", "setArticleAndAuthor -------  Success");
-            }
+        if (me != null) {
+            BmobQuery<User> query = new BmobQuery<>();
+            query.addWhereEqualTo("username", me.getUsername());
+            query.include("myOldState.oldPsychoState,myOldState.oldSociaState,myOldState.oldPhysioState,myNurse" +
+                    ".myNurseState," +
+                    "headPic");
+            query.findObjects(context, new FindListener<User>() {
+                @Override
+                public void onSuccess(List<User> list) {
+                    final User user = list.get(0);
+                    article.setAuthor(user);
+                    if (user.getOld() && user.getMyOldState().getName() != null) {
+                        article.save(context, new SaveListener() {
+                            @Override
+                            public void onSuccess() {
+                                callback.setArticleSuccess();
+                            }
 
-            @Override
-            public void onFailure(int i, String s) {
-                Log.d("TAG", "setArticleAndAuthor -------  Failure:" + s);
+                            @Override
+                            public void onFailure(int i, String s) {
 
-            }
-        });
+                            }
+                        });
+                    } else {
+                        Toast.makeText(context, "请确认你是老人并且填写了真实姓名", Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                @Override
+                public void onError(int i, String s) {
+                    Log.d("TAG", "getUser----fail" + s);
+                }
+            });
+        }
+//        article.setAuthor(me);
+//        article.save(context, new SaveListener() {
+//            @Override
+//            public void onSuccess() {
+//                callback.setArticleSuccess();
+//                Log.d("TAG", "setArticleAndAuthor -------  Success");
+//            }
+//
+//            @Override
+//            public void onFailure(int i, String s) {
+//                Log.d("TAG", "setArticleAndAuthor -------  Failure:" + s);
+//
+//            }
+//        });
     }
 
     //发表文章（无图）
-    public void setArticleAndAuthor(String content) {
+    public void setArticleAndAuthor(String content, final ISetArticle callback) {
         User me = BmobUser.getCurrentUser(context, User.class);
         final Article article = new Article();
         article.setReadTimes(1);
@@ -98,19 +136,55 @@ public class FriendArticleModel {
         article.setTransmitTimes(0);
         article.setTime(TimeUtil.getTime("yyyy-MM-dd"));
         article.setContent(content);
-        article.setAuthor(me);
-        article.save(context, new SaveListener() {
-            @Override
-            public void onSuccess() {
-                Log.d("TAG", "setArticleAndAuthor -------  Success");
-            }
+        if (me != null) {
+            BmobQuery<User> query = new BmobQuery<>();
+            query.addWhereEqualTo("username", me.getUsername());
+            query.include("myOldState.oldPsychoState,myOldState.oldSociaState,myOldState.oldPhysioState,myNurse" +
+                    ".myNurseState," +
+                    "headPic");
+            query.findObjects(context, new FindListener<User>() {
+                @Override
+                public void onSuccess(List<User> list) {
+                    User user = list.get(0);
+                    article.setAuthor(user);
+                    if (user.getOld() && user.getMyOldState().getName() != null) {
+                        article.save(context, new SaveListener() {
+                            @Override
+                            public void onSuccess() {
+                                callback.setArticleSuccess();
+                            }
 
-            @Override
-            public void onFailure(int i, String s) {
-                Log.d("TAG", "setArticleAndAuthor -------  Failure:" + s);
+                            @Override
+                            public void onFailure(int i, String s) {
+                                Log.d("TAG", "setArticleAndAuthor -------  Failure:" + s);
 
-            }
-        });
+                            }
+                        });
+                    } else {
+                        Toast.makeText(context, "请确认你是老人并且填写了真实姓名", Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                @Override
+                public void onError(int i, String s) {
+                    Log.d("TAG", "getUser----fail" + s);
+                }
+            });
+        }
+
+//        article.setAuthor(me);
+//        article.save(context, new SaveListener() {
+//            @Override
+//            public void onSuccess() {
+//                callback.setArticleSuccess();
+//            }
+//
+//            @Override
+//            public void onFailure(int i, String s) {
+//                Log.d("TAG", "setArticleAndAuthor -------  Failure:" + s);
+//
+//            }
+//        });
     }
 
 

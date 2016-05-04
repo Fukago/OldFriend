@@ -2,6 +2,7 @@ package com.example.apple.oldfriend.presenter;
 
 import android.content.Context;
 
+import com.example.apple.oldfriend.cofing.ISetArticle;
 import com.example.apple.oldfriend.cofing.IjudgeLike;
 import com.example.apple.oldfriend.model.FriendArticleModel;
 import com.example.apple.oldfriend.cofing.IGetArticleAndAuthor;
@@ -33,8 +34,8 @@ public class FriendArticlePresenter {
      */
 
 
-    public void setArticleAndAuthor(String content, String picSrc) {
-        model.setArticleAndAuthor(content, picSrc);
+    public void setArticleAndAuthor(String content, String picSrc, ISetArticle callback) {
+        model.setArticleAndAuthor(content, picSrc, callback);
     }
 
     /**
@@ -42,8 +43,8 @@ public class FriendArticlePresenter {
      * content:文章内容
      */
 
-    public void setArticleAndAuthor(String content) {
-        model.setArticleAndAuthor(content);
+    public void setArticleAndAuthor(String content, ISetArticle callback) {
+        model.setArticleAndAuthor(content, callback);
     }
 
     /**
