@@ -43,6 +43,9 @@ public class OlderSituationActivity extends AppCompatActivity implements View.On
     }
 
     private void initData() {
+
+
+
         list.clear();
         list.add("体温:           ");
         list.add("血糖:           ");
