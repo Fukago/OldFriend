@@ -1,35 +1,123 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout
+<LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fitsSystemWindows="true"
-        tools:context="com.example.apple.oldfriend.view.NurseActivity">
+        android:orientation="vertical">
 
-    <android.support.design.widget.AppBarLayout
+    <android.support.v7.widget.Toolbar
+            android:id="@+id/older_toolbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:theme="@style/AppTheme.AppBarOverlay">
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/colorPink_e83f9c"
+            android:minHeight="?attr/actionBarSize">
 
-        <android.support.v7.widget.Toolbar
-                android:id="@+id/toolbar"
+        <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                android:background="?attr/colorPrimary"
-                app:popupTheme="@style/AppTheme.PopupOverlay"/>
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true">
 
-    </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/content_nurse"/>
+            <ImageView
+                    android:id="@+id/im_back_toolbar"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_centerVertical="true"
+                    android:maxHeight="?attr/actionBarSize"
+                    android:maxWidth="?attr/actionBarSize"
+                    android:src="@drawable/toolbar_ic_back"/>
 
-    <android.support.design.widget.FloatingActionButton
-            android:id="@+id/fab"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|end"
-            android:layout_margin="@dimen/fab_margin"
-            android:src="@android:drawable/ic_dialog_email"/>
+            <TextView
+                    android:id="@+id/tv_tittle_toolbar"
+                    style="@style/TextAppearance.AppCompat.Subhead"
+                    android:layout_width="wrap_content"
+                    android:layout_height="?attr/actionBarSize"
+                    android:layout_centerHorizontal="true"
+                    android:gravity="center"
+                    android:text="@string/tittle_oldmessage"
+                    android:textColor="@color/colorWhite_ffffff"
+                    android:textSize="20sp"/>
+            <Button
+                    android:id="@+id/bn_tittle_toolbar_update"
+                    android:layout_width="wrap_content"
+                    android:layout_height="?attr/actionBarSize"
+                    android:layout_alignParentRight="true"
+                    android:gravity="center"
+                    android:text="@string/tittle_update"
+                    android:background="@color/colorPink_e83f9c"
+                    android:textColor="@color/colorWhite_ffffff"
+                    android:textSize="18sp"/>
+        </RelativeLayout>
+    </android.support.v7.widget.Toolbar>
 
-</android.support.design.widget.CoordinatorLayout>
+    <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="none">
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+            <ImageView
+                    android:id="@+id/im_older_face_nurse_activity"
+                    android:layout_width="136dp"
+                    android:layout_height="136dp"
+                    android:layout_gravity="center"
+                    android:layout_margin="4dp"
+                    android:src="@drawable/user_ic_face"/>
+
+            <android.support.v7.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp">
+
+                <LinearLayout
+                        android:id="@+id/ll_basic_message_nurse_activity"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                    <com.example.apple.oldfriend.weidge.UnScrollLisiView
+                            android:id="@+id/lv_basic_message_nurse_activity"
+                            android:layout_width="match_parent"
+                            android:layout_height="194dp"
+                            android:layout_margin="8dp"
+                            android:layout_gravity="center"
+                            android:background="#ffffff">
+
+                    </com.example.apple.oldfriend.weidge.UnScrollLisiView>
+
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp">
+
+                <LinearLayout
+                        android:id="@+id/ll_body_message_nurse_activity"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                    <TextView
+                            android:id="@+id/tv_body_message_nurse_activity"
+                            android:layout_width="match_parent"
+                            android:layout_height="120dp"
+                            android:gravity="start"
+                            android:layout_margin="8dp"
+                            android:background="@drawable/sharp_editext"
+                            android:text="最近情况:     阿斯顿发贺卡收到回复圣诞节客服哈说的话阿萨德就好烦四大皆空发货圣诞节客服哈撒啊数据库的发挥 阿斯顿发哈速度加快发挥啥都好烦金卡上的发挥"
+                            android:textSize="16sp"/>
+
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

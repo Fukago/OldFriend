@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,6 +28,8 @@ public class ZoneAdapter extends RecyclerView.Adapter {
     private List<Article> mList;
     private Context context;
     private ZoneFragment mFragment;
+    private boolean isGood = false;
+    private boolean isSend = false;
 
     public ZoneAdapter(List<Article> list, Context context, ZoneFragment mFragment) {
         mList = list;
@@ -77,7 +78,6 @@ public class ZoneAdapter extends RecyclerView.Adapter {
                 viewHolder.im_item_zone_picture.setImageResource(R.drawable.picasso_ic_loading);
                 if (mList.get(position - 1).getArticlePic() != null) {
                     String url = "" + mList.get(position - 1).getArticlePic().getFileUrl(context);
-                    Log.d("getArticlePic().getFileUrl---", "    " + url + "    position" + position);
                     Picasso.with(context)
                             .load(url)
                             .placeholder(R.drawable.picasso_ic_loading)
@@ -85,10 +85,43 @@ public class ZoneAdapter extends RecyclerView.Adapter {
                             .into(viewHolder.im_item_zone_picture);
 
                 }
+                viewHolder.im_item_zone_face.setImageResource(R.drawable.picasso_ic_loading);
+                if (mList.get(position - 1).getAuthor().getHeadPic() != null) {
+                    String url = "" + mList.get(position - 1).getAuthor().getHeadPic().getFileUrl(context);
+                    Picasso.with(context)
+                            .load(url)
+                            .placeholder(R.drawable.picasso_ic_loading)
+                            .error(R.drawable.picasso_ic_loadingerror)
+                            .into(viewHolder.im_item_zone_face);
 
+                }
                 viewHolder.tv_item_zone_userName.setText("" + mList.get(position - 1).getAuthor().getMyOldState().getName());
                 viewHolder.tv_item_zone_description.setText("" + mList.get(position - 1).getContent());
-                viewHolder.tv_item_zone_message.setText("被浏览" + mList.get(position - 1).getReadTimes()+"次");
+                viewHolder.tv_item_zone_message.setText("被浏览" + mList.get(position - 1).getReadTimes() + "次");
+                viewHolder.im_item_zone_good.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (!isGood) {
+                            isGood = true;
+                            viewHolder.im_item_zone_good.setImageResource(R.drawable.item_zone_ic_good_click);
+                        } else {
+                            isGood = false;
+                            viewHolder.im_item_zone_good.setImageResource(R.drawable.item_zone_ic_good_unclick);
+                        }
+                    }
+                });
+                viewHolder.im_item_zone_send.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (!isSend) {
+                            isSend = true;
+                            viewHolder.im_item_zone_send.setImageResource(R.drawable.item_zone_ic_send_click);
+                        } else {
+                            isSend = false;
+                            viewHolder.im_item_zone_send.setImageResource(R.drawable.item_zone_ic_send_unclick);
+                        }
+                    }
+                });
             }
         }
 
