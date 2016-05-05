@@ -403,8 +403,8 @@ public class OldManageModel {
             @Override
             public void onSuccess(List<OldPhysioState> list) {
                 float maxValue = 0;
+                int i = 0;
                 for (OldPhysioState oldPhysioState : list) {
-                    int i = 0;
                     //设置全部身体数据时间
                     String pat1 = "yyyy-MM-dd HH:mm:ss";
                     SimpleDateFormat sdf1 = new SimpleDateFormat(pat1);
@@ -432,6 +432,7 @@ public class OldManageModel {
 //                }
                 stateMap.put("tiwen", tiwenList);
                 stateMap.put("xuetang", xuetangList);
+
                 stateMap.put("xueya", xueyaList);
                 stateMap.put("xuezhi", xuezhiList);
                 callback.getOldPhyStateAndTimeListSuccess(timeList, stateMap);
