@@ -16,13 +16,12 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.apple.oldfriend.R;
-import com.example.apple.oldfriend.cofing.IGetOldPhysioAndPsychoState;
-import com.example.apple.oldfriend.model.bean.OldPhysioState;
-import com.example.apple.oldfriend.model.bean.OldPsychoState;
 import com.example.apple.oldfriend.model.bean.User;
 import com.example.apple.oldfriend.presenter.OldManagePresenter;
+import com.example.apple.oldfriend.util.CircleTransform;
 import com.example.apple.oldfriend.weidge.UnScrollLisiView;
 import com.rengwuxian.materialedittext.MaterialEditText;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,7 +38,7 @@ public class OlderActivity extends AppCompatActivity implements View.OnClickList
     private LinearLayout ll_social_message;
     private TextView tv_social_message;
     private OldManagePresenter presenter;
-
+    private User old;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,14 +63,24 @@ public class OlderActivity extends AppCompatActivity implements View.OnClickList
     private void iniData() {
         presenter = new OldManagePresenter(OlderActivity.this);
         Intent it = getIntent();
-        User old = (User) it.getSerializableExtra("old");
+        old = (User) it.getSerializableExtra("old");
         list.clear();
-        list.add("姓名:          " + it.getStringExtra("name"));
-        list.add("年龄:          " + it.getStringExtra("age"));
-        list.add("性别:          ");
-        list.add("血型:          ");
-        tv_body_message.setText("最近情况:   " + it.getStringExtra("context"));
-        presenter.getOldPhysioState(old, new IGetOldPhysioAndPsychoState() {
+        list.add("姓名:          " + old.getMyOldState().getName());
+        list.add("年龄:          " + old.getMyOldState().getAge());
+        list.add("性别:          " + old.getSex());
+        list.add("血型:          " + old.getBlood());
+        tv_body_message.setText("最近情况:   " + old.getMyOldState().getBriefState());
+        im_older_face.setImageResource(R.drawable.picasso_ic_loading);
+        if (old.getHeadPic()!=null) {
+            Picasso.with(this)
+                    .load(old.getHeadPic().getFileUrl(this))
+                    .resize(136, 136)
+                    .transform(new CircleTransform())
+                    .placeholder(R.drawable.picasso_ic_loading)
+                    .error(R.drawable.picasso_ic_loadingerror)
+                    .into(im_older_face);
+        }
+        /*presenter.getOldPhysioState(old, new IGetOldPhysioAndPsychoState() {
             @Override
             public void getOldPhysioStateSuccess(List<OldPhysioState> allOldPhysioState) {
 
@@ -81,7 +90,7 @@ public class OlderActivity extends AppCompatActivity implements View.OnClickList
             public void getOldPsychoStateSuccess(List<OldPsychoState> allOldPsychoState) {
 
             }
-        });
+        });*/
     }
 
     private void initView() {
@@ -168,6 +177,7 @@ public class OlderActivity extends AppCompatActivity implements View.OnClickList
         alert.setPositiveButton("确定", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
                 textView.setText(hint + ":          " + mEditText.getText().toString());
+
             }
         });
 
@@ -192,6 +202,7 @@ public class OlderActivity extends AppCompatActivity implements View.OnClickList
             }
             case R.id.ll_body_message_old_activity: {
                 Intent it = new Intent(this, OlderSituationActivity.class);
+                it.putExtra("old", old);
                 startActivity(it);
                 break;
             }

@@ -1,6 +1,7 @@
 package com.example.apple.oldfriend.view;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
@@ -12,10 +13,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.apple.oldfriend.R;
+import com.example.apple.oldfriend.cofing.IGetOldPhyStateAndTimeList;
+import com.example.apple.oldfriend.cofing.IGetOldPhysioAndPsychoState;
+import com.example.apple.oldfriend.model.bean.OldPhysioState;
+import com.example.apple.oldfriend.model.bean.OldPsychoState;
+import com.example.apple.oldfriend.model.bean.User;
+import com.example.apple.oldfriend.presenter.OldManagePresenter;
 import com.example.apple.oldfriend.weidge.UnScrollLisiView;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.data.BarData;
@@ -25,6 +33,7 @@ import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class OlderSituationActivity extends AppCompatActivity implements View.OnClickListener {
@@ -32,28 +41,67 @@ public class OlderSituationActivity extends AppCompatActivity implements View.On
     private BarChart mChart;
     private List<String> list = new ArrayList();
     private TextView tv_item;
+    private OldManagePresenter presenter;
+    private EditText et_send_situation;
+    private ArrayList<String> labels = new ArrayList<String>();
+    private ArrayList<BarEntry> tiWen = new ArrayList<>();
+    private ArrayList<BarEntry> xueTang = new ArrayList<>();
+    private ArrayList<BarEntry> xueYa = new ArrayList<>();
+    private ArrayList<BarEntry> xueZhi = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_older_situation);
+        iniPresenter();
         initToolbar();
         initView();
         initData();
     }
 
+    private void iniPresenter() {
+        presenter = new OldManagePresenter(this);
+    }
+
     private void initData() {
+        Intent it = getIntent();
+        User old = (User) it.getSerializableExtra("old");
+        presenter.getOldPhysioState(old, new IGetOldPhysioAndPsychoState() {
+            @Override
+            public void getOldPhysioStateSuccess(List<OldPhysioState> allOldPhysioState) {
+                list.clear();
+                list.add("体温:           " + allOldPhysioState.get(allOldPhysioState.size() - 1).getTiwen()+"摄氏度");
+                list.add("血糖:           " + allOldPhysioState.get(allOldPhysioState.size() - 1).getXuetang()+"mmol/l");
+                list.add("血压:           " + allOldPhysioState.get(allOldPhysioState.size() - 1).getXueya()+"mmHg");
+                list.add("血脂:           " + allOldPhysioState.get(allOldPhysioState.size() - 1).getXuezhi()+"mmol/l");
+            }
 
+            @Override
+            public void getOldPsychoStateSuccess(List<OldPsychoState> allOldPsychoState) {
+                et_send_situation.setText("近况:          " + allOldPsychoState.get(allOldPsychoState.size() - 1).getSituation());
+            }
+        });
 
-
-        list.clear();
-        list.add("体温:           ");
-        list.add("血糖:           ");
-        list.add("血压:           ");
-        list.add("血脂:           ");
+        presenter.getOldPhysioStateTimeList(old, new IGetOldPhyStateAndTimeList() {
+            @Override
+            public void getOldPhyStateAndTimeListSuccess(List<String> timeList, HashMap<String, ArrayList<BarEntry>> stateMap) {
+                labels.clear();
+                labels.addAll(timeList);
+                tiWen.clear();
+                tiWen.addAll(stateMap.get("tiwen"));
+                xueTang.clear();
+                xueTang.addAll(stateMap.get("xuetang"));
+                xueYa.clear();
+                xueYa.addAll(stateMap.get("xueya"));
+                xueZhi.clear();
+                xueZhi.addAll(stateMap.get("xuezhi"));
+                initChart();
+            }
+        });
     }
 
     private void initView() {
+        et_send_situation = (EditText) findViewById(R.id.et_send_situation);
         mChart = (BarChart) findViewById(R.id.chart);
         initChart();
         UnScrollLisiView lv_body_message = (UnScrollLisiView) findViewById(R.id.lv_body_message_older_situation);
@@ -127,7 +175,7 @@ public class OlderSituationActivity extends AppCompatActivity implements View.On
         alert.setView(DialogView);
         alert.setPositiveButton("确定", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
-                Log.d("mEditText.getText()",""+mEditText.getText().toString());
+                Log.d("mEditText.getText()", "" + mEditText.getText().toString());
                 textView.setText(hint + ":         " + mEditText.getText().toString());
             }
         });
@@ -141,16 +189,9 @@ public class OlderSituationActivity extends AppCompatActivity implements View.On
     }
 
     private void initChart() {
-        ArrayList<String> labels = new ArrayList<String>();
-        labels.add("January");
-        labels.add("February");
-        labels.add("March");
-        labels.add("April");
-        labels.add("May");
-        labels.add("June");
 
 
-        ArrayList<BarEntry> group1 = new ArrayList<>();
+      /*  ArrayList<BarEntry> group1 = new ArrayList<>();
         group1.add(new BarEntry(4f, 0));
         group1.add(new BarEntry(8f, 1));
         group1.add(new BarEntry(6f, 2));
@@ -165,16 +206,24 @@ public class OlderSituationActivity extends AppCompatActivity implements View.On
         group2.add(new BarEntry(12f, 3));
         group2.add(new BarEntry(15f, 4));
         group2.add(new BarEntry(10f, 5));
-
-        BarDataSet barDataSet1 = new BarDataSet(group1, "钙");
+*/
+        BarDataSet barDataSet1 = new BarDataSet(tiWen, "体温");
         barDataSet1.setColors(new int[]{Color.rgb(0xe8, 0x3f, 0x9c)});
 
-        BarDataSet barDataSet2 = new BarDataSet(group2, "铁");
+        BarDataSet barDataSet2 = new BarDataSet(xueTang, "血糖");
+        barDataSet2.setColors(new int[]{Color.rgb(0x32, 0xCD, 0x32)});
+
+        BarDataSet barDataSet3 = new BarDataSet(xueYa, "血压");
+        barDataSet2.setColors(new int[]{Color.rgb(0x32, 0xCD, 0x32)});
+
+        BarDataSet barDataSet4 = new BarDataSet(xueZhi, "血脂");
         barDataSet2.setColors(new int[]{Color.rgb(0x32, 0xCD, 0x32)});
 
         ArrayList<IBarDataSet> dataSets = new ArrayList<>();
         dataSets.add(barDataSet1);
         dataSets.add(barDataSet2);
+        dataSets.add(barDataSet3);
+        dataSets.add(barDataSet4);
 
         BarData data = new BarData(labels, dataSets);
         mChart.setData(data);
