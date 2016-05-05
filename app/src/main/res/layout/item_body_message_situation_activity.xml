@@ -15,6 +15,17 @@
             android:layout_marginLeft="10dp"
             android:textSize="15dp" />
 
+    <TextView
+            android:id="@+id/tv_item_older_number_situation_activity"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:textColor="#000000"
+            android:gravity="center"
+            tool:text="123123123123"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@+id/tv_item_older_situation_activity"
+            android:textSize="15dp" />
+
     <ImageView
             android:layout_width="wrap_content"
             android:layout_height="48dp"

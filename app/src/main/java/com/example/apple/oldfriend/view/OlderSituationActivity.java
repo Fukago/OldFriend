@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -40,14 +41,19 @@ public class OlderSituationActivity extends AppCompatActivity implements View.On
     private ImageView im_back_toolbar;
     private BarChart mChart;
     private List<String> list = new ArrayList();
-    private TextView tv_item;
+    private List<String> mList = new ArrayList();
+    private TextView tv_item_older_situation_activity;
+    private TextView tv_item_older_number_situation_activity;
+    private UnScrollLisiView lv_body_message;
     private OldManagePresenter presenter;
     private EditText et_send_situation;
+    private Button bn_toolbar_update;
     private ArrayList<String> labels = new ArrayList<String>();
     private ArrayList<BarEntry> tiWen = new ArrayList<>();
     private ArrayList<BarEntry> xueTang = new ArrayList<>();
     private ArrayList<BarEntry> xueYa = new ArrayList<>();
     private ArrayList<BarEntry> xueZhi = new ArrayList<>();
+    private User old;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,15 +71,15 @@ public class OlderSituationActivity extends AppCompatActivity implements View.On
 
     private void initData() {
         Intent it = getIntent();
-        User old = (User) it.getSerializableExtra("old");
+        old = (User) it.getSerializableExtra("old");
         presenter.getOldPhysioState(old, new IGetOldPhysioAndPsychoState() {
             @Override
             public void getOldPhysioStateSuccess(List<OldPhysioState> allOldPhysioState) {
                 list.clear();
-                list.add("体温:           " + allOldPhysioState.get(allOldPhysioState.size() - 1).getTiwen()+"摄氏度");
-                list.add("血糖:           " + allOldPhysioState.get(allOldPhysioState.size() - 1).getXuetang()+"mmol/l");
-                list.add("血压:           " + allOldPhysioState.get(allOldPhysioState.size() - 1).getXueya()+"mmHg");
-                list.add("血脂:           " + allOldPhysioState.get(allOldPhysioState.size() - 1).getXuezhi()+"mmol/l");
+                list.add(allOldPhysioState.get(allOldPhysioState.size() - 1).getTiwen());
+                list.add(allOldPhysioState.get(allOldPhysioState.size() - 1).getXuetang());
+                list.add(allOldPhysioState.get(allOldPhysioState.size() - 1).getXueya());
+                list.add(allOldPhysioState.get(allOldPhysioState.size() - 1).getXuezhi());
             }
 
             @Override
@@ -81,6 +87,13 @@ public class OlderSituationActivity extends AppCompatActivity implements View.On
                 et_send_situation.setText("近况:          " + allOldPsychoState.get(allOldPsychoState.size() - 1).getSituation());
             }
         });
+
+        mList.clear();
+        mList.add("体温:(单位:    摄氏度)           ");
+        mList.add("血糖:(单位:    mmol/l)           ");
+        mList.add("血压:(单位:    mmHg)           ");
+        mList.add("血脂:(单位:    mmol/l)           ");
+
 
         presenter.getOldPhysioStateTimeList(old, new IGetOldPhyStateAndTimeList() {
             @Override
@@ -104,7 +117,7 @@ public class OlderSituationActivity extends AppCompatActivity implements View.On
         et_send_situation = (EditText) findViewById(R.id.et_send_situation);
         mChart = (BarChart) findViewById(R.id.chart);
         initChart();
-        UnScrollLisiView lv_body_message = (UnScrollLisiView) findViewById(R.id.lv_body_message_older_situation);
+        lv_body_message = (UnScrollLisiView) findViewById(R.id.lv_body_message_older_situation);
         if (lv_body_message != null) {
             lv_body_message.setAdapter(new BaseAdapter() {
                 @Override
@@ -126,32 +139,36 @@ public class OlderSituationActivity extends AppCompatActivity implements View.On
                 public View getView(int position, View convertView, ViewGroup parent) {
                     View view;
                     view = LayoutInflater.from(OlderSituationActivity.this).inflate(R.layout.item_body_message_situation_activity, null);
-                    tv_item = (TextView) view.findViewById(R.id.tv_item_older_situation_activity);
-                    tv_item.setText(list.get(position));
+                    tv_item_older_situation_activity = (TextView) view.findViewById(R.id.tv_item_older_situation_activity);
+                    tv_item_older_situation_activity.setText(mList.get(position));
+                    tv_item_older_number_situation_activity= (TextView) view.findViewById(R.id.tv_item_older_number_situation_activity);
+                    tv_item_older_number_situation_activity.setText(list.get(position));
                     return view;
                 }
             });
         }
+        bn_toolbar_update = (Button) findViewById(R.id.bn_tittle_toolbar_update);
+        bn_toolbar_update.setOnClickListener(this);
         if (lv_body_message != null) {
             lv_body_message.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    TextView textView = (TextView) parent.getChildAt(position).findViewById(R.id.tv_item_older_situation_activity);
+                    TextView textView = (TextView) parent.getChildAt(position).findViewById(R.id.tv_item_older_number_situation_activity);
                     switch (position) {
                         case 0: {
-                            createDialog(textView, "体温", "体温", "输入体温", 10, 2);
+                            createDialog(old, textView, "体温", "体温", "输入体温", 10, 2,"    摄氏度");
                             break;
                         }
                         case 1: {
-                            createDialog(textView, "血糖", "血糖", "输入血糖", 10, 1);
+                            createDialog(old, textView, "血糖", "血糖", "输入血糖", 10, 1,"  mmol/l");
                             break;
                         }
                         case 2: {
-                            createDialog(textView, "血压", "血压", "输入血压", 10, 1);
+                            createDialog(old, textView, "血压", "血压", "输入血压", 10, 1,"    mmHg");
                             break;
                         }
                         case 3: {
-                            createDialog(textView, "血脂", "血脂", "输入血脂", 10, 1);
+                            createDialog(old, textView, "血脂", "血脂", "输入血脂", 10, 1,"   mmol/l");
                             break;
                         }
                     }
@@ -161,7 +178,7 @@ public class OlderSituationActivity extends AppCompatActivity implements View.On
     }
 
 
-    private void createDialog(final TextView textView, final String hint, String flt, String tittle, int max, int min) {
+    private void createDialog(final User old, final TextView textView, final String hint, String flt, String tittle, int max, int min, final String danWei) {
         AlertDialog.Builder alert = new AlertDialog.Builder(OlderSituationActivity.this);
         LayoutInflater factory = LayoutInflater.from(OlderSituationActivity.this);
         final View DialogView = factory.inflate(R.layout.view_dialog, null);
@@ -176,7 +193,7 @@ public class OlderSituationActivity extends AppCompatActivity implements View.On
         alert.setPositiveButton("确定", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
                 Log.d("mEditText.getText()", "" + mEditText.getText().toString());
-                textView.setText(hint + ":         " + mEditText.getText().toString());
+                textView.setText(mEditText.getText().toString());
             }
         });
 
@@ -189,24 +206,6 @@ public class OlderSituationActivity extends AppCompatActivity implements View.On
     }
 
     private void initChart() {
-
-
-      /*  ArrayList<BarEntry> group1 = new ArrayList<>();
-        group1.add(new BarEntry(4f, 0));
-        group1.add(new BarEntry(8f, 1));
-        group1.add(new BarEntry(6f, 2));
-        group1.add(new BarEntry(12f, 3));
-        group1.add(new BarEntry(18f, 4));
-        group1.add(new BarEntry(9f, 5));
-
-        ArrayList<BarEntry> group2 = new ArrayList<>();
-        group2.add(new BarEntry(6f, 0));
-        group2.add(new BarEntry(7f, 1));
-        group2.add(new BarEntry(8f, 2));
-        group2.add(new BarEntry(12f, 3));
-        group2.add(new BarEntry(15f, 4));
-        group2.add(new BarEntry(10f, 5));
-*/
         BarDataSet barDataSet1 = new BarDataSet(tiWen, "体温");
         barDataSet1.setColors(new int[]{Color.rgb(0xe8, 0x3f, 0x9c)});
 
@@ -246,6 +245,15 @@ public class OlderSituationActivity extends AppCompatActivity implements View.On
         switch (v.getId()) {
             case R.id.im_back_toolbar: {
                 finish();
+                break;
+            }
+            case R.id.bn_tittle_toolbar_update: {
+                TextView tiwen = (TextView) lv_body_message.getChildAt(0).findViewById(R.id.tv_item_older_number_situation_activity);
+                TextView xuetang = (TextView) lv_body_message.getChildAt(1).findViewById(R.id.tv_item_older_number_situation_activity);
+                TextView xueya = (TextView) lv_body_message.getChildAt(2).findViewById(R.id.tv_item_older_number_situation_activity);
+                TextView xuezhi = (TextView) lv_body_message.getChildAt(3).findViewById(R.id.tv_item_older_number_situation_activity);
+                presenter.setOldPhysioState(old, tiwen.getText().toString(), xuetang.getText().toString(), xueya.getText().toString(), xuezhi.getText().toString());
+                presenter.setOldbriefState(old,et_send_situation.getText().toString());
                 break;
             }
         }

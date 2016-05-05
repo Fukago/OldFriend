@@ -11,13 +11,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.apple.oldfriend.R;
+import com.example.apple.oldfriend.cofing.IGetOldBriefState;
+import com.example.apple.oldfriend.model.bean.OldSociaState;
 import com.example.apple.oldfriend.model.bean.User;
 import com.example.apple.oldfriend.presenter.OldManagePresenter;
+import com.example.apple.oldfriend.presenter.UserManagePresenter;
 import com.example.apple.oldfriend.util.CircleTransform;
 import com.example.apple.oldfriend.weidge.UnScrollLisiView;
 import com.rengwuxian.materialedittext.MaterialEditText;
@@ -32,21 +36,32 @@ public class OlderActivity extends AppCompatActivity implements View.OnClickList
     private ImageView im_older_face;
     private LinearLayout ll_basic_message;
     private List<String> list = new ArrayList();
+    private List<String> mList = new ArrayList<>();
     private TextView tv_item;
+    private TextView tv_item_older_number_activity;
     private LinearLayout ll_body_message;
     private TextView tv_body_message;
     private LinearLayout ll_social_message;
     private TextView tv_social_message;
     private OldManagePresenter presenter;
+    private UserManagePresenter Upresenter;
+    private UnScrollLisiView lv_basic_message_old_activity;
     private User old;
+    private Button bn_tittle_toolbar_update;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_older);
         initToolbar();
+        initPresenter();
         initView();
         iniData();
+    }
+
+    private void initPresenter() {
+        Upresenter = new UserManagePresenter(this);
+        presenter = new OldManagePresenter(OlderActivity.this);
     }
 
     private void initToolbar() {
@@ -61,17 +76,38 @@ public class OlderActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void iniData() {
-        presenter = new OldManagePresenter(OlderActivity.this);
+        mList.clear();
+        mList.add("姓名:           ");
+        mList.add("年龄:           ");
+        mList.add("性别:           ");
+        mList.add("血型:           ");
         Intent it = getIntent();
         old = (User) it.getSerializableExtra("old");
         list.clear();
-        list.add("姓名:          " + old.getMyOldState().getName());
-        list.add("年龄:          " + old.getMyOldState().getAge());
-        list.add("性别:          " + old.getSex());
-        list.add("血型:          " + old.getBlood());
+        list.add(old.getMyOldState().getName());
+        list.add("" + old.getMyOldState().getAge());
+        list.add(old.getSex());
+        list.add(old.getBlood());
         tv_body_message.setText("最近情况:   " + old.getMyOldState().getBriefState());
+        presenter.getOldSociaState(old, new IGetOldBriefState() {
+            @Override
+            public void getOldSociaStateSuccess(List<OldSociaState> allOldSociaState) {
+                tv_social_message.setText(allOldSociaState.get(allOldSociaState.size() - 1).getSituation());
+            }
+
+            @Override
+            public void getOldbriefStateSuccess(String s) {
+
+            }
+
+            @Override
+            public void getOldNameAndAge(String name, Integer age) {
+
+            }
+        });
+
         im_older_face.setImageResource(R.drawable.picasso_ic_loading);
-        if (old.getHeadPic()!=null) {
+        if (old.getHeadPic() != null) {
             Picasso.with(this)
                     .load(old.getHeadPic().getFileUrl(this))
                     .resize(136, 136)
@@ -94,9 +130,11 @@ public class OlderActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void initView() {
+        bn_tittle_toolbar_update = (Button) findViewById(R.id.bn_tittle_toolbar_update);
+        bn_tittle_toolbar_update.setOnClickListener(this);
         im_older_face = (ImageView) findViewById(R.id.im_older_face_old_activity);
         ll_basic_message = (LinearLayout) findViewById(R.id.ll_basic_message_old_activity);
-        UnScrollLisiView lv_basic_message_old_activity = (UnScrollLisiView) findViewById(R.id
+        lv_basic_message_old_activity = (UnScrollLisiView) findViewById(R.id
                 .lv_basic_message_old_activity);
         if (lv_basic_message_old_activity != null) {
             lv_basic_message_old_activity.setAdapter(new BaseAdapter() {
@@ -120,7 +158,10 @@ public class OlderActivity extends AppCompatActivity implements View.OnClickList
                     View view;
                     view = LayoutInflater.from(OlderActivity.this).inflate(R.layout
                             .item_basic_message_older_activity, null);
-                    tv_item = (TextView) view.findViewById(R.id.tv_item_older_activity);
+                    tv_item_older_number_activity = (TextView) view.findViewById(R.id.tv_item_older_activity);
+                    tv_item_older_number_activity.setText(mList.get(position));
+
+                    tv_item = (TextView) view.findViewById(R.id.tv_item_older_number_activity);
                     tv_item.setText(list.get(position));
                     return view;
                 }
@@ -131,7 +172,7 @@ public class OlderActivity extends AppCompatActivity implements View.OnClickList
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     TextView textView = (TextView) parent.getChildAt(position).findViewById(R.id
-                            .tv_item_older_activity);
+                            .tv_item_older_number_activity);
                     switch (position) {
                         case 0: {
                             createDialog(textView, "姓名", "姓名", "输入姓名", 5, 2);
@@ -157,6 +198,7 @@ public class OlderActivity extends AppCompatActivity implements View.OnClickList
         tv_body_message = (TextView) findViewById(R.id.tv_body_message_old_activity);
         ll_social_message = (LinearLayout) findViewById(R.id.ll_social_message_old_activity);
         tv_social_message = (TextView) findViewById(R.id.tv_social_message_old_activity);
+
         ll_basic_message.setOnClickListener(this);
         ll_body_message.setOnClickListener(this);
         ll_social_message.setOnClickListener(this);
@@ -176,8 +218,7 @@ public class OlderActivity extends AppCompatActivity implements View.OnClickList
         alert.setView(DialogView);
         alert.setPositiveButton("确定", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
-                textView.setText(hint + ":          " + mEditText.getText().toString());
-
+                textView.setText(mEditText.getText().toString());
             }
         });
 
@@ -194,6 +235,19 @@ public class OlderActivity extends AppCompatActivity implements View.OnClickList
         switch (v.getId()) {
             case R.id.im_back_toolbar: {
                 finish();
+                break;
+            }
+            case R.id.bn_tittle_toolbar_update: {
+                TextView xingming = (TextView) lv_basic_message_old_activity.getChildAt(0).findViewById(R.id.tv_item_older_number_activity);
+                TextView nianling = (TextView) lv_basic_message_old_activity.getChildAt(1).findViewById(R.id.tv_item_older_number_activity);
+                TextView xingbie = (TextView) lv_basic_message_old_activity.getChildAt(2).findViewById(R.id.tv_item_older_number_activity);
+                TextView xuexing = (TextView) lv_basic_message_old_activity.getChildAt(3).findViewById(R.id.tv_item_older_number_activity);
+
+
+                presenter.setOldNameAndAge(old, xingming.getText().toString(), Integer.parseInt(nianling.getText().toString()));
+                Upresenter.setBlood(xuexing.getText().toString());
+                Upresenter.setSex(xingbie.getText().toString());
+                presenter.setOldSociaState(old, tv_social_message.getText().toString());
                 break;
             }
             case R.id.ll_basic_message_old_activity: {

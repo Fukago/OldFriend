@@ -36,6 +36,16 @@
                     android:text="@string/tittle_body_situation"
                     android:textColor="@color/colorWhite_ffffff"
                     android:textSize="20sp"/>
+            <Button
+                    android:id="@+id/bn_tittle_toolbar_update"
+                    android:layout_width="wrap_content"
+                    android:layout_height="?attr/actionBarSize"
+                    android:layout_alignParentRight="true"
+                    android:gravity="center"
+                    android:text="@string/tittle_update"
+                    android:background="@color/colorPink_e83f9c"
+                    android:textColor="@color/colorWhite_ffffff"
+                    android:textSize="18sp"/>
         </RelativeLayout>
     </android.support.v7.widget.Toolbar>
 
