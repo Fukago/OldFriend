@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.apple.oldfriend.R;
 import com.example.apple.oldfriend.cofing.IGetOldBriefState;
@@ -180,11 +181,9 @@ public class OlderActivity extends AppCompatActivity implements View.OnClickList
                             break;
                         }
                         case 2: {
-                            createDialog(textView, "性别", "性别", "输入性别", 1, 1);
                             break;
                         }
                         case 3: {
-                            createDialog(textView, "血型", "血型", "输入血型", 3, 1);
                             break;
                         }
                     }
@@ -241,6 +240,7 @@ public class OlderActivity extends AppCompatActivity implements View.OnClickList
                 TextView xuexing = (TextView) lv_basic_message_old_activity.getChildAt(3).findViewById(R.id.tv_item_older_number_activity);
                 presenter.setOldNameAndAge(old, xingming.getText().toString(), Integer.parseInt(nianling.getText().toString()));
                 presenter.setOldSociaState(old, tv_social_message.getText().toString());
+                Toast.makeText(OlderActivity.this, "更新成功", Toast.LENGTH_SHORT).show();
                 break;
             }
             case R.id.ll_basic_message_old_activity: {

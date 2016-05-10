@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.example.apple.oldfriend.R;
 import com.example.apple.oldfriend.model.bean.Article;
+import com.example.apple.oldfriend.util.CircleTransform;
 import com.jude.rollviewpager.RollPagerView;
 import com.jude.rollviewpager.adapter.StaticPagerAdapter;
 import com.squareup.picasso.Picasso;
@@ -91,6 +92,7 @@ public class ZoneAdapter extends RecyclerView.Adapter {
                     Picasso.with(context)
                             .load(url)
                             .placeholder(R.drawable.picasso_ic_loading)
+                            .transform(new CircleTransform())
                             .error(R.drawable.picasso_ic_loadingerror)
                             .into(viewHolder.im_item_zone_face);
 

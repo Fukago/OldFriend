@@ -12,7 +12,6 @@ import android.widget.TextView;
 
 import com.example.apple.oldfriend.R;
 import com.example.apple.oldfriend.model.bean.User;
-import com.example.apple.oldfriend.presenter.OldManagePresenter;
 import com.example.apple.oldfriend.util.CircleTransform;
 import com.squareup.picasso.Picasso;
 
@@ -58,7 +57,7 @@ public class OlderAdapter extends RecyclerView.Adapter {
             @Override
             public void onClick(View v) {
                 Intent it = new Intent(context, OlderActivity.class);
-                it.putExtra("name", "" + mList.get(position).getMyOldState().getName());
+                it.putExtra("name(良好)", "" + mList.get(position).getMyOldState().getName());
                 it.putExtra("context", "" + mList.get(position).getMyOldState().getBriefState());
                 it.putExtra("age", "" + mList.get(position).getMyOldState().getAge());
 

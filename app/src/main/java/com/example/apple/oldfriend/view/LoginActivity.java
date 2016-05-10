@@ -66,6 +66,7 @@ public class LoginActivity extends AppCompatActivity implements ILogin {
 
     @Override
     public void loginSuccess() {
+        p_dialog.cancel();
         Toast.makeText(LoginActivity.this, "登录成功！", Toast.LENGTH_SHORT).show();
         User user = BmobUser.getCurrentUser(LoginActivity.this, User.class);
         Intent intent = new Intent(LoginActivity.this, MainActivity.class);

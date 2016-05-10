@@ -21,6 +21,8 @@ import com.example.apple.oldfriend.model.bean.User;
 import com.example.apple.oldfriend.presenter.NurseManagePresenter;
 import com.example.apple.oldfriend.presenter.OldManagePresenter;
 import com.example.apple.oldfriend.presenter.UserManagePresenter;
+import com.example.apple.oldfriend.util.CircleTransform;
+import com.squareup.picasso.Picasso;
 
 
 public class NurseFragment extends Fragment {
@@ -84,30 +86,43 @@ public class NurseFragment extends Fragment {
 
         userPresenter.getUser(new IUser() {
             @Override
-            public void getUserSuccess(User user) {
-                Log.d("moblie",""+true);
-                tv_nurseTel_nurseFraghment.setText(""+user.getMyNurse().getUsername());
-                Log.d("moblie",""+user.getMyNurse().getUsername());
+            public void getUserSuccess(final User user) {
+                Log.d("moblie", "" + true);
+                tv_nurseTel_nurseFraghment.setText("" + user.getMyNurse().getUsername());
+                Log.d("moblie", "" + user.getMyNurse().getUsername());
                 new OldManagePresenter(getContext()).getMyNurseInfo(new IGetMyNurse() {
                     @Override
                     public void getMyNurseSuccess(User nurse) {
                         nursePresenter.getNurseNameAndAge(nurse, new IGetNurseState() {
                             @Override
                             public void getNurseNameAndAgeSuccess(String name, Integer age) {
-                                tv_nurseName_nurseFraghment.setText(""+name);
+                                tv_nurseName_nurseFraghment.setText("" + name);
 
                             }
 
                             @Override
                             public void getNurseExpSuccess(String exp) {
-                                tv_experience_NurseFragment.setText(""+exp);
+                                tv_experience_NurseFragment.setText("" + exp);
+                                Log.d("NurseExpSuccess----", exp);
                             }
 
                             @Override
                             public void getNurseSituationSuccess(String situation) {
-                                tv_zone_NurseFragment.setText(""+situation);
+                                tv_zone_NurseFragment.setText("" + situation);
                             }
                         });
+
+                        if (nurse.getHeadPic() != null) {
+                            String url = "" + nurse.getHeadPic().getFileUrl(getContext());
+                            Picasso.with(getContext())
+                                    .load(url)
+                                    .transform(new CircleTransform())
+                                    .placeholder(R.drawable.picasso_ic_loading)
+                                    .error(R.drawable.picasso_ic_loadingerror)
+                                    .into(im_nurseFace_nurseFragment);
+
+                        }
+
                     }
                 });
             }

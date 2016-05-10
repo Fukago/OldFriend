@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.apple.oldfriend.R;
 import com.example.apple.oldfriend.cofing.IUser;
@@ -32,7 +33,7 @@ public class NurseActivity extends AppCompatActivity implements View.OnClickList
 
     private ImageView im_back_toolbar;
     private ImageView im_nurse_face;
-   // private LinearLayout ll_basic_message;
+    // private LinearLayout ll_basic_message;
     private List<String> list = new ArrayList();
     private List<String> mList = new ArrayList<>();
     private TextView tv_item;
@@ -61,7 +62,7 @@ public class NurseActivity extends AppCompatActivity implements View.OnClickList
         userPresenter.getUser(new IUser() {
             @Override
             public void getUserSuccess(User user) {
-                nurse=user;
+                nurse = user;
                 iniData();
             }
         });
@@ -92,7 +93,7 @@ public class NurseActivity extends AppCompatActivity implements View.OnClickList
         mList.add("血型:           ");
         list.clear();
         list.add(nurse.getMyNurseState().getName());
-        list.add(""+nurse.getMyNurseState().getAge());
+        list.add("" + nurse.getMyNurseState().getAge());
         list.add(nurse.getSex());
         list.add(nurse.getBlood());
         tv_body_message.setText(nurse.getMyNurseState().getExp());
@@ -114,7 +115,7 @@ public class NurseActivity extends AppCompatActivity implements View.OnClickList
         bn_tittle_toolbar_update = (Button) findViewById(R.id.bn_tittle_toolbar_update);
         bn_tittle_toolbar_update.setOnClickListener(this);
         im_nurse_face = (ImageView) findViewById(R.id.im_older_face_nurse_activity);
-       // ll_basic_message = (LinearLayout) findViewById(R.id.ll_basic_message_nurse_activity);
+        // ll_basic_message = (LinearLayout) findViewById(R.id.ll_basic_message_nurse_activity);
         //ll_basic_message.setOnClickListener(this);
         lv_basic_message_nurse_activity = (UnScrollLisiView) findViewById(R.id
                 .lv_basic_message_nurse_activity);
@@ -124,6 +125,7 @@ public class NurseActivity extends AppCompatActivity implements View.OnClickList
                 public int getCount() {
                     return list.size();
                 }
+
                 @Override
                 public Object getItem(int position) {
                     return list.get(position);
@@ -164,22 +166,20 @@ public class NurseActivity extends AppCompatActivity implements View.OnClickList
                             break;
                         }
                         case 2: {
-                            createDialog(textView, "性别", "性别", "输入性别", 1, 1);
                             break;
                         }
                         case 3: {
-                            createDialog(textView, "血型", "血型", "输入血型", 3, 1);
                             break;
                         }
                     }
                 }
             });
         }
-       // ll_body_message = (LinearLayout) findViewById(R.id.ll_body_message_nurse_activity);
+        // ll_body_message = (LinearLayout) findViewById(R.id.ll_body_message_nurse_activity);
         tv_body_message = (TextView) findViewById(R.id.tv_body_message_nurse_activity);
 
 
-       // ll_body_message.setOnClickListener(this);
+        // ll_body_message.setOnClickListener(this);
     }
 
     private void createDialog(final TextView textView, final String hint, String flt, String tittle, int max, int min) {
@@ -220,9 +220,10 @@ public class NurseActivity extends AppCompatActivity implements View.OnClickList
                 TextView nianling = (TextView) lv_basic_message_nurse_activity.getChildAt(1).findViewById(R.id.tv_item_older_number_activity);
                 TextView xingbie = (TextView) lv_basic_message_nurse_activity.getChildAt(2).findViewById(R.id.tv_item_older_number_activity);
                 TextView xuexing = (TextView) lv_basic_message_nurse_activity.getChildAt(3).findViewById(R.id.tv_item_older_number_activity);
-                nursePresenter.setNurseNameAndAge(nurse,xingming.getText().toString(),Integer.parseInt(nianling.getText().toString()));
+                nursePresenter.setNurseNameAndAge(nurse, xingming.getText().toString(), Integer.parseInt(nianling.getText().toString()));
                 userPresenter.setSex(xingbie.getText().toString());
                 userPresenter.setBlood(xuexing.getText().toString());
+                Toast.makeText(NurseActivity.this, "更新成功", Toast.LENGTH_SHORT).show();
                 break;
             }
            /* case R.id.ll_basic_message_nurse_activity: {
