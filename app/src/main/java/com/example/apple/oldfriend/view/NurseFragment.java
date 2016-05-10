@@ -25,7 +25,7 @@ import com.example.apple.oldfriend.util.CircleTransform;
 import com.squareup.picasso.Picasso;
 
 
-public class NurseFragment extends Fragment {
+public class NurseFragment extends Fragment implements IGetNurseState {
 
     private ImageView im_nurseFace_nurseFragment;
     private TextView tv_nurseName_nurseFraghment;
@@ -93,24 +93,9 @@ public class NurseFragment extends Fragment {
                 new OldManagePresenter(getContext()).getMyNurseInfo(new IGetMyNurse() {
                     @Override
                     public void getMyNurseSuccess(User nurse) {
-                        nursePresenter.getNurseNameAndAge(nurse, new IGetNurseState() {
-                            @Override
-                            public void getNurseNameAndAgeSuccess(String name, Integer age) {
-                                tv_nurseName_nurseFraghment.setText("" + name);
-
-                            }
-
-                            @Override
-                            public void getNurseExpSuccess(String exp) {
-                                tv_experience_NurseFragment.setText("" + exp);
-                                Log.d("NurseExpSuccess----", exp);
-                            }
-
-                            @Override
-                            public void getNurseSituationSuccess(String situation) {
-                                tv_zone_NurseFragment.setText("" + situation);
-                            }
-                        });
+                        nursePresenter.getNurseNameAndAge(nurse, NurseFragment.this);
+                        nursePresenter.getNurseExp(nurse, NurseFragment.this);
+                        nursePresenter.getNurseSituation(nurse, NurseFragment.this);
 
                         if (nurse.getHeadPic() != null) {
                             String url = "" + nurse.getHeadPic().getFileUrl(getContext());
@@ -130,4 +115,21 @@ public class NurseFragment extends Fragment {
     }
 
 
+    @Override
+    public void getNurseNameAndAgeSuccess(String name, Integer age) {
+        tv_nurseName_nurseFraghment.setText("" + name);
+
+    }
+
+    @Override
+    public void getNurseExpSuccess(String exp) {
+        tv_experience_NurseFragment.setText("" + exp);
+
+    }
+
+    @Override
+    public void getNurseSituationSuccess(String situation) {
+        tv_zone_NurseFragment.setText("" + situation);
+
+    }
 }
