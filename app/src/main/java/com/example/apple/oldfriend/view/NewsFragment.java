@@ -11,7 +11,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 import com.example.apple.oldfriend.R;
 import com.example.apple.oldfriend.cofing.IGetHealthNews;
@@ -132,6 +131,5 @@ public class NewsFragment extends Fragment implements IGetHealthNews {
 
     @Override
     public void onHealthNewsError(Throwable e) {
-        Toast.makeText(getContext(), "数据加载失败,请检查您的网络环境~", Toast.LENGTH_SHORT).show();
     }
 }

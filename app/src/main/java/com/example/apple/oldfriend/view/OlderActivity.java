@@ -15,13 +15,13 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.apple.oldfriend.R;
 import com.example.apple.oldfriend.cofing.IGetOldBriefState;
 import com.example.apple.oldfriend.model.bean.OldSociaState;
 import com.example.apple.oldfriend.model.bean.User;
 import com.example.apple.oldfriend.presenter.OldManagePresenter;
-import com.example.apple.oldfriend.presenter.UserManagePresenter;
 import com.example.apple.oldfriend.util.CircleTransform;
 import com.example.apple.oldfriend.weidge.UnScrollLisiView;
 import com.rengwuxian.materialedittext.MaterialEditText;
@@ -44,7 +44,6 @@ public class OlderActivity extends AppCompatActivity implements View.OnClickList
     private LinearLayout ll_social_message;
     private TextView tv_social_message;
     private OldManagePresenter presenter;
-    private UserManagePresenter Upresenter;
     private UnScrollLisiView lv_basic_message_old_activity;
     private User old;
     private Button bn_tittle_toolbar_update;
@@ -60,7 +59,6 @@ public class OlderActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void initPresenter() {
-        Upresenter = new UserManagePresenter(this);
         presenter = new OldManagePresenter(OlderActivity.this);
     }
 
@@ -183,11 +181,9 @@ public class OlderActivity extends AppCompatActivity implements View.OnClickList
                             break;
                         }
                         case 2: {
-                            createDialog(textView, "性别", "性别", "输入性别", 1, 1);
                             break;
                         }
                         case 3: {
-                            createDialog(textView, "血型", "血型", "输入血型", 3, 1);
                             break;
                         }
                     }
@@ -242,12 +238,9 @@ public class OlderActivity extends AppCompatActivity implements View.OnClickList
                 TextView nianling = (TextView) lv_basic_message_old_activity.getChildAt(1).findViewById(R.id.tv_item_older_number_activity);
                 TextView xingbie = (TextView) lv_basic_message_old_activity.getChildAt(2).findViewById(R.id.tv_item_older_number_activity);
                 TextView xuexing = (TextView) lv_basic_message_old_activity.getChildAt(3).findViewById(R.id.tv_item_older_number_activity);
-
-
                 presenter.setOldNameAndAge(old, xingming.getText().toString(), Integer.parseInt(nianling.getText().toString()));
-                Upresenter.setBlood(xuexing.getText().toString());
-                Upresenter.setSex(xingbie.getText().toString());
                 presenter.setOldSociaState(old, tv_social_message.getText().toString());
+                Toast.makeText(OlderActivity.this, "更新成功", Toast.LENGTH_SHORT).show();
                 break;
             }
             case R.id.ll_basic_message_old_activity: {

@@ -21,6 +21,8 @@ import com.example.apple.oldfriend.model.bean.User;
 import com.example.apple.oldfriend.presenter.NurseManagePresenter;
 import com.example.apple.oldfriend.presenter.OldManagePresenter;
 import com.example.apple.oldfriend.presenter.UserManagePresenter;
+import com.example.apple.oldfriend.util.CircleTransform;
+import com.squareup.picasso.Picasso;
 
 
 public class NurseFragment extends Fragment implements IGetNurseState {
@@ -84,7 +86,7 @@ public class NurseFragment extends Fragment implements IGetNurseState {
 
         userPresenter.getUser(new IUser() {
             @Override
-            public void getUserSuccess(User user) {
+            public void getUserSuccess(final User user) {
                 Log.d("moblie", "" + true);
                 tv_nurseTel_nurseFraghment.setText("" + user.getMyNurse().getUsername());
                 Log.d("moblie", "" + user.getMyNurse().getUsername());
@@ -94,6 +96,18 @@ public class NurseFragment extends Fragment implements IGetNurseState {
                         nursePresenter.getNurseNameAndAge(nurse, NurseFragment.this);
                         nursePresenter.getNurseExp(nurse, NurseFragment.this);
                         nursePresenter.getNurseSituation(nurse, NurseFragment.this);
+
+                        if (nurse.getHeadPic() != null) {
+                            String url = "" + nurse.getHeadPic().getFileUrl(getContext());
+                            Picasso.with(getContext())
+                                    .load(url)
+                                    .transform(new CircleTransform())
+                                    .placeholder(R.drawable.picasso_ic_loading)
+                                    .error(R.drawable.picasso_ic_loadingerror)
+                                    .into(im_nurseFace_nurseFragment);
+
+                        }
+
                     }
                 });
             }
@@ -118,5 +132,4 @@ public class NurseFragment extends Fragment implements IGetNurseState {
         tv_zone_NurseFragment.setText("" + situation);
 
     }
-
 }

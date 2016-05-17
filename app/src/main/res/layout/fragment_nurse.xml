@@ -75,7 +75,7 @@
                     android:layout_marginRight="8dp"
                     android:textColor="@color/colorBlake_101010"
                     android:textSize="20sp"
-                    tool:text="护理经验:"/>
+                    android:text="护理经验:"/>
 
             <TextView
                     android:id="@+id/tv_experience_NurseFragment"
@@ -94,7 +94,7 @@
                     android:layout_marginRight="8dp"
                     android:textColor="@color/colorBlake_101010"
                     android:textSize="20sp"
-                    tool:text="最新动态:"/>
+                    android:text="最新动态:"/>
 
             <TextView
                     android:id="@+id/tv_zone_NurseFragment"
