@@ -2,8 +2,12 @@ package com.example.apple.oldfriend.presenter;
 
 import android.content.Context;
 
+import com.example.apple.oldfriend.cofing.IGetBedState;
 import com.example.apple.oldfriend.cofing.IGetMyNurse;
+import com.example.apple.oldfriend.cofing.IGetOldBatheState;
 import com.example.apple.oldfriend.cofing.IGetOldBriefState;
+import com.example.apple.oldfriend.cofing.IGetOldClothState;
+import com.example.apple.oldfriend.cofing.IGetOldHairCutState;
 import com.example.apple.oldfriend.cofing.IGetOldPhyStateAndTimeList;
 import com.example.apple.oldfriend.cofing.IGetOldPhysioAndPsychoState;
 import com.example.apple.oldfriend.model.OldManageModel;
@@ -11,10 +15,10 @@ import com.example.apple.oldfriend.model.bean.User;
 
 /**
  * Created by gan on 2016/4/23.
- * <p>
+ * <p/>
  * ********************测试通过********************
  * FBI:warning如果要设置同时简要身体状态和姓名和年龄，请不要单独调用两个方法，而是调用setOldNameAndAgeAndBriefState方法。
- * <p>
+ * <p/>
  * 血脂的正常范围：2.8～5.17mmol/L
  * 血压的正常范围：收缩压<130mmHg，舒张压<85mmHg；
  * 血糖的正常范围：<2.78mmol/L
@@ -121,11 +125,31 @@ public class OldManagePresenter {
 
 
     /**
-     *
      * 得到老人全部身体数据时间、最大值、最小值和差值
      */
     public void getOldPhysioStateTimeList(User oldPeople, final IGetOldPhyStateAndTimeList callback) {
         model.getOldPhysioStateTimeList(oldPeople, callback);
+    }
+
+
+    //得到老人的洗澡数据
+    public void getBatheState(User oldPeople, IGetOldBatheState callback) {
+        model.getBatheState(oldPeople, callback);
+    }
+
+    //得到老人的服装数据
+    public void getClothState(User oldPeople, IGetOldClothState callback) {
+        model.getClothState(oldPeople, callback);
+    }
+
+    //得到老人的理发数据
+    public void getHairCutState(User oldPeople, IGetOldHairCutState callback) {
+        model.getHairCutState(oldPeople, callback);
+    }
+
+    //得到老人的床上用品数据
+    public void getBedStateState(User oldPeople, IGetBedState callback) {
+        model.getBedStateState(oldPeople, callback);
     }
 }
 

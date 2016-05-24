@@ -3,8 +3,12 @@ package com.example.apple.oldfriend.model;
 import android.content.Context;
 import android.util.Log;
 
+import com.example.apple.oldfriend.cofing.IGetBedState;
 import com.example.apple.oldfriend.cofing.IGetMyNurse;
+import com.example.apple.oldfriend.cofing.IGetOldBatheState;
 import com.example.apple.oldfriend.cofing.IGetOldBriefState;
+import com.example.apple.oldfriend.cofing.IGetOldClothState;
+import com.example.apple.oldfriend.cofing.IGetOldHairCutState;
 import com.example.apple.oldfriend.cofing.IGetOldPhyStateAndTimeList;
 import com.example.apple.oldfriend.cofing.IGetOldPhysioAndPsychoState;
 import com.example.apple.oldfriend.model.bean.OldPhysioState;
@@ -444,5 +448,26 @@ public class OldManageModel {
             }
         });
     }
+
+    //得到老人的洗澡数据
+    public void getBatheState(User oldPeople, IGetOldBatheState callback) {
+        callback.getBatheStare(oldPeople.getMyOldState().getBatheState());
+    }
+
+    //得到老人的服装数据
+    public void getClothState(User oldPeople, IGetOldClothState callback) {
+        callback.getClothStare(oldPeople.getMyOldState().getClothState());
+    }
+
+    //得到老人的理发数据
+    public void getHairCutState(User oldPeople, IGetOldHairCutState callback) {
+        callback.getHairCutStare(oldPeople.getMyOldState().getHairCutState());
+    }
+
+    //得到老人的床上用品数据
+    public void getBedStateState(User oldPeople, IGetBedState callback) {
+        callback.getBedStare(oldPeople.getMyOldState().getBedState());
+    }
+
 
 }

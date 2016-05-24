@@ -10,7 +10,26 @@ public class OldState extends BmobObject {
     private String name;//老人名字
     private Integer age;//老人年龄
     private String briefState;//基本健康情况
+    private String batheState;//洗澡基本状况
+    private String clothState;//服装基本状况
+    private String hairCutState;//剪头基本状况
+    private String bedState;//床上用品基本状况
 
+    public String getBatheState() {
+        return batheState;
+    }
+
+    public String getClothState() {
+        return clothState;
+    }
+
+    public String getHairCutState() {
+        return hairCutState;
+    }
+
+    public String getBedState() {
+        return bedState;
+    }
 
     public String getName() {
         return name;
