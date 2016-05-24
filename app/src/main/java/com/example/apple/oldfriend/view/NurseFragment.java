@@ -123,13 +123,13 @@ public class NurseFragment extends Fragment implements IGetNurseState {
 
     @Override
     public void getNurseExpSuccess(String exp) {
-        tv_experience_NurseFragment.setText("" + exp);
+        tv_experience_NurseFragment.setText("      " + exp);
 
     }
 
     @Override
     public void getNurseSituationSuccess(String situation) {
-        tv_zone_NurseFragment.setText("" + situation);
+        tv_zone_NurseFragment.setText("      " + situation);
 
     }
 }

@@ -295,7 +295,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                     it = new Intent(MainActivity.this, NurseActivity.class);
                     im_tittle_toolbar.setText("看护对象");
                 } else {
-                    it = new Intent(MainActivity.this, OlderActivity.class);
+                    it = new Intent(MainActivity.this, NurseActivity.class);
                     im_tittle_toolbar.setText("护理人员");
                 }
                 startActivity(it);
@@ -307,7 +307,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                     it = new Intent(MainActivity.this, NurseActivity.class);
                     im_tittle_toolbar.setText("看护对象");
                 } else {
-                    it = new Intent(MainActivity.this, OlderSituationActivity.class);
+                    it = new Intent(MainActivity.this, NurseActivity.class);
                     im_tittle_toolbar.setText("护理人员");
                 }
                 startActivity(it);
